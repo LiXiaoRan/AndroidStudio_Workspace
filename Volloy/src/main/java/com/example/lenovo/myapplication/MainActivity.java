@@ -10,24 +10,30 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.Volley;
+import com.android.volley.toolbox.ImageLoader;
+import com.example.lenovo.myapplication.Catch.BitmapCatch;
+import com.example.lenovo.myapplication.insterface.VolletInterface;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.android.volley.toolbox.ImageLoader.*;
+
 public class MainActivity extends Activity implements View.OnClickListener {
 
-    private RequestQueue requestQueue;
+    //    private RequestQueue requestQueue;
     private Button button;
     private Button button2;
     private Button button3;
     private Button button4;
+    private Button button5;
     private TextView textView;
     private ImageView imageview;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,25 +42,35 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     }
 
+
     private void init() {
-        requestQueue = Volley.newRequestQueue(this);
+//      requestQueue= Volley.newRequestQueue(this);
         textView = (TextView) findViewById(R.id.textview);
-        imageview= (ImageView) findViewById(R.id.imageview);
+        imageview = (ImageView) findViewById(R.id.imageview);
         button = (Button) findViewById(R.id.button);
         button2 = (Button) findViewById(R.id.button2);
         button3 = (Button) findViewById(R.id.button3);
         button4 = (Button) findViewById(R.id.button4);
+        button5= (Button) findViewById(R.id.button5);
         button.setOnClickListener(this);
         button2.setOnClickListener(this);
         button3.setOnClickListener(this);
         button4.setOnClickListener(this);
+        button5.setOnClickListener(this);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+        // Inflate th               e menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
+    }
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
     }
 
     @Override
@@ -80,7 +96,24 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
             case R.id.button:
 
-                VolleyHttpUtils.VolleyGet("http://m.weather.com.cn/data/101010100.html", new Response.Listener<String>() {
+
+                VolleyRequst.RequstGet(this, "http://m.weather.com.cn/data/101010100.html", "GET", new VolletInterface(this, VolletInterface.mlistener, VolletInterface.merrorListener) {
+                    @Override
+                    public void onVolleySuccess(String s) {
+                        Log.d("TAG", s);
+                        textView.setText(s);
+                    }
+
+                    @Override
+                    public void onVolleyError(VolleyError volleyError) {
+                        Log.e("TAG", volleyError.getMessage(), volleyError);
+                        textView.setText(volleyError.toString());
+                    }
+                });
+
+
+
+               /* VolleyHttpUtils.VolleyGet("http://m.weather.com.cn/data/101010100.html", new Response.Listener<String>() {
                     @Override
                     public void onResponse(String o) {
                         Log.d("TAG", o);
@@ -92,7 +125,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                         Log.e("TAG", volleyError.getMessage(), volleyError);
                         textView.setText(volleyError.toString());
                     }
-                }, requestQueue);
+                },MyApplication.getRequestQueue());*/
                 break;
 
             case R.id.button2:
@@ -105,6 +138,22 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 map.put("lat_range", "720");
                 map.put("level", "15");
 
+                VolleyRequst.RequstPost(this, MyConst.UrlPost, "POST", new VolletInterface(this, VolletInterface.mlistener, VolletInterface.merrorListener) {
+                    @Override
+                    public void onVolleySuccess(String s) {
+                        Log.d("TAG", s);
+                        textView.setText(s);
+                    }
+
+                    @Override
+                    public void onVolleyError(VolleyError volleyError) {
+                        Log.e("TAG", volleyError.getMessage(), volleyError);
+                        textView.setText(volleyError.toString());
+                    }
+                }, map);
+
+
+                /*
                 VolleyHttpUtils.VolleyPost(MyConst.UrlPost, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String s) {
@@ -117,7 +166,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
                         Log.e("TAG", volleyError.getMessage(), volleyError);
                         textView.setText(volleyError.toString());
                     }
-                }, requestQueue, map);
+                }, MyApplication.getRequestQueue(), map);
+                */
                 break;
 
 
@@ -126,7 +176,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                     @Override
                     public void onResponse(String s) {
                         Log.d("TAG", s);
-                          textView.setText(s);
+                        textView.setText(s);
                     }
                 }, new Response.ErrorListener() {
                     @Override
@@ -134,7 +184,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                         Log.e("TAG", volleyError.getMessage(), volleyError);
                         textView.setText(volleyError.toString());
                     }
-                }, requestQueue);
+                }, MyApplication.getRequestQueue());
 
                 break;
 
@@ -150,7 +200,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
                         Log.e("TAG", volleyError.getMessage(), volleyError);
                         textView.setText(volleyError.toString());
                     }
-                },requestQueue);
+                }, MyApplication.getRequestQueue());
+                break;
+
+            case R.id.button5:
+                ImageLoader imageLoader=new ImageLoader(MyApplication.getRequestQueue(),new BitmapCatch());
+                ImageListener imageListener = getImageListener(imageview, R.mipmap.ic_launcher, R.mipmap.ic_launcher);
+                imageLoader.get(MyConst.UrlImage,imageListener);
+                Toast.makeText(MainActivity.this, "开始加载", Toast.LENGTH_SHORT).show();
                 break;
         }
 

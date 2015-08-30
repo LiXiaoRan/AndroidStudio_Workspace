@@ -30,6 +30,7 @@ public class VolleyHttpUtils {
 
         StringRequest stringRequest=new StringRequest(url,reslistener,errorListener);
         queue.add(stringRequest);
+//        MyApplication.getRequestQueue().start();
     }
 
 

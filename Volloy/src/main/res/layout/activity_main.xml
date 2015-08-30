@@ -56,4 +56,11 @@
         android:text="ImageRequest" />
 
 
+    <Button
+        android:id="@+id/button5"
+        style="@style/button_style"
+        android:layout_below="@id/button4"
+        android:text="Imageloader" />
+
+
 </RelativeLayout>
