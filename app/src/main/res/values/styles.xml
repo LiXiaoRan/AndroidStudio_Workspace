@@ -1,0 +1,17 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="android:colorPrimary" tools:ignore="NewApi">#33b5e5</item>
+        <item name="android:colorPrimaryDark" tools:ignore="NewApi">@android:color/holo_blue_dark</item>
+
+        <!--ToolBar是在新版本Android上使用的一个兼容组件，在使用WebView，EditText的时候，
+           如果长按进入选入状态，ToolBar不会被弹出的上下文菜单（Contextual Action Bar， CAB）
+           覆盖，而是被压下去了，加上下面这两个属性就不会出现问题了-->
+
+        <item name="windowActionModeOverlay">true</item>
+        <item name="actionModeStyle">@style/Widget.AppCompat.ActionMode</item>
+    </style>
+
+</resources>
