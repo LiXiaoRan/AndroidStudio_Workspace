@@ -9,7 +9,7 @@ import android.util.Log;
 import android.view.View;
 
 /**
- * Created by lr on 2015-08-31.
+ * Created by lr 李冉 on 2015-08-31.
  */
 public class CustomView extends View {
     private String TAG="CustomView";
