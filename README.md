@@ -11,9 +11,10 @@ include {<br>
 				:------- 加载图片用的了imagerequest和imageloader方法<br>
 	**revycleView**----> recycleview   recycleview<br>
 	**haoba**------> Tablayout 演示一下tablayout的用法  总结了一下<br>
-	**app**--->Toolbar  只是试试toolbar的用法<br>
-	**app**---> listview super base adapter  这里面的有一个万能适配器和viewholder  具体用法见代码<br>
-
+	**app**
+		--->Toolbar  只是试试toolbar的用法<br>
+		---> listview super base adapter  这里面的有一个万能适配器和viewholder  具体用法见代码<br>
+		--->里面添加了cardview和snackbar<br>
 }<br>
 
 

@@ -1,10 +1,14 @@
 package com.example.lenovo.myapplication;
 
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.lenovo.myapplication.model.info;
@@ -12,17 +16,21 @@ import com.example.lenovo.myapplication.model.info;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends AppCompatActivity  implements  AdapterView.OnItemClickListener {
 
 
     private ListView listview;
     private List<info> list;
+    private CoordinatorLayout coorlayout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         list=new ArrayList<>();
+
+        coorlayout= (CoordinatorLayout) findViewById(R.id.coorlayout);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);  //使toolbar替换actionbar
@@ -44,7 +52,11 @@ public class MainActivity extends AppCompatActivity  {
 
             }
         });
+
+        listview.setOnItemClickListener(this);
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -73,5 +85,21 @@ public class MainActivity extends AppCompatActivity  {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+         final Snackbar snackbar = Snackbar.make(view,"测试弹出提示"+position,Snackbar.LENGTH_LONG);
+//       snackbar.setActionTextColor(R.color.background_material_light);
+        snackbar.show();
+        snackbar.setAction("取消", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                snackbar.dismiss();
+
+            }
+        });
     }
 }

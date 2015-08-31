@@ -5,7 +5,7 @@
         <item name="android:colorPrimaryDark">@android:color/holo_blue_dark</item>
         <item name="android:colorPrimary">#33b5e5</item>
         <!--我设置的这个不起作用 具体原因还不明确-->
-        <item name="android:colorAccent">@android:color/holo_purple</item>
+      <!--  <item name="android:colorAccent">#ff0000</item>-->
 
         <!--ToolBar是在新版本Android上使用的一个兼容组件，在使用WebView，EditText的时候，
         如果长按进入选入状态，ToolBar不会被弹出的上下文菜单（Contextual Action Bar， CAB）

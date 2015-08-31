@@ -1,42 +1,37 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center_horizontal"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-   <android.support.v7.widget.Toolbar
-       android:id="@+id/toolbar"
-       android:background="#33b5e5"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:minHeight="50dp"
-       app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-       app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-       app:subtitle="大标题"
-       app:title="小标题"
-       >
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#33b5e5"
+        android:minHeight="50dp"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:subtitle="大标题"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:title="小标题">
 
-       <TextView
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:paddingBottom="@dimen/activity_vertical_margin"
-           android:paddingLeft="@dimen/activity_horizontal_margin"
-           android:paddingRight="@dimen/activity_horizontal_margin"
-           android:paddingTop="@dimen/activity_vertical_margin"
-           android:text="@string/hello_world"
-           android:textColor="#fff"
-           android:gravity="center_horizontal"
-           android:textSize="20sp"
-           />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:text="@string/hello_world"
+            android:textColor="#fff"
+            android:textSize="20sp" />
 
 
-
-   </android.support.v7.widget.Toolbar>
-
-
+    </android.support.v7.widget.Toolbar>
 
 
     <ListView
@@ -48,5 +43,15 @@
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin" />
+
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/coorlayout"
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+
+        ></android.support.design.widget.CoordinatorLayout>
+
 
 </LinearLayout>
