@@ -1,1 +1,1 @@
-include ':app', ':haoba', ':Volloy', ':recycleView'
+include ':app', ':haoba', ':Volloy', ':recycleView', ':CustomView'
