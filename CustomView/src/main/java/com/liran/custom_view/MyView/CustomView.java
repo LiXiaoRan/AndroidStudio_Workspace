@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 /**
@@ -14,6 +13,7 @@ import android.view.View;
 public class CustomView extends View {
     private String TAG="CustomView";
     private Paint mpaint;
+    private int radious=50;
 
     public CustomView(Context context) {
         super(context);
@@ -57,7 +57,61 @@ public class CustomView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        Log.d(TAG, "onDraw   with="+getMeasuredWidth()+" heigh="+getMeasuredHeight());
-        canvas.drawCircle(getMeasuredWidth() / 2, getMeasuredHeight() / 2, 100, mpaint);
+//        Log.d(TAG, "onDraw   with="+getMeasuredWidth()+" heigh="+getMeasuredHeight());
+        canvas.drawCircle(getMeasuredWidth() / 2, getMeasuredHeight() / 2, radious, mpaint);
     }
+
+    public synchronized  void setRadius(int radius){
+        this.radious=radius;
+        invalidate();
+    }
+
+    /**
+     * 开启一个线程去执行动画
+     */
+    public void startAnmi(){
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true){
+
+
+                 /*
+                 * 确保线程不断执行不断刷新界面
+                 */
+                    while (true) {
+                        try {
+                        /*
+                         * 如果半径小于200则自加否则大于200后重置半径值以实现往复
+                         */
+                            if (radious <= 200) {
+                                radious += 10;
+                                //非主线程刷新view
+                               postInvalidate();
+                            } else {
+                                radious = 0;
+                            }
+
+                            // 每执行一次暂停40毫秒
+                            Thread.sleep(40);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+
+                }
+
+
+            }
+        }).start();
+
+    }
+
+
+
+
+
+
 }
