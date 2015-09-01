@@ -43,8 +43,8 @@ public class CustomView extends View {
          * 3.Paint.Style.FILL：填充
          */
         mpaint.setStyle(Paint.Style.STROKE);
-        //设置颜色
-        mpaint.setColor(Color.BLUE);
+        // 设置画笔颜色为自定义颜色
+        mpaint.setColor(Color.argb(255, 255, 128, 103));
 
         /*
          * 设置描边的粗细，单位：像素px
