@@ -15,6 +15,7 @@ include {<br>
 		--->Toolbar  只是试试toolbar的用法<br>
 		---> listview super base adapter  这里面的有一个万能适配器和viewholder  具体用法见代码<br>
 		--->里面添加了cardview和snackbar<br>
+	**CustomView**---->aige的自定义控件 边学边练
 }<br>
 
 
@@ -85,5 +86,5 @@ public static void main(String args[]) //java
 ```
 
 ```cpp
-int main();
+int main();  //c++
 ```

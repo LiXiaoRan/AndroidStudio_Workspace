@@ -13,18 +13,15 @@ public class MainActivity extends Activity {
     private CustomView customView;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         customView = (CustomView) findViewById(R.id.customview);
-        customView.startAnmi();
+//        customView.startAnmi();
 
     }
-
 
 
     @Override
