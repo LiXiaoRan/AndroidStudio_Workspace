@@ -10,7 +10,7 @@ import com.liran.custom_view.MyView.CustomView;
 
 public class MainActivity extends Activity {
     private String TAG = "MainActivity";
-    private CustomView customView;
+    private CustomView customView;  
 
 
     @Override
