@@ -1,6 +1,9 @@
 package com.liran.imageswitch.Utils;
 
 import android.graphics.Bitmap;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.LruCache;
 
 import java.util.LinkedList;
@@ -38,12 +41,48 @@ public class ImageLoader {
     private LinkedList<Runnable> mTaskQueue;
 
 
+    /**
+     * 后台轮询线程
+     */
+    private Thread mPoolThread;
+    private Handler mPoolThreadHandler;
+
+
+    /**
+     * UI线程中的handler
+     */
+    private Handler mUIHandler;
+
+
     public enum Type{
         FIFO,LIFO;
     }
 
 
-    private ImageLoader() {
+    private ImageLoader(int ThreadCount,Type type) {
+        init(ThreadCount,type);
+    }
+
+    /**
+     * 初始化操作
+     * @param threadCount
+     * @param type
+     */
+    private void init(int threadCount, Type type) {
+
+        //后台轮询线程
+        mPoolThread=new Thread(){
+            @Override
+            public void run() {
+                Looper.prepare();
+                mPoolThreadHandler=new Handler(){
+                    @Override
+                    public void handleMessage(Message msg) {
+                        super.handleMessage(msg);
+                    }
+                };
+            }
+        };
 
     }
 
@@ -55,7 +94,7 @@ public class ImageLoader {
         if (mInstance == null) {
             synchronized (ImageLoader.class) {
                 if (mInstance == null) {
-                    mInstance = new ImageLoader();
+                    mInstance = new ImageLoader(DEFULT_THREAD_COUNT,Type.LIFO);
                 }
             }
         }
