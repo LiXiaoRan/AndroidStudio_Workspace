@@ -11,6 +11,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/CustomView" />
+            <option value="$PROJECT_DIR$/ImageSwitch" />
             <option value="$PROJECT_DIR$/Volloy" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/haoba" />

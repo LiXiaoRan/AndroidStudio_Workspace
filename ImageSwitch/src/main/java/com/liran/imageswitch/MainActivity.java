@@ -1,32 +1,17 @@
-package com.liran.custom_view;
+package com.liran.imageswitch;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.liran.custom_view.MyView.CustomView;
-
-
 public class MainActivity extends Activity {
-    private String TAG = "MainActivity";
-    private CustomView customView;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        customView = (CustomView) findViewById(R.id.customview);
-//        customView.startAnmi();
-
-    }
-
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
     }
 
     @Override
