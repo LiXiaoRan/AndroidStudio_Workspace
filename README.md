@@ -15,9 +15,9 @@ include {<br>
 		--->Toolbar  只是试试toolbar的用法<br>
 		---> listview super base adapter  这里面的有一个万能适配器和viewholder  具体用法见代码<br>
 		--->里面添加了cardview和snackbar<br>
-	**CustomView**---->aige的自定义控件 边学边练
-	**ImageSwitch**-----> 高仿微信的图片选择器
-	**HandlerTest**----------->四种在子线程中更新UI的方法
+	**CustomView**---->aige的自定义控件 边学边练<br>
+	**ImageSwitch**-----> 高仿微信的图片选择器<br>
+	**HandlerTest**----------->四种在子线程中更新UI的方法<br>
 }<br>
 
 
