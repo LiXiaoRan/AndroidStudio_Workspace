@@ -17,6 +17,7 @@ include {<br>
 		--->里面添加了cardview和snackbar<br>
 	**CustomView**---->aige的自定义控件 边学边练
 	**ImageSwitch**-----> 高仿微信的图片选择器
+	**HandlerTest**----------->四种在子线程中更新UI的方法
 }<br>
 
 
