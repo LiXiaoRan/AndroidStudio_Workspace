@@ -65,7 +65,14 @@ public class ImageLoader {
      */
     private Handler mUIHandler;
 
-    private Semaphore mSemaphorePoolThreadHandler=new Semaphore(0);
+    /**
+     * 控制后台线程Handler的信号量
+     */
+    private Semaphore mSemaphorePoolThreadHandler = new Semaphore(0);
+    /**
+     * 控制任务队列的信号量
+     */
+    private Semaphore mSemaphoreThreadPool;
 
     public enum Type {
         FIFO, LIFO;
@@ -94,9 +101,17 @@ public class ImageLoader {
                     public void handleMessage(Message msg) {
                         //通过线程池取出一个任务去执行
                         mThreadPool.execute(getTask());
+
+                        try {
+                            //如果threadCount设置为3 就是说在执行第4个的时候会阻塞，直到第一个执行完释放。
+                            mSemaphoreThreadPool.acquire();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
                     }
                 };
-                //释放一个信号量
+                //释放一个信号量   acquire造成的的阻塞被取消
                 mSemaphorePoolThreadHandler.release();
                 Looper.loop();
             }
@@ -123,7 +138,8 @@ public class ImageLoader {
         mTaskQueue = new LinkedList<Runnable>();
         mType = type;
 
-
+        //根据下面的代码，后台线程同时能支持threadCount个任务并发执行，其他的只是一直在往任务队列中添加，直到有任务被执行完释放
+        mSemaphoreThreadPool = new Semaphore(threadCount);
     }
 
     /**
@@ -196,7 +212,7 @@ public class ImageLoader {
             message.obj = imgBeanHolder;
             mUIHandler.sendMessage(message);*/
 
-            refreshBitmap(imageView,path,bm);
+            refreshBitmap(imageView, path, bm);
 
         } else {
             addTasks(new Runnable() {
@@ -220,7 +236,10 @@ public class ImageLoader {
                     message.obj = imgBeanHolder;
                     mUIHandler.sendMessage(message);*/
 
-                    refreshBitmap(imageView,path,bitmap);
+                    refreshBitmap(imageView, path, bitmap);
+
+                    //执行完队列中的一个任务就释放一个
+                    mSemaphoreThreadPool.release();
                 }
             });
         }
@@ -229,7 +248,7 @@ public class ImageLoader {
 
 
     //回调UI线程显示图片
-    private void refreshBitmap(ImageView imageView,String Path,Bitmap bm){
+    private void refreshBitmap(ImageView imageView, String Path, Bitmap bm) {
         Message message = Message.obtain();
         ImgBeanHolder imgBeanHolder = new ImgBeanHolder();
         imgBeanHolder.bitmap = bm;
@@ -353,8 +372,8 @@ public class ImageLoader {
 
         try {
             //这里是为了防止线程并发的时候导致mPoolThreadHandler为Null
-            if(mPoolThreadHandler==null)
-            mSemaphorePoolThreadHandler.acquire();
+            if (mPoolThreadHandler == null)
+                mSemaphorePoolThreadHandler.acquire();  //让线程阻塞等待release
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
