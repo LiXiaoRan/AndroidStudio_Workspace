@@ -3,7 +3,9 @@ package com.liran.handlertest;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.HandlerThread;
 import android.os.Message;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -13,8 +15,12 @@ import android.widget.TextView;
  */
 public class MainActivity extends Activity {
 
+    private String TAG = "handlerTest";
+
     private TextView textView;
 
+    private HandlerThread handlerThread;
+    private Handler handlerTest;
 
     private Handler handler = new Handler() {
         @Override
@@ -30,6 +36,30 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         textView = (TextView) findViewById(R.id.textview1);
 
+        Log.d(TAG + "main", "oncreat 当前线程是：" + Thread.currentThread());
+
+        /*MyThrad myThrad=new MyThrad();
+        myThrad.start();
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        myThrad.handler.sendEmptyMessage(1);*/
+
+/*
+        handlerThread = new HandlerThread("handlerThread");
+        handlerThread.start();
+        //handlerThread的Looper绑定
+        handlerTest = new Handler(handlerThread.getLooper()) {
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                Log.d(TAG, "handleMessage 当前线程是："+Thread.currentThread());
+            }
+        };
+        handlerTest.sendEmptyMessage(1);*/
+
 
         new Thread(new Runnable() {
             @Override
@@ -44,10 +74,10 @@ public class MainActivity extends Activity {
                 /**如果前面休眠两秒钟的话，执行下面直接settext就是报异常，如果不休眠直接修改就没有这个异常
                  * 因为安卓底层对非UI线程更新UI的判断放在onResume中进行，OnCreat在这个方法之前，所以如果、
                  * 不进行睡眠，就一定可以更新成功，这算是凑巧在非ui线程中更新了UI。*/
-                textView.setText("试试看看");
+//                textView.setText("试试看看");
 
 
-                Handler1();
+                   Handler1();
 //                Handler2();
 //                updateUI1();
 //                updateUI2();
