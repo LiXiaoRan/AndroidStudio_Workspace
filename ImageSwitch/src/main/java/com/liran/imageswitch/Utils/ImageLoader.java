@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import com.liran.imageswitch.Bean.ImageSize;
 import com.liran.imageswitch.Bean.ImgBeanHolder;
 
+import java.lang.reflect.Field;
 import java.util.LinkedList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -122,7 +123,6 @@ public class ImageLoader {
         int MaxMemory = (int) Runtime.getRuntime().maxMemory();
         int cacheMemory = MaxMemory / 8;
 
-
         //初始化lrucache
         mLruCache = new LruCache<String, Bitmap>(cacheMemory) {
 
@@ -161,11 +161,11 @@ public class ImageLoader {
      *
      * @return ImageLoader
      */
-    private static ImageLoader getInstance() {
+    private static ImageLoader getInstance(int ThreadCount,Type type) {
         if (mInstance == null) {
             synchronized (ImageLoader.class) {
                 if (mInstance == null) {
-                    mInstance = new ImageLoader(DEFULT_THREAD_COUNT, Type.LIFO);
+                    mInstance = new ImageLoader(ThreadCount,type);
                 }
             }
         }
@@ -338,23 +338,27 @@ public class ImageLoader {
         ViewGroup.LayoutParams lp = imageView.getLayoutParams();
 
         DisplayMetrics displayMetrics = imageView.getContext().getResources().getDisplayMetrics();
+
         int width = imageView.getWidth();//获取Imageview的实际宽度
+
         if (width <= 0) {
             width = lp.width;//获取在layout中声明的宽度
         }
         if (width <= 0) {
-            width = imageView.getMaxWidth();//检查最大值
+//            width = imageView.getMaxWidth();//检查最大值 （这个方法只兼容到API16）
+            width = getImageViewFieldValue(imageView, "mMaxWidth");//检查最大值 （这个方法只兼容到API16）
         }
         if (width <= 0) {
             width = displayMetrics.widthPixels;
         }
 
-        int height = imageView.getHeight();//获取Imageview的实际宽度
+        int height = imageView.getHeight();//获取Imageview的实际高度
+
         if (height <= 0) {
             height = lp.height;//获取在layout中声明的宽度
         }
         if (height <= 0) {
-            height = imageView.getMaxHeight();//检查最大值
+            height = getImageViewFieldValue(imageView, "mMaxHeight");//检查最大值
         }
         if (height <= 0) {
             height = displayMetrics.heightPixels;
@@ -365,7 +369,34 @@ public class ImageLoader {
         return imageSize;
     }
 
+    /**
+     * 通过反射获取Imageview的某个属性值
+     *
+     * @param obj
+     * @param fieldName
+     * @return
+     */
+    private static int getImageViewFieldValue(Object obj, String fieldName) {
+        int value = 0;
+        try {
+            Field field = ImageView.class.getDeclaredField(fieldName);
+            field.setAccessible(true);
+            int fieldValue = field.getInt(obj);
 
+            if (fieldValue > 0 && fieldValue < Integer.MAX_VALUE) {
+                value = fieldValue;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return value;
+    }
+
+    /**
+     * 添加一个任务
+     *
+     * @param runnable
+     */
     private synchronized void addTasks(Runnable runnable) {
         //添加到队列中
         mTaskQueue.add(runnable);
