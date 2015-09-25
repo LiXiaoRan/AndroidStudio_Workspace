@@ -21,6 +21,7 @@ import com.liran.imageswitch.Bean.FloderBean;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -46,12 +47,29 @@ public class MainActivity extends AppCompatActivity {
      */
     private List<FloderBean> mFloderBeans = new ArrayList<FloderBean>();
 
+    private List<String> mImgs=new ArrayList<String>();
+
+    private static final int DATA_LOADED=0x110;
+
     private Handler mHandler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
                 super.handleMessage(msg);
+            if(msg.what==DATA_LOADED)
+            mProgressBarDialog.dismiss();
+            //绑定数据到view中
+            dataToView();
         }
     };
+
+    private void dataToView() {
+        if(mCurrentDir==null){
+            Toast.makeText(MainActivity.this, "未扫描到图片", Toast.LENGTH_SHORT).show();
+        }
+
+        mImgs= Arrays.asList(mCurrentDir.list());
+
+    }
 
 
     @Override
@@ -135,7 +153,8 @@ public class MainActivity extends AppCompatActivity {
 
                 }
                 cursor.close();
-//                mHandler.sendEmptyMessage()
+                //通知Handler扫描图片完成
+                mHandler.sendEmptyMessage(DATA_LOADED);
             }
         }.start();
     }
