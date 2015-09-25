@@ -11,6 +11,7 @@ import android.os.Message;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.widget.GridView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -28,6 +29,7 @@ import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
+    private String TAG = "MainActivity";
 
     private Toolbar toolbar;
 
@@ -47,28 +49,31 @@ public class MainActivity extends AppCompatActivity {
      */
     private List<FloderBean> mFloderBeans = new ArrayList<FloderBean>();
 
-    private List<String> mImgs=new ArrayList<String>();
+    private List<String> mImgs = new ArrayList<String>();
 
-    private static final int DATA_LOADED=0x110;
+    private static final int DATA_LOADED = 0x110;
 
-    private Handler mHandler=new Handler(){
+    private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-                super.handleMessage(msg);
-            if(msg.what==DATA_LOADED)
-            mProgressBarDialog.dismiss();
+            super.handleMessage(msg);
+            if (msg.what == DATA_LOADED)
+                mProgressBarDialog.dismiss();
             //绑定数据到view中
             dataToView();
         }
     };
 
     private void dataToView() {
-        if(mCurrentDir==null){
+        if (mCurrentDir == null) {
             Toast.makeText(MainActivity.this, "未扫描到图片", Toast.LENGTH_SHORT).show();
         }
 
-        mImgs= Arrays.asList(mCurrentDir.list());
-
+        mImgs = Arrays.asList(mCurrentDir.list());
+        Log.d(TAG, "dataToView mImgs= " + mImgs);
+        Log.d(TAG, "dataToView size= "+mImgs.size());
+        Log.d(TAG, "dataToView mCurrentDir= "+mCurrentDir);
+        Log.d(TAG, "dataToView mMaxCount= "+mMaxCount);
     }
 
 
@@ -104,8 +109,8 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 Uri mImageUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
                 ContentResolver contentResolver = MainActivity.this.getContentResolver();
-                Cursor cursor = contentResolver.query(mImageUri, null, MediaStore.Images.Media.MIME_TYPE + "= ? or" +
-                                MediaStore.Images.Media.MIME_TYPE + "= ? ", new String[]{"image/jpeg", "image/png"},
+                Cursor cursor = contentResolver.query(mImageUri, null, MediaStore.Images.Media.MIME_TYPE + " = ? or " +
+                                MediaStore.Images.Media.MIME_TYPE + " = ? ", new String[]{"image/jpeg", "image/png"},
                         MediaStore.Images.Media.DATE_MODIFIED);
                 Set<String> mDirpaths = new HashSet<String>();
                 while (cursor.moveToNext()) {
@@ -137,8 +142,9 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public boolean accept(File dir, String filename) {
 
-                            if (filename.endsWith(".jeg") || filename.endsWith("jpeg") || filename.endsWith("png")) {
-                                return true;
+//                            if (filename.endsWith(".jeg") || filename.endsWith("jpeg") || filename.endsWith("png")) {
+                            if(filename.toLowerCase().endsWith("jpg") || filename.toLowerCase().endsWith("png") || filename.toLowerCase().endsWith("jpeg")){
+                            return true;
                             }
                             return false;
                         }
@@ -146,9 +152,9 @@ public class MainActivity extends AppCompatActivity {
                     floderBean.setCount(picSize);
                     mFloderBeans.add(floderBean);
 
-                    if(picSize>mMaxCount){
-                        mMaxCount=picSize;
-                        mCurrentDir=parentFile;
+                    if (picSize > mMaxCount) {
+                        mMaxCount = picSize;
+                        mCurrentDir = parentFile;
                     }
 
                 }
