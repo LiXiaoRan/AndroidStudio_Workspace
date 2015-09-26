@@ -161,7 +161,7 @@ public class ImageLoader {
      *
      * @return ImageLoader
      */
-    private static ImageLoader getInstance(int ThreadCount,Type type) {
+    public static ImageLoader getInstance(int ThreadCount,Type type) {
         if (mInstance == null) {
             synchronized (ImageLoader.class) {
                 if (mInstance == null) {

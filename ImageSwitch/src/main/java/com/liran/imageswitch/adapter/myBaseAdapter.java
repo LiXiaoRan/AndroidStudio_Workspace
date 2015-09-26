@@ -17,12 +17,14 @@ public abstract class myBaseAdapter<T> extends BaseAdapter{
     protected Context mcontext;
     protected List<T> mDatas;  //封装的数据
     protected final int itemLayoutId;  //listview的每个Item布局的Id 就是viewholder中的layoutId 要使用LayoutInflater加载
+    protected String mDirPath;
 
-    public myBaseAdapter( Context mcontext, List<T> mDatas, int itemLayoutId) {
+    public myBaseAdapter( Context mcontext, List<T> mDatas, String dirPath,int itemLayoutId) {
 //        this.inflater = inflater;
         this.mcontext = mcontext;
         this.mDatas = mDatas;
         this.itemLayoutId = itemLayoutId;
+        this.mDirPath=dirPath;
     }
 
     @Override
@@ -40,12 +42,12 @@ public abstract class myBaseAdapter<T> extends BaseAdapter{
         return position;
     }
 
-    public abstract void convert(ViewHolder holder,T item);
+    public abstract void convert(ViewHolder holder,T item,String mDirPath);
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder=getViewHolder(position,parent,convertView);
-        convert(viewHolder,getItem(position));
+        convert(viewHolder,getItem(position),mDirPath);
         return viewHolder.getmConvertView();
     }
 

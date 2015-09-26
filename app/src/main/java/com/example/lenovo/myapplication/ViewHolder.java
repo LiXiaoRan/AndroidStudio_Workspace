@@ -6,6 +6,7 @@ import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -74,6 +75,36 @@ public class ViewHolder {
     public void setImageViewBitmap(int viewId,Bitmap bm){
         ImageView imageView=getView(viewId);
         imageView.setImageBitmap(bm);
+    }
+
+    /**
+     * 设置图片通过id
+     * @param viewId 控件Id
+     * @param resId 图片ID
+     */
+    public void setImageViewResourse(int viewId,int resId){
+        ImageView imageView=getView(viewId);
+        imageView.setImageResource(resId);
+    }
+
+    /**
+     * 设置listview中的ImageView显示的文本
+     * @param viewId 控件Id     int
+     * @param bm 控件应该显示的图片 Bitmap
+     */
+    public void setImageButtonBitmap(int viewId,Bitmap bm){
+        ImageButton imageButton=getView(viewId);
+        imageButton.setImageBitmap(bm);
+    }
+
+    /**
+     * 设置图片通过id
+     * @param viewId 控件Id
+     * @param resId 图片ID
+     */
+    public void setImageButtonResourse(int viewId,int resId){
+        ImageButton imageButton=getView(viewId);
+        imageButton.setImageResource(resId);
     }
 
 
