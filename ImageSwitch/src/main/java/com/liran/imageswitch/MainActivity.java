@@ -3,6 +3,7 @@ package com.liran.imageswitch;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -12,6 +13,7 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -87,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
         initAdapter();
         mGridView.setAdapter(ImageAdapter);
 
-        mDirCount.setText(mMaxCount+"");
+        mDirCount.setText(mMaxCount + "");
         mDirName.setText(mCurrentDir.getName());
 
     }
@@ -110,17 +112,38 @@ public class MainActivity extends AppCompatActivity {
     private void initAdapter() {
         ImageAdapter = new myBaseAdapter<String>(MainActivity.this, mImgs, mCurrentDir.getAbsolutePath(), R.layout.item_gridview) {
             @Override
-            public void convert(ViewHolder holder, String ImagePath, String mDirPath) {
+            public void convert(ViewHolder holder, final String ImagePath, final String mDirPath, final Set<String> mSelectImg) {
+
                 //重置状态
                 holder.setImageViewResourse(R.id.iv_item_image, R.mipmap.picture_no);
                 holder.setImageButtonResourse(R.id.ib_item_select, R.mipmap.picture_unsekect);
-
+                ((ImageView) holder.getView(R.id.iv_item_image)).setColorFilter(null);
+                //加载图片
                 ImageLoader.getInstance(3, ImageLoader.Type.LIFO).loadImage(mDirPath + "/" + ImagePath, (ImageView) holder.getView(R.id.iv_item_image));
 
+                final String filePath = mDirPath + "/" + ImagePath;
+                holder.getView(R.id.iv_item_image).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
+                        //已经被选择
+                        if (mSelectImg.contains(filePath)) {
+                            mSelectImg.remove(filePath);
+
+                        } else {//未被选择
+                            mSelectImg.add(filePath);
+
+                        }
+                        ImageAdapter.notifyDataSetChanged();  //通过这种方式更新UI会导致黑闪
+                    }
+                });
+
+                if(mSelectImg.contains(filePath)){
+                    ((ImageView) holder.getView(R.id.iv_item_image)).setColorFilter(Color.parseColor("#77000000"));
+                    ((ImageView)holder.getView(R.id.ib_item_select)).setImageResource(R.mipmap.picture_select);
+                }
             }
         };
-
 
 
     }
