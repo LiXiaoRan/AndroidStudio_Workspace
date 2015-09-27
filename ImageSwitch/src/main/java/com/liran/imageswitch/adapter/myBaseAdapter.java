@@ -45,7 +45,7 @@ public abstract class myBaseAdapter<T> extends BaseAdapter {
         return position;
     }
 
-    public abstract void convert(ViewHolder holder, T item, String mDirPath, Set<String> mSelectImg);
+    public abstract void convert(final ViewHolder holder, T item, String mDirPath, Set<String> mSelectImg);
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {

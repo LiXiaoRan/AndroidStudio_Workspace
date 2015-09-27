@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
     private void initAdapter() {
         ImageAdapter = new myBaseAdapter<String>(MainActivity.this, mImgs, mCurrentDir.getAbsolutePath(), R.layout.item_gridview) {
             @Override
-            public void convert(ViewHolder holder, final String ImagePath, final String mDirPath, final Set<String> mSelectImg) {
+            public void convert(final ViewHolder holder, final String ImagePath, final String mDirPath, final Set<String> mSelectImg) {
 
                 //重置状态
                 holder.setImageViewResourse(R.id.iv_item_image, R.mipmap.picture_no);
@@ -129,15 +129,18 @@ public class MainActivity extends AppCompatActivity {
                         //已经被选择
                         if (mSelectImg.contains(filePath)) {
                             mSelectImg.remove(filePath);
+                            ((ImageView) holder.getView(R.id.iv_item_image)).setColorFilter(null);
+                            ((ImageView)holder.getView(R.id.ib_item_select)).setImageResource(R.mipmap.picture_unsekect);
 
                         } else {//未被选择
                             mSelectImg.add(filePath);
-
+                            ((ImageView) holder.getView(R.id.iv_item_image)).setColorFilter(Color.parseColor("#77000000"));
+                            ((ImageView)holder.getView(R.id.ib_item_select)).setImageResource(R.mipmap.picture_select);
                         }
-                        ImageAdapter.notifyDataSetChanged();  //通过这种方式更新UI会导致黑闪
+//                        ImageAdapter.notifyDataSetChanged();  //通过这种方式更新UI会导致黑闪
                     }
                 });
-
+                 //这一段代码是用来解决服用问题的
                 if(mSelectImg.contains(filePath)){
                     ((ImageView) holder.getView(R.id.iv_item_image)).setColorFilter(Color.parseColor("#77000000"));
                     ((ImageView)holder.getView(R.id.ib_item_select)).setImageResource(R.mipmap.picture_select);
