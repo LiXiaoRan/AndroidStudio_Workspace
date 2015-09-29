@@ -14,14 +14,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.liran.imageswitch.Bean.FloderBean;
 import com.liran.imageswitch.Utils.ImageLoader;
+import com.liran.imageswitch.View.ListImgPopWindow;
 import com.liran.imageswitch.adapter.ViewHolder;
 import com.liran.imageswitch.adapter.myBaseAdapter;
 
@@ -55,6 +58,12 @@ public class MainActivity extends AppCompatActivity {
      */
     private List<FloderBean> mFloderBeans = new ArrayList<FloderBean>();
 
+    /**
+     * popWindow
+     */
+    private ListImgPopWindow mlistImgPopWindow;
+
+
     private List<String> mImgs = new ArrayList<String>();
 
     /**
@@ -73,8 +82,34 @@ public class MainActivity extends AppCompatActivity {
                 mProgressBarDialog.dismiss();
             //绑定数据到view中
             dataToView();
+            initDirPopWindow();
         }
     };
+
+    /**
+     * 初始化popwindow
+     */
+    private void initDirPopWindow() {
+        mlistImgPopWindow = new ListImgPopWindow();
+        mlistImgPopWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                //将内容区域变亮   （在popWindow消失时候调用）
+                lightOn();
+
+            }
+        });
+
+    }
+
+    /**
+     * 将内容区域变亮
+     */
+    private void lightOn() {
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = 1.0f;
+        getWindow().setAttributes(lp);
+    }
 
     private void dataToView() {
         if (mCurrentDir == null) {
@@ -109,6 +144,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * 初始化grideView的适配器
+     */
     private void initAdapter() {
         ImageAdapter = new myBaseAdapter<String>(MainActivity.this, mImgs, mCurrentDir.getAbsolutePath(), R.layout.item_gridview) {
             @Override
@@ -130,20 +168,20 @@ public class MainActivity extends AppCompatActivity {
                         if (mSelectImg.contains(filePath)) {
                             mSelectImg.remove(filePath);
                             ((ImageView) holder.getView(R.id.iv_item_image)).setColorFilter(null);
-                            ((ImageView)holder.getView(R.id.ib_item_select)).setImageResource(R.mipmap.picture_unsekect);
+                            ((ImageView) holder.getView(R.id.ib_item_select)).setImageResource(R.mipmap.picture_unsekect);
 
                         } else {//未被选择
                             mSelectImg.add(filePath);
                             ((ImageView) holder.getView(R.id.iv_item_image)).setColorFilter(Color.parseColor("#77000000"));
-                            ((ImageView)holder.getView(R.id.ib_item_select)).setImageResource(R.mipmap.picture_select);
+                            ((ImageView) holder.getView(R.id.ib_item_select)).setImageResource(R.mipmap.picture_select);
                         }
 //                        ImageAdapter.notifyDataSetChanged();  //通过这种方式更新UI会导致黑闪
                     }
                 });
-                 //这一段代码是用来解决服用问题的
-                if(mSelectImg.contains(filePath)){
+                //这一段代码是用来解决服用问题的
+                if (mSelectImg.contains(filePath)) {
                     ((ImageView) holder.getView(R.id.iv_item_image)).setColorFilter(Color.parseColor("#77000000"));
-                    ((ImageView)holder.getView(R.id.ib_item_select)).setImageResource(R.mipmap.picture_select);
+                    ((ImageView) holder.getView(R.id.ib_item_select)).setImageResource(R.mipmap.picture_select);
                 }
             }
         };
@@ -155,7 +193,20 @@ public class MainActivity extends AppCompatActivity {
      * 初始化所有的事件
      */
     private void initEvents() {
+        mBottonLy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mlistImgPopWindow.showAsDropDown(mBottonLy,0,0);
+                //在popWindow弹出时内容区域变暗
+                ligitOff();
+            }
+        });
+    }
 
+    private void ligitOff() {
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = 0.3f;
+        getWindow().setAttributes(lp);
     }
 
     /**

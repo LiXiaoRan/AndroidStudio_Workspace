@@ -156,9 +156,11 @@ public class ImageLoader {
         return null;
     }
 
+
     /**
      * 获取一个Imageloader实例
-     *
+     * @param ThreadCount
+     * @param type
      * @return ImageLoader
      */
     public static ImageLoader getInstance(int ThreadCount,Type type) {
@@ -173,6 +175,22 @@ public class ImageLoader {
 
     }
 
+
+    /**
+     * 获取一个Imageloader实例 (默认参数)
+     * @return ImageLoader
+     */
+    public static ImageLoader getInstance() {
+        if (mInstance == null) {
+            synchronized (ImageLoader.class) {
+                if (mInstance == null) {
+                    mInstance = new ImageLoader(3,Type.LIFO);
+                }
+            }
+        }
+        return mInstance;
+
+    }
 
     /**
      * 根据path为imageview设置图片
