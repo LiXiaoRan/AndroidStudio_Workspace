@@ -271,7 +271,7 @@ public class MainActivity extends AppCompatActivity {
                         floderBean = new FloderBean();
                         floderBean.setDir(dirPath);
                         floderBean.setFirstImagePath(path);
-                        floderBean.setName(parentFile.getName());
+//                        floderBean.setName(parentFile.getName());
                     }
 
                     if (parentFile.list() == null) {
