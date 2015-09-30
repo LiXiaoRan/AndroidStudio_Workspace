@@ -38,7 +38,7 @@ import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
-    //不做实验了
+
     private String TAG = "MainActivity";
 
     private Toolbar toolbar;
@@ -91,7 +91,9 @@ public class MainActivity extends AppCompatActivity {
      * 初始化popwindow
      */
     private void initDirPopWindow() {
-        mlistImgPopWindow = new ListImgPopWindow();
+        Log.d(TAG, "进入了initDirPopWindow ");
+        mlistImgPopWindow = new ListImgPopWindow(MainActivity.this, mFloderBeans);
+        Log.d(TAG, "initDirPopWindow -->ListImgPopWindow构造方法调用结束");
         mlistImgPopWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
@@ -198,6 +200,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mlistImgPopWindow.showAsDropDown(mBottonLy,0,0);
+                Log.d(TAG, "onClick 在这里Show   popwindow");
                 //在popWindow弹出时内容区域变暗
                 ligitOff();
             }

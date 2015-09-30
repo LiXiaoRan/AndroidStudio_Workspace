@@ -2,6 +2,7 @@ package com.liran.imageswitch.View;
 
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -25,6 +26,7 @@ import java.util.Set;
  */
 public class ListImgPopWindow extends PopupWindow {
 
+    private String TAG = "ListImgPopWindow";
     private int mheight;
     private int mWidth;
     private View mConvertView;
@@ -35,10 +37,12 @@ public class ListImgPopWindow extends PopupWindow {
     private List<FloderBean> mDatas;
 
 
-    public void ListImgPopWindow(Context context, List<FloderBean> mDatas) {
+    public ListImgPopWindow(Context context, List<FloderBean> mDatas) {
+        Log.d(TAG, "ListImgPopWindow 构造方法");
         calWidthAndHeigth(context);
         mConvertView = LayoutInflater.from(context).inflate(R.layout.popwindow_main_layout, null);
         setContentView(mConvertView);
+        this.mDatas = mDatas;
         setWidth(mWidth);
         setHeight(mheight);
         setTouchable(true);
@@ -94,6 +98,7 @@ public class ListImgPopWindow extends PopupWindow {
      * @param context Context
      */
     private void calWidthAndHeigth(Context context) {
+        Log.d(TAG, "calWidthAndHeigth 计算popWindow的宽度和高度");
         int size[] = MeasureUtil.getScreenWidth(context);
         mWidth = size[0];
         mheight = (int) (size[1] * 0.7);
