@@ -6,10 +6,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
-import android.widget.Toast;
 
 import com.liran.imageswitch.Bean.FloderBean;
 import com.liran.imageswitch.R;
@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Created by Lenovo on 2015-09-27.
+ * Created by  李冉 on 2015-09-27.
  */
 public class ListImgPopWindow extends PopupWindow {
 
@@ -33,9 +33,21 @@ public class ListImgPopWindow extends PopupWindow {
 
     private ListView mListView;
     private myBaseAdapter listAdapter;
-
+    /**
+     * listview的数据集
+     */
     private List<FloderBean> mDatas;
 
+
+    public interface OnDirSelectedListener {
+        void onSelected(FloderBean floderBean);
+    }
+
+    public OnDirSelectedListener mOnDirSelectedListener;
+
+    public void setOnDirSelectedListener(OnDirSelectedListener mOnDirSelectedListener) {
+        this.mOnDirSelectedListener = mOnDirSelectedListener;
+    }
 
     public ListImgPopWindow(Context context, List<FloderBean> mDatas) {
         Log.d(TAG, "ListImgPopWindow 构造方法");
@@ -69,6 +81,15 @@ public class ListImgPopWindow extends PopupWindow {
     }
 
     private void initEvent() {
+        //这样写是为了解耦，其他地方如果要监听listview的点击的话，直接通过回调就行了
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (mOnDirSelectedListener != null) {
+                    mOnDirSelectedListener.onSelected(mDatas.get(position));
+                }
+            }
+        });
 
     }
 
@@ -102,7 +123,6 @@ public class ListImgPopWindow extends PopupWindow {
         int size[] = MeasureUtil.getScreenWidth(context);
         mWidth = size[0];
         mheight = (int) (size[1] * 0.7);
-        Toast.makeText(context, "mWidth= "+mWidth+" mheight= "+mheight, Toast.LENGTH_SHORT).show();
     }
 
 }

@@ -64,7 +64,9 @@ public class MainActivity extends AppCompatActivity {
      */
     private ListImgPopWindow mlistImgPopWindow;
 
-
+    /**
+     * 存储指定目录下全部图片的图片名称
+     */
     private List<String> mImgs = new ArrayList<String>();
 
     /**
@@ -102,7 +104,29 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        mlistImgPopWindow.setOnDirSelectedListener(new ListImgPopWindow.OnDirSelectedListener() {
+            //点击popWindow中listview的回调方法
+            @Override
+            public void onSelected(FloderBean floderBean) {
+                mCurrentDir = new File(floderBean.getDir());
+                mImgs = Arrays.asList(mCurrentDir.list(new FilenameFilter() {
+                    @Override
+                    public boolean accept(File dir, String filename) {
+                        if (filename.toLowerCase().endsWith("jpg") || filename.toLowerCase().endsWith("png") || filename.toLowerCase().endsWith("jpeg")) {
+                            return true;
+                        }
+                        return false;
+                    }
+                }));
 
+                //更新页面
+                initAdapter(mImgs, mCurrentDir.getAbsolutePath());
+                mGridView.setAdapter(ImageAdapter);
+                mDirCount.setText(mImgs.size() + "");
+                mDirName.setText(floderBean.getName());
+                mlistImgPopWindow.dismiss();
+            }
+        });
     }
 
     /**
@@ -124,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "dataToView size= " + mImgs.size());
         Log.d(TAG, "dataToView mCurrentDir= " + mCurrentDir);
         Log.d(TAG, "dataToView mMaxCount= " + mMaxCount);
-        initAdapter();
+        initAdapter(mImgs, mCurrentDir.getAbsolutePath());
         mGridView.setAdapter(ImageAdapter);
 
         mDirCount.setText(mMaxCount + "");
@@ -150,8 +174,8 @@ public class MainActivity extends AppCompatActivity {
     /**
      * 初始化grideView的适配器
      */
-    private void initAdapter() {
-        ImageAdapter = new myBaseAdapter<String>(MainActivity.this, mImgs, mCurrentDir.getAbsolutePath(), R.layout.item_gridview) {
+    private void initAdapter(List<String> mImages, String dirPath) {
+        ImageAdapter = new myBaseAdapter<String>(MainActivity.this, mImages, dirPath, R.layout.item_gridview) {
             @Override
             public void convert(final ViewHolder holder, final String ImagePath, final String mDirPath, final Set<String> mSelectImg) {
 
@@ -181,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
 //                        ImageAdapter.notifyDataSetChanged();  //通过这种方式更新UI会导致黑闪
                     }
                 });
-                //这一段代码是用来解决服用问题的
+                //这一段代码是用来解决复用问题的
                 if (mSelectImg.contains(filePath)) {
                     ((ImageView) holder.getView(R.id.iv_item_image)).setColorFilter(Color.parseColor("#77000000"));
                     ((ImageView) holder.getView(R.id.ib_item_select)).setImageResource(R.mipmap.picture_select);
@@ -199,7 +223,7 @@ public class MainActivity extends AppCompatActivity {
         mBottonLy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mlistImgPopWindow.showAsDropDown(mBottonLy,0,0);
+                mlistImgPopWindow.showAsDropDown(mBottonLy, 0, 0);
                 Log.d(TAG, "onClick 在这里Show   popwindow");
                 //在popWindow弹出时内容区域变暗
                 ligitOff();
@@ -247,7 +271,7 @@ public class MainActivity extends AppCompatActivity {
                         floderBean = new FloderBean();
                         floderBean.setDir(dirPath);
                         floderBean.setFirstImagePath(path);
-
+                        floderBean.setName(parentFile.getName());
                     }
 
                     if (parentFile.list() == null) {
