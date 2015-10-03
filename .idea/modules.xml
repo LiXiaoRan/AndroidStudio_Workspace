@@ -9,6 +9,7 @@
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/handlertest/handlertest.iml" filepath="$PROJECT_DIR$/handlertest/handlertest.iml" />
       <module fileurl="file://$PROJECT_DIR$/haoba/haoba.iml" filepath="$PROJECT_DIR$/haoba/haoba.iml" />
+      <module fileurl="file://$PROJECT_DIR$/java_learninnerclass/java_learninnerclass.iml" filepath="$PROJECT_DIR$/java_learninnerclass/java_learninnerclass.iml" />
       <module fileurl="file://$PROJECT_DIR$/recycleView/recycleView.iml" filepath="$PROJECT_DIR$/recycleView/recycleView.iml" />
     </modules>
   </component>
