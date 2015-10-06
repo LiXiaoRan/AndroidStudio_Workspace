@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -26,7 +27,7 @@ public class CollectionTest {
         List<Integer> list = Arrays.asList(16, 17, 18, 19, 20);
         list.set(1, 99);  //把1号位置的元素替换为99
 //        list.add(21);//直接通过Arrays.asList输出将其当作list，底层表示是数组 不能改变尺寸 因此add或者delete都会报错
-        print(list);
+        print2(list.iterator());
     }
 
     public static void print(Collection<Integer> collection) {
@@ -34,5 +35,19 @@ public class CollectionTest {
             System.out.printf(" " + i + " ");
         }
         System.out.println("");
+    }
+
+
+    /**
+     * 通过迭代器遍历   快捷键itit  迭代器最大的有点就是不用考虑容器是属于 set还是list还是map，都通用。
+     *
+     * @param iterator
+     */
+    public static void print2(Iterator<Integer> iterator) {
+
+        while (iterator.hasNext()) {
+            Integer i = iterator.next();
+            System.out.printf(" " + i + " ");
+        }
     }
 }
