@@ -65,6 +65,7 @@ class dog extends TestCreater {
         this.name = name;
     }
 
+
     public int getAge() {
         return age;
     }
