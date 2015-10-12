@@ -7,6 +7,8 @@ import java.lang.annotation.Target;
 
 /**
  * 这是一个的注解 第一个自己写的注解
+ * @interface 是用来定义注解的  nterface是用来定义接口的
+ * *
  * Created by liran on 2015-10-04.
  */
 
