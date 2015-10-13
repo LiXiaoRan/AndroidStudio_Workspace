@@ -8,8 +8,7 @@ public class Car implements Moveable {
 
     @Override
     public void move() {
-        long starttime = System.currentTimeMillis();
-        System.out.println("car start");
+
         //实现开车
         try {
             System.out.println("car travel  ing...");
@@ -17,8 +16,7 @@ public class Car implements Moveable {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        long endtime = System.currentTimeMillis();
-        System.out.println("car end   driver time is " + (endtime - starttime) + "ms");
+
 
     }
 }
