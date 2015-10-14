@@ -1,1 +1,1 @@
-include ':app', ':haoba', ':Volloy', ':recycleView', ':CustomView', ':ImageSwitch', ':handlertest', ':java_learninnerclass', ':javaproject'
+include ':app', ':haoba', ':Volloy', ':recycleView', ':CustomView', ':ImageSwitch', ':handlertest', ':java_learninnerclass', ':javaproject', ':baidumapdemo'

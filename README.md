@@ -18,6 +18,7 @@ include {<br>
 	**CustomView**---->aige的自定义控件 边学边练<br>
 	**ImageSwitch**-----> 高仿微信的图片选择器<br>
 	**HandlerTest**----------->四种在子线程中更新UI的方法<br>
+	**baidumapdemo**----------->四种在子线程中更新UI的方法<br>
 }<br>
 
 
