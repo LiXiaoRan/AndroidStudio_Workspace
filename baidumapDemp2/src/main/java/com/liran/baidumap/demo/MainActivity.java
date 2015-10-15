@@ -1,26 +1,44 @@
 package com.liran.baidumap.demo;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Toast;
 
-import com.baidu.mapapi.SDKInitializer;
+import com.baidu.location.BDLocation;
+import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.MapView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, LocationUtils.MyLocationInsterface {
 
+    private String TAG = "MainActivity";
     private MapView mapView;
+    private BaiduMap baiduMap;
+    private FloatingActionButton floatingActionButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //在使用SDK各组件之前初始化context信息，传入ApplicationContext
-        //注意该方法要再setContentView方法之前实现
-        SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.activity_main);
 
+        initView();
+        initEvent();
+
+
+    }
+
+
+    private void initView() {
         mapView = (MapView) findViewById(R.id.mapview);
+        floatingActionButton = (FloatingActionButton) findViewById(R.id.fab);
 
+    }
 
+    private void initEvent() {
+        baiduMap = mapView.getMap();
+        floatingActionButton.setOnClickListener(this);
     }
 
 
@@ -43,6 +61,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.fab:
+                LocationUtils.getInstance(getApplicationContext()).statLoc();
+                LocationUtils.getInstance(getApplicationContext()).setMyLocationInsterface(this);
+                break;
+
+
+        }
+    }
+
+    @Override
+    public void onReceivetion(BDLocation location, String address) {
+        Toast.makeText(MainActivity.this, "定位成功  location= " + location.getLatitude() + "  " + location.getLongitude()
+                + "  " + " 地址： " + address, Toast.LENGTH_SHORT).show();
+
+//        Log.d(TAG, "onReceivetion() called with: " + "LAT= "+baiduMap.getLocationData().latitude+" LON= "+baiduMap.getLocationData().longitude);
+    }
 }
 
 
