@@ -9,6 +9,11 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.location.Poi;
+import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.MapStatus;
+import com.baidu.mapapi.map.MapStatusUpdate;
+import com.baidu.mapapi.map.MapStatusUpdateFactory;
+import com.baidu.mapapi.model.LatLng;
 
 import java.util.List;
 
@@ -80,8 +85,23 @@ public class LocationUtils {
      */
     public void stopLoc() {
         locationClient.stop();
-        ;
+
     }
+
+    /**
+     * 设置地图中心点
+     *
+     * @param baiduMap
+     * @param location
+     */
+    public static void setMapCenter(BaiduMap baiduMap, BDLocation location) {
+        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        MapStatus mapStatus = new MapStatus.Builder().target(latLng).build();
+//        BaiduMapOptions baiduMapOptions=new BaiduMapOptions().mapStatus(mapStatus);
+        MapStatusUpdate mapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mapStatus);
+        baiduMap.setMapStatus(mapStatusUpdate);
+    }
+
 
     public class myLocationListener implements BDLocationListener {
 

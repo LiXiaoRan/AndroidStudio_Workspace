@@ -78,7 +78,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Toast.makeText(MainActivity.this, "定位成功  location= " + location.getLatitude() + "  " + location.getLongitude()
                 + "  " + " 地址： " + address, Toast.LENGTH_SHORT).show();
 
-//        Log.d(TAG, "onReceivetion() called with: " + "LAT= "+baiduMap.getLocationData().latitude+" LON= "+baiduMap.getLocationData().longitude);
+        LocationUtils.setMapCenter(baiduMap, location);
+        /*LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        MapStatus mapStatus = new MapStatus.Builder().target(latLng).build();
+//        BaiduMapOptions baiduMapOptions=new BaiduMapOptions().mapStatus(mapStatus);
+        MapStatusUpdate mapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mapStatus);
+        baiduMap.setMapStatus(mapStatusUpdate);*/
     }
 }
 
