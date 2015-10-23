@@ -31,7 +31,7 @@ class BackGroundThread implements Runnable{
     public void run() {
         System.out.println("线程："+Thread.currentThread().getName());
         try {
-            Thread.sleep(100);
+            Thread.sleep(10);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

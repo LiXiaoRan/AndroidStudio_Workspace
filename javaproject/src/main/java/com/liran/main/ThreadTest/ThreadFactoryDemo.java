@@ -9,10 +9,15 @@ import java.util.concurrent.ThreadFactory;
  */
 public class ThreadFactoryDemo {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 
         ExecutorService executorService= Executors.newCachedThreadPool(new myThreadFac());
+        for (int i = 0; i < 10; i++) {
+            executorService.execute(new BackGroundThread());
 
+        }
+//        executorService.shutdown();
+        Thread.sleep(175);
 
     }
 
