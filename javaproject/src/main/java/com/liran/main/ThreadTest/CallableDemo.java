@@ -30,6 +30,8 @@ public class CallableDemo {
                 e.printStackTrace();
             } catch (ExecutionException e) {
                 e.printStackTrace();
+            }finally {
+                executorService.shutdown();
             }
         }
 
