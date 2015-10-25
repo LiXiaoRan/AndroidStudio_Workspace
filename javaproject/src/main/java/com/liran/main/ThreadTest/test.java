@@ -24,7 +24,7 @@ class mythread1 implements Runnable {
                     r.i++;
 
                     System.out.println(Thread.currentThread().getName()
-                            + "--累减-->    " + r.i);
+                            + "--累加-->    " + r.i);
                 } else {
                     r.flag = true;
                 }
@@ -61,7 +61,7 @@ class mythread2 implements Runnable {
                     r.flag = false;
                     r.i--;
                     System.out.println(Thread.currentThread().getName()
-                            + "--累加-->    " + r.i);
+                            + "--累减-->    " + r.i);
                 } else {
                     r.flag = true;
                 }
