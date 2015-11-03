@@ -24,7 +24,7 @@ public class CharsetTest {
         CharBuffer cb = CharBuffer.allocate(10);
         cb.put('a');
         cb.put('冉');
-//        cb.flip();
+        cb.flip();
 
 
         //将字符序列转换为字节序列
