@@ -22,7 +22,7 @@ public class DownThread extends Thread {
     //当前线程需要下载的文件
     private RandomAccessFile currentPart;
     //定义该线程已下载的字节数
-    private int length;
+    public int length;
 
 
     /**
