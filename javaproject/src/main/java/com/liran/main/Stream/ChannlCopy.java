@@ -18,9 +18,12 @@ public class ChannlCopy {
 
         ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
         while ((in.read(byteBuffer)) != -1) {
+            //写入数据之前必须先flip
             byteBuffer.flip();
             out.write(byteBuffer);
+            //在读取数据之前必须先clear
             byteBuffer.clear();
+
         }
 
 
