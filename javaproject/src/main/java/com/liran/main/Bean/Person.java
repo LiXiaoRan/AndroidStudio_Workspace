@@ -61,6 +61,11 @@ public class Person implements Comparable<Person> {
         Addr = addr;
     }
 
+
+    private void test(String arg){
+        System.out.println("调用了私有方法 -->"+arg);
+    }
+
     @Override
     public int compareTo(Person o) {
 
