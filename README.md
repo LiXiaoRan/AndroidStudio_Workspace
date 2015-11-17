@@ -18,7 +18,11 @@ include {<br>
 	**CustomView**---->aige的自定义控件 边学边练<br>
 	**ImageSwitch**-----> 高仿微信的图片选择器<br>
 	**HandlerTest**----------->四种在子线程中更新UI的方法<br>
-	**baidumapdemo**----------->四种在子线程中更新UI的方法<br>
+	**baidumapdemo**----------->百度地图的demo<br>
+	**calculator**------------>一个简单的MD风格的计算器<br>
+	**javaproject**----------->大量的java练习代码	
+	**aide_test和aidl_test_andtherApp**完成了android的AIDL的小测试 aide_test是服务端   aidl_test_andtherApp座位客户端
+	
 }<br>
 
 
