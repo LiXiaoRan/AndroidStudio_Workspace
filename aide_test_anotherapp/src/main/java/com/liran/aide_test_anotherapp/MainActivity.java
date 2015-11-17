@@ -86,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Log.d(TAG, "onClick: 点击了同步 同步信息是："+ed_input.getText().toString());
 
                     try {
+                        //更改另一个应用中的服务中的变量值
                         Binder.setData(ed_input.getText().toString());
                     } catch (RemoteException e) {
                         e.printStackTrace();
