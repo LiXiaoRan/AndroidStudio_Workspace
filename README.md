@@ -22,7 +22,7 @@ include {<br>
 	**calculator**------------>一个简单的MD风格的计算器<br>
 	**javaproject**----------->大量的java练习代码<br>	
 	**aide_test和aidl_test_andtherApp**完成了android的AIDL的小测试 aide_test是服务端   aidl_test_andtherApp座位客户端<br>
-	
+	**messagetest**----------->通过Messenger进行的进程间通信的练习<br> 
 }<br>
 
 

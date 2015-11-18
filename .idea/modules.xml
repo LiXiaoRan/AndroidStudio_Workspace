@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/CustomView/CustomView.iml" filepath="$PROJECT_DIR$/CustomView/CustomView.iml" />
       <module fileurl="file://$PROJECT_DIR$/ImageSwitch/ImageSwitch.iml" filepath="$PROJECT_DIR$/ImageSwitch/ImageSwitch.iml" />
+      <module fileurl="file://$PROJECT_DIR$/MessageTest/MessageTest.iml" filepath="$PROJECT_DIR$/MessageTest/MessageTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/MyApplication.iml" filepath="$PROJECT_DIR$/MyApplication.iml" />
       <module fileurl="file://$PROJECT_DIR$/Volloy/Volloy.iml" filepath="$PROJECT_DIR$/Volloy/Volloy.iml" />
       <module fileurl="file://$PROJECT_DIR$/aide_test_anotherapp/aide_test_anotherapp.iml" filepath="$PROJECT_DIR$/aide_test_anotherapp/aide_test_anotherapp.iml" />
@@ -17,6 +18,7 @@
       <module fileurl="file://$PROJECT_DIR$/haoba/haoba.iml" filepath="$PROJECT_DIR$/haoba/haoba.iml" />
       <module fileurl="file://$PROJECT_DIR$/java_learninnerclass/java_learninnerclass.iml" filepath="$PROJECT_DIR$/java_learninnerclass/java_learninnerclass.iml" />
       <module fileurl="file://$PROJECT_DIR$/javaproject/javaproject.iml" filepath="$PROJECT_DIR$/javaproject/javaproject.iml" />
+      <module fileurl="file://$PROJECT_DIR$/messagertest/messagertest.iml" filepath="$PROJECT_DIR$/messagertest/messagertest.iml" />
       <module fileurl="file://$PROJECT_DIR$/recycleView/recycleView.iml" filepath="$PROJECT_DIR$/recycleView/recycleView.iml" />
     </modules>
   </component>
