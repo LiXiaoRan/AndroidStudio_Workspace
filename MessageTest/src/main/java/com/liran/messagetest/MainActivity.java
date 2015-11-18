@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button btn_send;
     private TextView textView;
 
-    private Messenger messenger;
+    private Messenger Client;
 
     private Handler handler = new Handler() {
 
@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         button.setOnClickListener(this);
         btn_send.setOnClickListener(this);
 
-        messenger = new Messenger(handler);
+        Client = new Messenger(handler);
 
     }
 
@@ -113,7 +113,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Message message = Message.obtain(null, MyConst.MSG_FORM_CLIENT);
         message.setData(bundle);
 
-        message.replyTo = messenger;
+        //将客户端的messenge传递过去 以便于服务端获取
+        message.replyTo = Client;
         try {
             mService.send(message);
         } catch (RemoteException e) {
