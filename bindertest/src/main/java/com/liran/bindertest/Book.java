@@ -45,4 +45,10 @@ public class Book implements Parcelable {
             return new Book[size];
         }
     };
+
+    @Override
+    public String toString() {
+
+        return "id: "+bookId+" 书名：《"+bookName+"》";
+    }
 }
