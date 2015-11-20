@@ -23,6 +23,7 @@ include {<br>
 	**javaproject**----------->大量的java练习代码<br>	
 	**aide_test和aidl_test_andtherApp**完成了android的AIDL的小测试 aide_test是服务端   aidl_test_andtherApp座位客户端<br>
 	**messagetest**----------->通过Messenger进行的进程间通信的练习<br> 
+	**bindertest**------------>完整的进程通信实例，包括进程守护等<br>
 }<br>
 
 

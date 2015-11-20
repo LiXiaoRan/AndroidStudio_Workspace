@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/ContentProviderIPC/ContentProviderIPC.iml" filepath="$PROJECT_DIR$/ContentProviderIPC/ContentProviderIPC.iml" />
       <module fileurl="file://$PROJECT_DIR$/CustomView/CustomView.iml" filepath="$PROJECT_DIR$/CustomView/CustomView.iml" />
       <module fileurl="file://$PROJECT_DIR$/ImageSwitch/ImageSwitch.iml" filepath="$PROJECT_DIR$/ImageSwitch/ImageSwitch.iml" />
       <module fileurl="file://$PROJECT_DIR$/MessageTest/MessageTest.iml" filepath="$PROJECT_DIR$/MessageTest/MessageTest.iml" />
