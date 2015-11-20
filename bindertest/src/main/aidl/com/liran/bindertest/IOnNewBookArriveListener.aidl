@@ -6,4 +6,6 @@ import com.liran.bindertest.Book;
 interface IOnNewBookArriveListener {
 
    void onNewBookArriver(in Book newBook);
+
+   void onServiceDead();
 }

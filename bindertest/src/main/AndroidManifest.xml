@@ -21,7 +21,9 @@
             android:name=".BookManagerService"
             android:enabled="true"
             android:exported="true"
-            android:process=":remote"></service>
+            android:process=":remote"
+            >
+        </service>
     </application>
 
 </manifest>

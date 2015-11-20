@@ -106,12 +106,38 @@ public class BookManagerService extends Service {
         for (int i = 0; i < N; i++) {
             IOnNewBookArriveListener listener=remoteCallbackListenerList.getBroadcastItem(i);
             if(listener!=null){
+                //服务端调用客户端的方法  会挂起当前所在线程 这个方法运行在客户端的Binder线程中，不然会导致服务端无响应
                 listener.onNewBookArriver(book);
             }
         }
         remoteCallbackListenerList.finishBroadcast();
 
     }
+
+   /* @Override
+    public void binderDied() {
+
+        *//**
+         * 远程服务异常中止的时候会回调这个方法，这个时候通知客户端进行重新绑定
+         *//*
+
+        Logger.i("服务已死");
+        int N=remoteCallbackListenerList.beginBroadcast();
+        for (int i = 0; i < N; i++) {
+            IOnNewBookArriveListener listener=remoteCallbackListenerList.getBroadcastItem(i);
+            if(listener!=null){
+                try {
+                    //回调客户端的方法
+                    listener.onServiceDead();
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        remoteCallbackListenerList.finishBroadcast();
+
+
+    }*/
 
     private class ServiceWork implements Runnable {
         @Override

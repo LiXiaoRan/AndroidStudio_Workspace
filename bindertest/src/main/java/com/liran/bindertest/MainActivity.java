@@ -16,7 +16,7 @@ import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements ServiceConnection {
+public class MainActivity extends AppCompatActivity implements ServiceConnection, IBinder.DeathRecipient {
 
     private Intent intentService;
     private IBookManager remoteBookManager;
@@ -37,6 +37,13 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
     public void onServiceConnected(ComponentName name, IBinder service) {
         remoteBookManager = IBookManager.Stub.asInterface(service);
         try {
+            //设置死亡代理
+            service.linkToDeath(this, 0);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        try {
+            //客户端调用远程服务的方法 此刻客户端的当前所在线程会挂起，等待远程服务的方法返回，这里尽量不能放在UI线程
             List<Book> list = remoteBookManager.getBookList();
             Logger.d(list.toString());
 
@@ -45,7 +52,6 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
             remoteBookManager.addBook(book);
             Logger.d(remoteBookManager.getBookList().toString());
             remoteBookManager.registerListener(iOnNewBookArriveListener);
-
 
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -65,22 +71,35 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
     };
 
 
-    private String TAG="MainActivitt";
+    private String TAG = "MainActivitt";
+
     private IOnNewBookArriveListener.Stub iOnNewBookArriveListener = new IOnNewBookArriveListener.Stub() {
         @Override
         public void onNewBookArriver(Book newBook) throws RemoteException {
-            Log.d(TAG, "onNewBookArriver: "+"onNewBookArriver回调");
+            //这个方法运行在客户端的Binder线程中 这里不能修改UI
+            Log.d(TAG, "onNewBookArriver: " + "onNewBookArriver回调");
             Message message = Message.obtain();
             message.obj = newBook;
             handler.sendMessage(message);
 
         }
+
+        @Override
+        public void onServiceDead() throws RemoteException {
+            Logger.d("重新绑定服务");
+            bindService(intentService, MainActivity.this, Context.BIND_AUTO_CREATE);
+        }
+
+
     };
 
     @Override
     public void onServiceDisconnected(ComponentName name) {
-        remoteBookManager = null;
-        Logger.d("绑定失败");
+        /*remoteBookManager = null;
+
+        unbindService(this);
+        Logger.d("重新绑定服务");
+        bindService(intentService, MainActivity.this, Context.BIND_AUTO_CREATE);*/
     }
 
 
@@ -96,7 +115,23 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
             }
         }
 
-
         unbindService(this);
     }
+
+
+    @Override
+    public void binderDied() {
+        Logger.d("服务终止 binderDied");
+
+        if (remoteBookManager != null) {
+            {
+                Logger.d("重新绑定服务");
+                remoteBookManager.asBinder().unlinkToDeath(this, 0);
+                remoteBookManager=null;
+            }
+        }
+
+    }
+
+
 }
