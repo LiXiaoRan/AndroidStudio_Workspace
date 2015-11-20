@@ -21,7 +21,6 @@ import java.util.concurrent.Semaphore;
 public class BookProvider extends ContentProvider {
     private String TAG = "BookProvider";
 
-
     public static final String AUTHORITY = "com.liran.contentprovideripc.BookProvider";
 
     public static final Uri BOOK_CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/book");
@@ -108,19 +107,68 @@ public class BookProvider extends ContentProvider {
     @Override
     public Uri insert(Uri uri, ContentValues values) {
         Log.d(TAG, "insert: ");
-        return null;
+        String table = getTableName(uri);
+        if (table == null) {
+            throw new NullPointerException("空的: " + uri);
+        }
+        if (mdb == null) {
+            try {
+                //请求一个信号
+                dbcreateSemaphore.acquire();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        mdb.insert(table, null, values);
+        //插入信息后要用纸外界数据发生了变化
+        context.getContentResolver().notifyChange(uri, null);
+        return uri;
     }
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
         Log.d(TAG, "delete: ");
-        return 0;
+        String table = getTableName(uri);
+        if (table == null) {
+            throw new NullPointerException("空的: " + uri);
+        }
+        if (mdb == null) {
+            try {
+                //请求一个信号
+                dbcreateSemaphore.acquire();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        //返回数据变动的行数
+        int modifCount=mdb.delete(table,selection,selectionArgs);
+        if(modifCount>0){
+            context.getContentResolver().notifyChange(uri,null);
+        }
+        return modifCount;
     }
 
     @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         Log.d(TAG, "update: ");
-        return 0;
+        String table = getTableName(uri);
+        if (table == null) {
+            throw new NullPointerException("空的: " + uri);
+        }
+        if (mdb == null) {
+            try {
+                //请求一个信号
+                dbcreateSemaphore.acquire();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        int modifCount=mdb.update(table,values,selection,selectionArgs);
+        if(modifCount>0){
+            context.getContentResolver().notifyChange(uri,null);
+        }
+        return modifCount;
     }
 
     /**

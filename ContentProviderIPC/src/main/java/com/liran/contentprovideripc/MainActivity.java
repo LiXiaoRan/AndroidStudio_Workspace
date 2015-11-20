@@ -1,7 +1,7 @@
 package com.liran.contentprovideripc;
 
+import android.content.ContentValues;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
@@ -9,15 +9,14 @@ import com.orhanobut.logger.Logger;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Uri uri;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        uri = Uri.parse("content://com.liran.contentprovideripc.BookProvider/book");
-        Cursor cursor = getContentResolver().query(uri, new String[]{"_id", "name"}, null, null, null);
+        Cursor cursor = getContentResolver().query(BookProvider.BOOK_CONTENT_URI, new String[]{"_id", "name"}, null, null, null);
 
         while (cursor.moveToNext()) {
             Book book = new Book();
@@ -27,8 +26,28 @@ public class MainActivity extends AppCompatActivity {
         }
         cursor.close();
 
-        getContentResolver().query(uri, null, null, null, null);
-        getContentResolver().query(uri, null, null, null, null);
+        ContentValues contentValues=new ContentValues();
+        contentValues.put("_id",5);
+        contentValues.put("name","啊哈");
+        contentValues.put("sex","男");
+        getContentResolver().insert(BookProvider.USER_CONTENT_URI, contentValues);
+
+        queryUserByProvider();
+
+
+
+    }
+
+    private void queryUserByProvider() {
+
+        Cursor cursor=getContentResolver().query(BookProvider.USER_CONTENT_URI,new String[]{"_id","name","sex"},null,null,null);
+        while (cursor.moveToNext()) {
+            User user = new User();
+            user.setId(cursor.getInt(cursor.getColumnIndex("_id")));
+            user.setName(cursor.getString(cursor.getColumnIndex("name")));
+            user.setSex(cursor.getString(cursor.getColumnIndex("sex")));
+            Logger.v("查询到的数据: "+user.toString());
+        }
 
     }
 }
