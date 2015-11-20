@@ -4,8 +4,8 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
+import android.os.RemoteCallbackList;
 import android.os.RemoteException;
-import android.util.Log;
 
 import com.orhanobut.logger.Logger;
 
@@ -19,7 +19,12 @@ public class BookManagerService extends Service {
 
     private CopyOnWriteArrayList<Book> mBookList = new CopyOnWriteArrayList<>();
 
-    private CopyOnWriteArrayList<IOnNewBookArriveListener> mlisteners = new CopyOnWriteArrayList<>();
+//    private CopyOnWriteArrayList<IOnNewBookArriveListener> mlisteners = new CopyOnWriteArrayList<>();
+
+    /***
+     * 用这个类来存储listener可以全自动的实现跨进程的删除listener接口的操作和线程同步
+     */
+    private RemoteCallbackList<IOnNewBookArriveListener> remoteCallbackListenerList = new RemoteCallbackList<>();
 
     private AtomicBoolean isServiceDestorted = new AtomicBoolean(false);
 
@@ -47,24 +52,29 @@ public class BookManagerService extends Service {
 
         @Override
         public void registerListener(IOnNewBookArriveListener listener) throws RemoteException {
-            if (!mlisteners.contains(listener)) {
+            /*if (!mlisteners.contains(listener)) {
                 mlisteners.add(listener);
                 Log.d(TAG, "registerListener: "+listener);
             } else {
                 Logger.t(TAG).d("已经注册过了");
-            }
-            Logger.t(TAG).d("registerListener size is " + mlisteners.size());
+            }*/
+            remoteCallbackListenerList.register(listener);
+            int N = remoteCallbackListenerList.beginBroadcast();
+            Logger.t(TAG).d("registerListener size is " + N);
+            remoteCallbackListenerList.finishBroadcast();
         }
 
         @Override
         public void unregisterListener(IOnNewBookArriveListener listener) throws RemoteException {
-            if (mlisteners.contains(listener)) {
+           /* if (mlisteners.contains(listener)) {
                 mlisteners.remove(listener);
             } else {
                 Logger.t(TAG).d("删除失败 未找到");
-            }
-            Logger.t(TAG).d("unregisterListener size is " + mlisteners.size());
-
+            }*/
+            remoteCallbackListenerList.unregister(listener);
+            int N = remoteCallbackListenerList.beginBroadcast();
+            Logger.t(TAG).d("unregisterListener size is " + N);
+            remoteCallbackListenerList.finishBroadcast();
         }
 
 
@@ -88,10 +98,19 @@ public class BookManagerService extends Service {
     private void OnNewNotify(Book book) throws RemoteException {
         mBookList.add(book);
         Logger.t(TAG).d("OnNewNotify LIST SIZE IS " + mBookList.size());
-        for (IOnNewBookArriveListener listener : mlisteners) {
-            Log.d(TAG, "OnNewNotify: listener size is "+mlisteners.size()+"  "+mlisteners);
+        /*for (IOnNewBookArriveListener listener : mlisteners) {
+            Log.d(TAG, "OnNewNotify: listener size is " + mlisteners.size() + "  " + mlisteners);
             listener.onNewBookArriver(book);
+        }*/
+        int N=remoteCallbackListenerList.beginBroadcast();
+        for (int i = 0; i < N; i++) {
+            IOnNewBookArriveListener listener=remoteCallbackListenerList.getBroadcastItem(i);
+            if(listener!=null){
+                listener.onNewBookArriver(book);
+            }
         }
+        remoteCallbackListenerList.finishBroadcast();
+
     }
 
     private class ServiceWork implements Runnable {
