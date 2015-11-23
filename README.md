@@ -25,7 +25,7 @@ include {<br>
 	**messagetest**----------->通过Messenger进行的进程间通信的练习<br> 
 	**bindertest**------------>完整的进程通信实例，包括进程守护等<br>
 	**BinderConnPppl**--------->Binder连接池的示例代码<br>
-}<br>
+}<br>  
 
 
 
