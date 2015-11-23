@@ -3,7 +3,7 @@ package com.liran.bindertest;
 
 // Declare any non-default types here with import statements
 import com.liran.bindertest.Book;
-import com.liran/bindertest.IOnNewBookArriveListener;
+import com.liran.bindertest.IOnNewBookArriveListener;
 interface IBookManager {
 
     List<Book> getBookList();
