@@ -51,8 +51,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-
-
+        IBinder compute=binderPool.queryBinder(BinderPool.BINDER_CPMPUTE);
+        mCompute=ComputeImpl.asInterface(compute);
+        try {
+            System.out.println("mCompute.add(1,3) is "+mCompute.add(1,3));
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
 
        /*这样写根本就是彻彻底底的错误的，因为这样调用的是本地方法，而不是远程服务的方法
        IBinder compute=new ComputeImpl();
