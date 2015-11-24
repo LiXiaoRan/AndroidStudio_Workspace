@@ -8,6 +8,7 @@
       <module fileurl="file://$PROJECT_DIR$/ImageSwitch/ImageSwitch.iml" filepath="$PROJECT_DIR$/ImageSwitch/ImageSwitch.iml" />
       <module fileurl="file://$PROJECT_DIR$/MessageTest/MessageTest.iml" filepath="$PROJECT_DIR$/MessageTest/MessageTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/MyApplication.iml" filepath="$PROJECT_DIR$/MyApplication.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TouchScrollEvent/TouchScrollEvent.iml" filepath="$PROJECT_DIR$/TouchScrollEvent/TouchScrollEvent.iml" />
       <module fileurl="file://$PROJECT_DIR$/Volloy/Volloy.iml" filepath="$PROJECT_DIR$/Volloy/Volloy.iml" />
       <module fileurl="file://$PROJECT_DIR$/aide_test_anotherapp/aide_test_anotherapp.iml" filepath="$PROJECT_DIR$/aide_test_anotherapp/aide_test_anotherapp.iml" />
       <module fileurl="file://$PROJECT_DIR$/aidl_test/aidl_test.iml" filepath="$PROJECT_DIR$/aidl_test/aidl_test.iml" />
