@@ -9,15 +9,21 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.liran.touchscrollevent.MainActivity">
 
-    <TextView
+
+    <Button
+        android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:layout_centerInParent="true"
+        android:text="弹性滑动"/>
 
     <com.liran.touchscrollevent.MyView
         android:id="@+id/myview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         />
+
+
+
 
 </RelativeLayout>
