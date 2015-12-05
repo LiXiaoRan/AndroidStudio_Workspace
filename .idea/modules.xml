@@ -5,8 +5,8 @@
       <module fileurl="file://$PROJECT_DIR$/BinderConnPool/BinderConnPool.iml" filepath="$PROJECT_DIR$/BinderConnPool/BinderConnPool.iml" />
       <module fileurl="file://$PROJECT_DIR$/ContentProviderIPC/ContentProviderIPC.iml" filepath="$PROJECT_DIR$/ContentProviderIPC/ContentProviderIPC.iml" />
       <module fileurl="file://$PROJECT_DIR$/CustomView/CustomView.iml" filepath="$PROJECT_DIR$/CustomView/CustomView.iml" />
+      <module fileurl="file://$PROJECT_DIR$/FlppyBird/FlppyBird.iml" filepath="$PROJECT_DIR$/FlppyBird/FlppyBird.iml" />
       <module fileurl="file://$PROJECT_DIR$/ImageSwitch/ImageSwitch.iml" filepath="$PROJECT_DIR$/ImageSwitch/ImageSwitch.iml" />
-      <module fileurl="file://$PROJECT_DIR$/LotteryDial/LotteryDial.iml" filepath="$PROJECT_DIR$/LotteryDial/LotteryDial.iml" />
       <module fileurl="file://$PROJECT_DIR$/MessageTest/MessageTest.iml" filepath="$PROJECT_DIR$/MessageTest/MessageTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/MyApplication.iml" filepath="$PROJECT_DIR$/MyApplication.iml" />
       <module fileurl="file://$PROJECT_DIR$/RemoteViews/RemoteViews.iml" filepath="$PROJECT_DIR$/RemoteViews/RemoteViews.iml" />

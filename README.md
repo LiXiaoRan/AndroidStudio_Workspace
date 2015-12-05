@@ -1,10 +1,9 @@
 
 my androidstudio1.3 workspace  <br>
-现在不仅不会markdown，而且还没用过gitgui。
 
-`[TOC]`
+>这是我这个项目中包含的东西
 
-include {<br>
+ include {<br>
 	**Vollov**---> Volley  自己谢了一个volley库，做其他项目的时候可以拿来用<br>
 				:-------VolleyRequst.java： 对Volley的get和post方法进行了很好的封装。<br>
 				:-------VolleyHttpUtils.java：只是业余随便写写<br>
@@ -25,6 +24,9 @@ include {<br>
 	**messagetest**----------->通过Messenger进行的进程间通信的练习<br> 
 	**bindertest**------------>完整的进程通信实例，包括进程守护等<br>
 	**BinderConnPppl**--------->Binder连接池的示例代码<br>
+	**ContentProviderIPC**-------->通过contentprovider实现IPC
+	**TouchScrollEvent**---------->控制跟着手指位置移动的案例
+	**RemoteViews**---------------->桌面小组件的示例程序
 }<br>  
 
 
