@@ -14,6 +14,34 @@
             <option value="$PROJECT_DIR$/ContentProviderIPC" />
             <option value="$PROJECT_DIR$/CustomView" />
             <option value="$PROJECT_DIR$/ImageSwitch" />
+            <option value="$PROJECT_DIR$/LotteryDial" />
+            <option value="$PROJECT_DIR$/MessageTest" />
+            <option value="$PROJECT_DIR$/RemoteViews" />
+            <option value="$PROJECT_DIR$/TouchScrollEvent" />
+            <option value="$PROJECT_DIR$/Volloy" />
+            <option value="$PROJECT_DIR$/aide_test_anotherapp" />
+            <option value="$PROJECT_DIR$/aidl_test" />
+            <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/baidumapDemp2" />
+            <option value="$PROJECT_DIR$/baidumapdemo" />
+            <option value="$PROJECT_DIR$/bindertest" />
+            <option value="$PROJECT_DIR$/calculator" />
+            <option value="$PROJECT_DIR$/handlertest" />
+            <option value="$PROJECT_DIR$/haoba" />
+            <option value="$PROJECT_DIR$/java_learninnerclass" />
+            <option value="$PROJECT_DIR$/javaproject" />
+            <option value="$PROJECT_DIR$/messagertest" />
+            <option value="$PROJECT_DIR$/recycleView" />
+          </set>
+        </option>
+        <option name="myModules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/BinderConnPool" />
+            <option value="$PROJECT_DIR$/ContentProviderIPC" />
+            <option value="$PROJECT_DIR$/CustomView" />
+            <option value="$PROJECT_DIR$/ImageSwitch" />
+            <option value="$PROJECT_DIR$/LotteryDial" />
             <option value="$PROJECT_DIR$/MessageTest" />
             <option value="$PROJECT_DIR$/RemoteViews" />
             <option value="$PROJECT_DIR$/TouchScrollEvent" />
