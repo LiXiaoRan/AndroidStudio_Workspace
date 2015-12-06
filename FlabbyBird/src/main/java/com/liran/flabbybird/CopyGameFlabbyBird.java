@@ -43,6 +43,15 @@ public class CopyGameFlabbyBird extends SurfaceView implements SurfaceHolder.Cal
     private Bitmap mbg;
 
 
+    /**
+     * 鸟
+     */
+    private Bird mBird;
+    /**
+     * 鸟的图片
+     */
+    private Bitmap mBirdBitmap;
+
 
 
 
@@ -72,6 +81,7 @@ public class CopyGameFlabbyBird extends SurfaceView implements SurfaceHolder.Cal
      */
     private void initBitmaps() {
         mbg = loadImageByResId(R.mipmap.bg1);
+        mBirdBitmap=loadImageByResId(R.mipmap.b1);
     }
 
     private void draw() {
@@ -81,6 +91,7 @@ public class CopyGameFlabbyBird extends SurfaceView implements SurfaceHolder.Cal
             mCanvas = mhHolder.lockCanvas();
             if (mCanvas != null) {
                 drawBg();
+                drawBird();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -88,6 +99,10 @@ public class CopyGameFlabbyBird extends SurfaceView implements SurfaceHolder.Cal
             if (mCanvas != null)
                 mhHolder.unlockCanvasAndPost(mCanvas);
         }
+    }
+
+    private void drawBird() {
+        mBird.draw(mCanvas);
     }
 
     /**
@@ -158,5 +173,6 @@ public class CopyGameFlabbyBird extends SurfaceView implements SurfaceHolder.Cal
         mWidth=w;
         mHeigh=h;
         mGamePanelRect.set(0,0,w,h);
+        mBird=new Bird(getContext(),mWidth,mHeigh,mBirdBitmap);
     }
 }

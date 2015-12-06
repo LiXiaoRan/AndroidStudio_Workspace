@@ -2,7 +2,10 @@ package com.liran.flabbybird;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.RectF;
+
+import com.liran.flabbybird.utils.DensityUtils;
 
 /**
  * 小鸟
@@ -16,7 +19,7 @@ public class Bird {
     public static final float RADIO_POS_HEIGHT = 2 / 3F;
 
     /**
-     * 鸟的高度30dp
+     * 鸟的宽度30dp
      */
     public static final int BIRD_SIZE = 30;
 
@@ -46,17 +49,52 @@ public class Bird {
     /**
      * 鸟的范围
      */
-    private RectF rect=new RectF();
+    private RectF rect = new RectF();
 
-    public Bird(Context context,int gameWidth, int gameHeight, Bitmap bitmap) {
+    public Bird(Context context, int gameWidth, int gameHeight, Bitmap bitmap) {
 
         this.bitmap = bitmap;
 
         //鸟的位置
-        x=gameWidth/2-bitmap.getWidth()/2;
-        y= (int) (gameHeight*RADIO_POS_HEIGHT);
+        x = gameWidth / 2 - bitmap.getWidth() / 2;
+        y = (int) (gameHeight * RADIO_POS_HEIGHT);
 
+        //计算鸟的宽度和高度
+        mWidth = DensityUtils.dp2px(context, BIRD_SIZE);
+        //通过鸟本身的宽度和图片的宽度多一个对比，求出比例，然后让图片的高度*这个比例，就可以计算出鸟应该有的高度
+        mheight = (int) (mWidth * 1.0f / bitmap.getWidth() * bitmap.getHeight());
 
 
     }
+
+
+    /**
+     * 绘制自己
+     *
+     * @param canvas
+     */
+    public void draw(Canvas canvas) {
+        rect.set(x, y, x + mWidth, y + mheight);
+        canvas.drawBitmap(bitmap, null, rect, null);
+    }
+
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public int getWidth() {
+        return mWidth;
+    }
+
+
+    public int getHeight() {
+        return mheight;
+    }
+
+
 }
