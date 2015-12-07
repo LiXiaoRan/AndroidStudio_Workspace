@@ -16,6 +16,7 @@ public class Floor {
      * 地板位置游戏面板高度的4/5到底部
      */
     public static final float FLOOR_Y_POS_RADIO = 4 / 5F;
+    private static final String TAG = "Floor";
 
     /**
      * x坐标
@@ -60,7 +61,9 @@ public class Floor {
         //移动到指定位置
         canvas.translate(x,y);
         paint.setShader(mFloorShader);
+        //这里mGameHeight-y计算出的是地板最后一个色素应该下下拉伸的距离 把-x+mGameWidth的值替换为720就能看出来这个的作用了
         canvas.drawRect(x,0,-x+mGameWidth,mGameHeight-y,paint);
+//        Log.d(TAG, "draw: xis "+x+" -x+mGameWidth is "  +((-x+mGameWidth)-x));
         canvas.restore();
         paint.setShader(null);
 

@@ -4,11 +4,14 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
+import com.liran.flabbybird.utils.DensityUtils;
 
 /**
  * 游戏朱类
@@ -52,7 +55,18 @@ public class GameFlabbyBird extends SurfaceView implements SurfaceHolder.Callbac
      */
     private Bitmap mBirdBitmap;
 
+    private Paint mPaint;
 
+    /**
+     * 地板
+     */
+    private Floor mFloor;
+    private Bitmap mFloorBg;
+
+    /**
+     * 速度
+     */
+    private int mSpeed;
 
 
     public GameFlabbyBird(Context context) {
@@ -63,8 +77,17 @@ public class GameFlabbyBird extends SurfaceView implements SurfaceHolder.Callbac
         super(context, attrs);
         mhHolder = getHolder();
         mhHolder.addCallback(this);
+
+        mPaint=new Paint();
+        mPaint.setAntiAlias(true);
+        mPaint.setDither(true);//开启抖动
+
         initBitmaps();
+        //初始化速度
+        mSpeed= DensityUtils.dp2px(context,2);
+
     }
+
     public GameFlabbyBird(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
@@ -74,14 +97,13 @@ public class GameFlabbyBird extends SurfaceView implements SurfaceHolder.Callbac
     }
 
 
-
-
     /**
      * 初始化图片
      */
     private void initBitmaps() {
         mbg = loadImageByResId(R.mipmap.bg1);
-        mBirdBitmap=loadImageByResId(R.mipmap.b1);
+        mBirdBitmap = loadImageByResId(R.mipmap.b1);
+        mFloorBg=loadImageByResId(R.mipmap.floor_bg2);
     }
 
     private void draw() {
@@ -92,6 +114,10 @@ public class GameFlabbyBird extends SurfaceView implements SurfaceHolder.Callbac
             if (mCanvas != null) {
                 drawBg();
                 drawBird();
+                drawFloor();
+
+                //更新地板绘制的X坐标
+                mFloor.setX(mFloor.getX()-mSpeed);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -99,6 +125,10 @@ public class GameFlabbyBird extends SurfaceView implements SurfaceHolder.Callbac
             if (mCanvas != null)
                 mhHolder.unlockCanvasAndPost(mCanvas);
         }
+    }
+
+    private void drawFloor() {
+        mFloor.draw(mCanvas,mPaint);
     }
 
     private void drawBird() {
@@ -117,7 +147,6 @@ public class GameFlabbyBird extends SurfaceView implements SurfaceHolder.Callbac
 
         return BitmapFactory.decodeResource(getResources(), resId);
     }
-
 
 
     @Override
@@ -162,6 +191,7 @@ public class GameFlabbyBird extends SurfaceView implements SurfaceHolder.Callbac
 
     /**
      * 初始化尺寸
+     *
      * @param w
      * @param h
      * @param oldw
@@ -170,9 +200,12 @@ public class GameFlabbyBird extends SurfaceView implements SurfaceHolder.Callbac
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        mWidth=w;
-        mHeigh=h;
-        mGamePanelRect.set(0,0,w,h);
-        mBird=new Bird(getContext(),mWidth,mHeigh,mBirdBitmap);
+        mWidth = w;
+        mHeigh = h;
+        mGamePanelRect.set(0, 0, w, h);
+        mBird = new Bird(getContext(), mWidth, mHeigh, mBirdBitmap);
+        //初始化地板
+        mFloor=new Floor(mWidth,mHeigh,mFloorBg);
+
     }
 }
