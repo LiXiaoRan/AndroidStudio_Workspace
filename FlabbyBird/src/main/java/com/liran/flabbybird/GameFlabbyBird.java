@@ -13,6 +13,9 @@ import android.view.SurfaceView;
 
 import com.liran.flabbybird.utils.DensityUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 游戏朱类
  * Created by LiRan on 2015-12-05.
@@ -22,6 +25,38 @@ public class GameFlabbyBird extends SurfaceView implements SurfaceHolder.Callbac
     private String TAG = "GameFlabbyBird";
 
     private SurfaceHolder mhHolder;
+
+    /**
+     * 分数
+     */
+    private final int[] mNums = new int[]{R.mipmap.n0, R.mipmap.n1,
+            R.mipmap.n2, R.mipmap.n3, R.mipmap.n4, R.mipmap.n5,
+            R.mipmap.n6, R.mipmap.n7, R.mipmap.n8, R.mipmap.n9};
+    private Bitmap[] mNumBitmap;
+    private int mGrade = 100;
+
+
+    /**
+     * 单个数字的盖度的1/15
+     */
+    public static final float RADIO_SINGLE_NUM_HEIGHT = 1 / 15F;
+
+    /**
+     * 单个数字的宽度
+     */
+    private int mSingleGradeWidth;
+
+    /**
+     * 单个数字的高度
+     */
+    private int mSingleGradeHeight;
+
+    /**
+     * 单个数字的范围
+     */
+    private RectF mSingleGradeRectF;
+
+
     /**
      * 与surfaceview绑定的画布
      */
@@ -69,22 +104,41 @@ public class GameFlabbyBird extends SurfaceView implements SurfaceHolder.Callbac
     private int mSpeed;
 
 
+    /***
+     * ***************管道相关*************
+     */
+
+    private Bitmap mPipeTop;
+    private Bitmap mPipeBettom;
+    private RectF mPiperect;
+    private int mPipeWidth;
+
+    /**
+     * 管道宽度60dp
+     */
+    public static final int PIPE_WIDTH = 60;
+
+    private List<Pipe> mPipes = new ArrayList<>();
+
+
     public GameFlabbyBird(Context context) {
         this(context, null);
     }
 
     public GameFlabbyBird(Context context, AttributeSet attrs) {
         super(context, attrs);
+        mPipeWidth = DensityUtils.dp2px(context, PIPE_WIDTH);
+
         mhHolder = getHolder();
         mhHolder.addCallback(this);
 
-        mPaint=new Paint();
+        mPaint = new Paint();
         mPaint.setAntiAlias(true);
         mPaint.setDither(true);//开启抖动
 
         initBitmaps();
         //初始化速度
-        mSpeed= DensityUtils.dp2px(context,2);
+        mSpeed = DensityUtils.dp2px(context, 2);
 
     }
 
@@ -103,7 +157,15 @@ public class GameFlabbyBird extends SurfaceView implements SurfaceHolder.Callbac
     private void initBitmaps() {
         mbg = loadImageByResId(R.mipmap.bg1);
         mBirdBitmap = loadImageByResId(R.mipmap.b1);
-        mFloorBg=loadImageByResId(R.mipmap.floor_bg2);
+        mFloorBg = loadImageByResId(R.mipmap.floor_bg2);
+        mPipeTop = loadImageByResId(R.mipmap.g2);
+        mPipeBettom = loadImageByResId(R.mipmap.g1);
+
+        mNumBitmap = new Bitmap[mNums.length];
+        for (int i = 0; i < mNumBitmap.length; i++) {
+            mNumBitmap[i] = loadImageByResId(mNums[i]);
+        }
+
     }
 
     private void draw() {
@@ -114,10 +176,11 @@ public class GameFlabbyBird extends SurfaceView implements SurfaceHolder.Callbac
             if (mCanvas != null) {
                 drawBg();
                 drawBird();
+                drawPipes();
                 drawFloor();
-
+                drawGrades();
                 //更新地板绘制的X坐标
-                mFloor.setX(mFloor.getX()-mSpeed);
+                mFloor.setX(mFloor.getX() - mSpeed);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -127,10 +190,44 @@ public class GameFlabbyBird extends SurfaceView implements SurfaceHolder.Callbac
         }
     }
 
-    private void drawFloor() {
-        mFloor.draw(mCanvas,mPaint);
+    /**
+     * 绘制分数
+     */
+    private void drawGrades() {
+        String grade = mGrade + "";
+        mCanvas.save(Canvas.MATRIX_SAVE_FLAG);
+        mCanvas.translate(mWidth / 2 - grade.length() * mSingleGradeWidth / 2, 1f / 8 * mHeigh);
+
+        for (int i = 0; i < grade.length(); i++) {
+            String numStr = grade.substring(i, i + 1);
+            int num = Integer.valueOf(numStr);
+            mCanvas.drawBitmap(mNumBitmap[num], null, mSingleGradeRectF, null);
+            mCanvas.translate(mSingleGradeWidth, 0);
+        }
+
+        mCanvas.restore();
     }
 
+    /**
+     * 绘制管道
+     */
+    private void drawPipes() {
+        for (Pipe pipe : mPipes) {
+            pipe.setX(pipe.getX() - mSpeed);
+            pipe.draw(mCanvas, mPiperect);
+        }
+    }
+
+    /**
+     * 绘制地板
+     */
+    private void drawFloor() {
+        mFloor.draw(mCanvas, mPaint);
+    }
+
+    /**
+     * 绘制小鸟
+     */
     private void drawBird() {
         mBird.draw(mCanvas);
     }
@@ -205,7 +302,17 @@ public class GameFlabbyBird extends SurfaceView implements SurfaceHolder.Callbac
         mGamePanelRect.set(0, 0, w, h);
         mBird = new Bird(getContext(), mWidth, mHeigh, mBirdBitmap);
         //初始化地板
-        mFloor=new Floor(mWidth,mHeigh,mFloorBg);
+        mFloor = new Floor(mWidth, mHeigh, mFloorBg);
+
+        //初始化分数
+        mSingleGradeHeight = (int) (h * RADIO_SINGLE_NUM_HEIGHT);
+        mSingleGradeWidth = (int) (mSingleGradeHeight * 1.0f / mNumBitmap[0].getHeight() * mNumBitmap[0].getWidth());
+        mSingleGradeRectF=new RectF(0,0,mSingleGradeWidth,mSingleGradeHeight);
+
+        //初始化管道范围
+        mPiperect = new RectF(0, 0, mPipeWidth, mHeigh);
+        Pipe pipe = new Pipe(getContext(), w, h, mPipeTop, mPipeBettom);
+        mPipes.add(pipe);
 
     }
 }
