@@ -11,12 +11,12 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 /**
- * 绘制背景
+ * 游戏朱类
  * Created by LiRan on 2015-12-05.
  */
-public class CopyGameFlabbyBird extends SurfaceView implements SurfaceHolder.Callback, Runnable {
+public class GameFlabbyBird extends SurfaceView implements SurfaceHolder.Callback, Runnable {
 
-    private String TAG = "CopyGameFlabbyBird";
+    private String TAG = "GameFlabbyBird";
 
     private SurfaceHolder mhHolder;
     /**
@@ -55,21 +55,21 @@ public class CopyGameFlabbyBird extends SurfaceView implements SurfaceHolder.Cal
 
 
 
-    public CopyGameFlabbyBird(Context context) {
+    public GameFlabbyBird(Context context) {
         this(context, null);
     }
 
-    public CopyGameFlabbyBird(Context context, AttributeSet attrs) {
+    public GameFlabbyBird(Context context, AttributeSet attrs) {
         super(context, attrs);
         mhHolder = getHolder();
         mhHolder.addCallback(this);
         initBitmaps();
     }
-    public CopyGameFlabbyBird(Context context, AttributeSet attrs, int defStyleAttr) {
+    public GameFlabbyBird(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
-    public CopyGameFlabbyBird(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public GameFlabbyBird(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
