@@ -34,7 +34,7 @@ public class GameFlabbyBird extends SurfaceView implements SurfaceHolder.Callbac
             R.mipmap.n2, R.mipmap.n3, R.mipmap.n4, R.mipmap.n5,
             R.mipmap.n6, R.mipmap.n7, R.mipmap.n8, R.mipmap.n9};
     private Bitmap[] mNumBitmap;
-    private int mGrade = 100;
+    private int mGrade = 0;
 
 
     /**
@@ -127,7 +127,7 @@ public class GameFlabbyBird extends SurfaceView implements SurfaceHolder.Callbac
     /**
      * 两个管道之间的距离300dp
      */
-    private final int PIPE_DIS_BETWEEN_TWO = DensityUtils.dp2px(getContext(), 300);
+    private final int PIPE_DIS_BETWEEN_TWO = DensityUtils.dp2px(getContext(), 200);
 
     /**
      * 记录移动距离，达到PRPE_DIS_BETWEEN_TWO生成一个管道
@@ -151,6 +151,9 @@ public class GameFlabbyBird extends SurfaceView implements SurfaceHolder.Callbac
      */
     public final int mBirdUpDis = DensityUtils.dp2px(getContext(), TOUCH_UP_SIZE);
 
+    /**
+     * 鸟的下落速度
+     */
     private int mTmpBirdDis;
 
     /**
@@ -163,6 +166,7 @@ public class GameFlabbyBird extends SurfaceView implements SurfaceHolder.Callbac
      * 记录需要移除的管道
      */
     private List<Pipe> mNeedRemovePipe = new ArrayList<>();
+    private int mRemovedPipe;
 
     public GameFlabbyBird(Context context) {
         this(context, null);
@@ -181,7 +185,7 @@ public class GameFlabbyBird extends SurfaceView implements SurfaceHolder.Callbac
 
         initBitmaps();
         //初始化速度
-        mSpeed = DensityUtils.dp2px(context, 2);
+        mSpeed = DensityUtils.dp2px(context, 4);
 
     }
 
@@ -335,20 +339,59 @@ public class GameFlabbyBird extends SurfaceView implements SurfaceHolder.Callbac
         switch (mStatus) {
 
             case RUNNING:
+
+                mGrade=0;
                 //更新地板绘制的X坐标
                 mFloor.setX(mFloor.getX() - mSpeed);
 
                 logicPipe();
-
                 logicBird();
+
+                mGrade+=mRemovedPipe;
+                for (Pipe pipe:mPipes){
+
+                    if(pipe.getX()+mPipeWidth<mBird.getX()){
+                        mGrade++;
+                    }
+                }
+
+                CheckGameOver();
 
 
                 break;
 
             case OVER://游戏结束
 
+                //如果鸟还在空中，先让它掉下来
+                if (mBird.getY() < mFloor.getY() - mBird.getWidth()) {
+                    mTmpBirdDis += mAutoDownSpeed;
+                    mBird.setY(mBird.getY() + mTmpBirdDis);
+                } else {
+
+                    mStatus = GameStatus.WAITING;
+                    initPos();
+                }
+
                 break;
         }
+    }
+
+    /**
+     * 重置鸟的位置等数据
+     */
+    private void initPos() {
+
+        mPipes.clear();
+        mNeedRemovePipe.clear();
+
+        //重置鸟的位置
+        mBird.setY(mHeigh*2/3);
+        //重置下落速度
+        mTmpBirdDis=0;
+        //重置管道移动距离
+        mTempMoveDistance=0;
+        mGrade=0;
+        mRemovedPipe=0;
     }
 
     /**
@@ -357,9 +400,14 @@ public class GameFlabbyBird extends SurfaceView implements SurfaceHolder.Callbac
     private void logicBird() {
 
         //默认下落,,点击瞬间上升
-        mTmpBirdDis+=mAutoDownSpeed;
-        mBird.setY(mBird.getY()+mTmpBirdDis);
+        mTmpBirdDis += mAutoDownSpeed;
 
+        mBird.setY(mBird.getY() + mTmpBirdDis);
+
+
+        if(mBird.getY()<=0){
+            mBird.setY(0);
+        }
     }
 
 
@@ -373,6 +421,7 @@ public class GameFlabbyBird extends SurfaceView implements SurfaceHolder.Callbac
             //这个判断条件代表管道已经彻底从屏幕移 '出' 了
             if (pipe.getX() < -mPipeWidth) {
                 mNeedRemovePipe.add(pipe);
+                mRemovedPipe++;
                 continue;//如果发现这个管道需要需要移除，就不用对其进行后续的计算了，所以终止本次循环。
             }
             pipe.setX(pipe.getX() - mSpeed);
@@ -380,7 +429,7 @@ public class GameFlabbyBird extends SurfaceView implements SurfaceHolder.Callbac
 
         //移除管道
         mPipes.removeAll(mNeedRemovePipe);
-        Log.d(TAG, "logic: 现在管道的数量是: " + mPipes.size());
+//        Log.d(TAG, "logic: 现在管道的数量是: " + mPipes.size());
         mTempMoveDistance += mSpeed;
         //生成一个管道
         if (mTempMoveDistance >= PIPE_DIS_BETWEEN_TWO) {
@@ -388,6 +437,37 @@ public class GameFlabbyBird extends SurfaceView implements SurfaceHolder.Callbac
             mPipes.add(pipe);
             mTempMoveDistance = 0;
         }
+    }
+
+
+    /**
+     * 死亡判断
+     */
+    private void CheckGameOver() {
+        //鸟的Y坐标加上鸟的图片的高度，如果大于地板的Y坐标就表示已经接触到地面
+        if ((mBird.getY() + mBird.getHeight()) > mFloor.getY()) {
+
+            mStatus = GameStatus.OVER;
+
+        }
+
+        //如果装到墙壁
+        for (Pipe pipe : mPipes) {
+
+            //已经穿过的
+            if (pipe.getX() + mPipeWidth < mBird.getX()) {
+                continue;
+            }
+
+            if (pipe.touchBird(mBird)) {
+                mStatus = GameStatus.OVER;
+                break;
+            }
+
+
+        }
+
+
     }
 
 

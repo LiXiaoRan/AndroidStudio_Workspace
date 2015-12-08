@@ -33,11 +33,11 @@ public class Bird {
     private int y;
 
     /**
-     * 鸟的宽度
+     * 鸟的图片的宽度
      */
     private int mWidth;
     /**
-     * 鸟的高度
+     * 鸟的图片的高度
      */
     private int mheight;
 
@@ -78,6 +78,12 @@ public class Bird {
         canvas.drawBitmap(bitmap, null, rect, null);
     }
 
+
+
+
+    public int getX() {
+        return x;
+    }
 
     public int getY() {
         return y;

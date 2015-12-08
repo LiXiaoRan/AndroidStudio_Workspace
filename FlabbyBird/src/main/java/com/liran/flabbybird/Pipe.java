@@ -91,7 +91,7 @@ public class Pipe {
         mCanvas.drawBitmap(mTop, null, rect, null);//绘制上管道
         // 下管道，偏移量为，上管道高度+margin
         mCanvas.translate(0, (rect.bottom - height) + height + margin);
-        mCanvas.drawBitmap(mBottom,null,rect,null);
+        mCanvas.drawBitmap(mBottom, null, rect, null);
         mCanvas.restore();
 
     }
@@ -103,5 +103,26 @@ public class Pipe {
 
     public void setX(int x) {
         this.x = x;
+    }
+
+
+    /**
+     * 判断鸟是否触碰管道
+     *
+     * @param mBird
+     * @return
+     */
+    public boolean touchBird(Bird mBird) {
+
+
+        /**
+         * 如果bird已经触碰到管道
+         */
+        if (mBird.getX() + mBird.getWidth() > x && (mBird.getY() < height
+                || mBird.getY() + mBird.getHeight() > height + margin)) {
+            return true;
+        }
+
+        return false;
     }
 }
