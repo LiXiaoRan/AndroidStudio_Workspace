@@ -27,6 +27,7 @@ my androidstudio1.3 workspace  <br>
 	**ContentProviderIPC**-------->通过contentprovider实现IPC
 	**TouchScrollEvent**---------->控制跟着手指位置移动的案例
 	**RemoteViews**---------------->桌面小组件的示例程序
+	**FlabbyBird**----------------->用surfaceView写的一个像素鸟
 }<br>  
 
 
