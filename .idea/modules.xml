@@ -20,6 +20,7 @@
       <module fileurl="file://$PROJECT_DIR$/baidumapdemo/baidumapdemo.iml" filepath="$PROJECT_DIR$/baidumapdemo/baidumapdemo.iml" />
       <module fileurl="file://$PROJECT_DIR$/bindertest/bindertest.iml" filepath="$PROJECT_DIR$/bindertest/bindertest.iml" />
       <module fileurl="file://$PROJECT_DIR$/calculator/calculator.iml" filepath="$PROJECT_DIR$/calculator/calculator.iml" />
+      <module fileurl="file://$PROJECT_DIR$/diskcachelrutest/diskcachelrutest.iml" filepath="$PROJECT_DIR$/diskcachelrutest/diskcachelrutest.iml" />
       <module fileurl="file://$PROJECT_DIR$/handlertest/handlertest.iml" filepath="$PROJECT_DIR$/handlertest/handlertest.iml" />
       <module fileurl="file://$PROJECT_DIR$/haoba/haoba.iml" filepath="$PROJECT_DIR$/haoba/haoba.iml" />
       <module fileurl="file://$PROJECT_DIR$/java_learninnerclass/java_learninnerclass.iml" filepath="$PROJECT_DIR$/java_learninnerclass/java_learninnerclass.iml" />
