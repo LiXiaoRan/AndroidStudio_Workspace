@@ -28,6 +28,7 @@ my androidstudio1.3 workspace  <br>
 	**TouchScrollEvent**---------->控制跟着手指位置移动的案例
 	**RemoteViews**---------------->桌面小组件的示例程序
 	**FlabbyBird**----------------->用surfaceView写的一个像素鸟
+	**RubbitCustomView**----------->类似于刮刮卡的效果
 }<br>  
 
 

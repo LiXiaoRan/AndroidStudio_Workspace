@@ -11,6 +11,7 @@
       <module fileurl="file://$PROJECT_DIR$/MessageTest/MessageTest.iml" filepath="$PROJECT_DIR$/MessageTest/MessageTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/MyApplication.iml" filepath="$PROJECT_DIR$/MyApplication.iml" />
       <module fileurl="file://$PROJECT_DIR$/RemoteViews/RemoteViews.iml" filepath="$PROJECT_DIR$/RemoteViews/RemoteViews.iml" />
+      <module fileurl="file://$PROJECT_DIR$/RubbitCustomView/RubbitCustomView.iml" filepath="$PROJECT_DIR$/RubbitCustomView/RubbitCustomView.iml" />
       <module fileurl="file://$PROJECT_DIR$/TouchScrollEvent/TouchScrollEvent.iml" filepath="$PROJECT_DIR$/TouchScrollEvent/TouchScrollEvent.iml" />
       <module fileurl="file://$PROJECT_DIR$/Volloy/Volloy.iml" filepath="$PROJECT_DIR$/Volloy/Volloy.iml" />
       <module fileurl="file://$PROJECT_DIR$/aide_test_anotherapp/aide_test_anotherapp.iml" filepath="$PROJECT_DIR$/aide_test_anotherapp/aide_test_anotherapp.iml" />
