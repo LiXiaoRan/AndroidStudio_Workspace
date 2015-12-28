@@ -18,7 +18,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        customView = (CustomView) findViewById(R.id.customview);
+//        customView = (CustomView) findViewById(R.id.customview);
 //        customView.startAnmi();
 
     }
