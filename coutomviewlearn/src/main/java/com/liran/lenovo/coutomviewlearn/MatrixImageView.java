@@ -30,7 +30,10 @@ public class MatrixImageView extends ImageView {
 
     private int mod;//当前的触摸模式
 
-    private float preMove = 1F;//上一次手指移动的距离
+    /**
+     * 上一次手指移动的距离
+     */
+    private float preMove = 1F;
     private float saveRotate = 0F;//保存了的角度值
     private float rotate = 0F;//旋转的角度
 
@@ -56,6 +59,7 @@ public class MatrixImageView extends ImageView {
         super(context, attrs, defStyleAttr);
         init(context);
     }
+
     private void init(Context context) {
         mContext = context;
 
@@ -80,18 +84,64 @@ public class MatrixImageView extends ImageView {
             case MotionEvent.ACTION_DOWN://单点接触屏幕时
 
                 savedMatrix.set(currentMatrix);
-                start.set(event.getX(),event.getY());
-                mod=MODE_DRAG;
-                preEventCoor=null;
+                start.set(event.getX(), event.getY());
+                mod = MODE_DRAG;
+                preEventCoor = null;
                 break;
 
             case MotionEvent.ACTION_POINTER_DOWN://第二个点接触屏幕时
 
-                preMove=calSpacing(event);
-                if(preMove>10F){
+                preMove = calSpacing(event);
+                if (preMove > 10F) {
                     savedMatrix.set(currentMatrix);
-                    calMidPoint(mid,event);
-                    mod=MODE_ZOOM;
+                    calMidPoint(mid, event);
+                    mod = MODE_ZOOM;
+                }
+                preEventCoor = new float[4];
+                preEventCoor[0] = event.getX(0);
+                preEventCoor[1] = event.getY(1);
+                preEventCoor[2] = event.getX(0);
+                preEventCoor[3] = event.getY(1);
+
+                break;
+
+            case MotionEvent.ACTION_UP://单点离开屏幕时
+            case MotionEvent.ACTION_POINTER_UP://第二个点离开屏幕时
+                mod = MODE_NONE;
+                preEventCoor = null;
+                break;
+
+
+            case MotionEvent.ACTION_MOVE://触摸点移动时
+                /**
+                 *单点触摸拖拽平移
+                 */
+                if (mod == MODE_DRAG) {
+
+                    currentMatrix.set(savedMatrix);
+                    float dx = event.getX() - start.x;
+                    float dy = event.getX() - start.y;
+                    currentMatrix.postTranslate(dx, dy);
+
+                } else if (mod == MODE_ZOOM && event.getPointerCount() == 2) {
+                    /**
+                     * 两点触摸拖放旋转
+                     */
+                    float currentMove = calSpacing(event);
+                    currentMatrix.set(savedMatrix);
+
+                    //指间移动距离大于10缩放
+                    if (currentMove > 10F) {
+                        float sacle = currentMove / preMove;
+                        currentMatrix.postScale(sacle,sacle,mid.x,mid.y);
+                    }
+                    //保持两点时旋转
+                    if(preEventCoor!=null){
+                        rotate=calRotation(event);
+                        float r=rotate-saveRotate;
+                        currentMatrix.postRotate(r, getMeasuredWidth() / 2, getMeasuredHeight() / 2);
+                    }
+
                 }
 
 
@@ -99,16 +149,28 @@ public class MatrixImageView extends ImageView {
 
         }
 
-        return super.onTouchEvent(event);
+        setImageMatrix(currentMatrix);
+        return true;
     }
 
-    private void calMidPoint(PointF mid, MotionEvent event) {
+    private float calRotation(MotionEvent event) {
+        double deltaX = (event.getX(0) - event.getX(1));
+        double deltaY = (event.getY(0) - event.getY(1));
+        double radius = Math.atan2(deltaY, deltaX);
+        return (float) Math.toDegrees(radius);
+    }
 
+    private void calMidPoint(PointF point, MotionEvent event) {
+        float x = event.getX(0) + event.getX(1);
+        float y = event.getY(0) + event.getY(1);
+        point.set(x / 2, y / 2);
     }
 
     private float calSpacing(MotionEvent event) {
+        float x = event.getX(0) - event.getX(1);
+        float y = event.getY(0) - event.getY(1);
+        return (float) Math.sqrt(x * x + y * y);
 
 
-        return 0;
     }
 }

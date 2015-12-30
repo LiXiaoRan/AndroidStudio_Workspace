@@ -9,15 +9,19 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Shader;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import com.liran.lenovo.coutomviewlearn.Utils.MeasureUtil;
 
+import java.util.Arrays;
+
 public class MatrixView extends View {
-    private static final int RECT_SIZE = 400;// 矩形尺寸的一半  
-  
+    private static final int RECT_SIZE = 400;// 矩形尺寸的一半
+    private static final String TAG = "MatrixView";
+
     private Paint mPaint;// 画笔
-  
+
     private int left, top, right, bottom;// 矩形坐上右下坐标  
     private int screenX, screenY;
 
@@ -50,12 +54,12 @@ public class MatrixView extends View {
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
         //这里把加载的图片尺寸缩小为原尺寸的1/2
-        BitmapFactory.Options options=new BitmapFactory.Options();
-        options.inSampleSize=2;
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = 2;
 
 
         // 获取位图
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.bg,options);
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.bg, options);
 
         // 实例化一个Shader
         BitmapShader bitmapShader = new BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
@@ -67,7 +71,13 @@ public class MatrixView extends View {
         matrix.setTranslate(500, 500);
 
 //        matrix.setRotate(5);
-        matrix.preRotate(5);
+        matrix.postRotate(5);
+
+
+        float[] fs = new float[9];
+        // 将从matrix中获取到的浮点数组装载进我们的fs里
+        matrix.getValues(fs);
+        Log.d(TAG, Arrays.toString(fs));// 输出看看呗！
 
 
         // 设置Shader的变换矩阵
@@ -78,10 +88,10 @@ public class MatrixView extends View {
 
     }
 
-    @Override  
+    @Override
     protected void onDraw(Canvas canvas) {
         // 绘制矩形  
         // canvas.drawRect(left, top, right, bottom, mPaint);  
-        canvas.drawRect(0, 0, screenX * 2, screenY * 2, mPaint);  
-    }  
+        canvas.drawRect(0, 0, screenX * 2, screenY * 2, mPaint);
+    }
 }  
