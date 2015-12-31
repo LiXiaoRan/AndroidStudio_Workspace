@@ -99,10 +99,10 @@ public class MatrixImageView extends ImageView {
                 }
                 preEventCoor = new float[4];
                 preEventCoor[0] = event.getX(0);
-                preEventCoor[1] = event.getY(1);
-                preEventCoor[2] = event.getX(0);
+                preEventCoor[1] = event.getX(1);
+                preEventCoor[2] = event.getY(0);
                 preEventCoor[3] = event.getY(1);
-
+                saveRotate = calRotation(event);
                 break;
 
             case MotionEvent.ACTION_UP://单点离开屏幕时
@@ -120,7 +120,7 @@ public class MatrixImageView extends ImageView {
 
                     currentMatrix.set(savedMatrix);
                     float dx = event.getX() - start.x;
-                    float dy = event.getX() - start.y;
+                    float dy = event.getY() - start.y;
                     currentMatrix.postTranslate(dx, dy);
 
                 } else if (mod == MODE_ZOOM && event.getPointerCount() == 2) {
