@@ -27,16 +27,21 @@ public class MultiCricleView extends View {
     /**
      * 小圆半径占比
      */
-    private static final float CRICLE_SMALL_RADIU =5F / 64F;
+    private static final float CRICLE_SMALL_RADIU = 5F / 64F;
     /**
      * 弧半径
      */
-    private static final float ARC_RADIU =  1F / 8F;
+    private static final float ARC_RADIU = 1F / 8F;
     /**
      * 弧文字半径
      */
     private static final float ARC_TEXT_RADIU = 5F / 32F;
-    private static final String TAG = "aaaa";
+    /**
+     * 大圆小圆线段两端间隔占比
+     */
+    private static final float SPACE = 1F / 64F;
+
+    private static final String TAG = "MultiCricleView";
 
 
     private Paint strokePaint;
@@ -46,7 +51,9 @@ public class MultiCricleView extends View {
     private float strokeWidth;// 描边宽度
     private float ccx, ccy;//中心园圆心坐标
     private float largeCircleRadiu;//大圆半径
-
+    private float lineLength;//线段长度
+    private float smallCirclRadiu;//小圆半径
+    private float space;// 大圆小圆线段两端间隔
 
     public MultiCricleView(Context context) {
         super(context);
@@ -97,13 +104,20 @@ public class MultiCricleView extends View {
      */
     private void calcuiation() {
         //计算描边宽度
-        strokeWidth=size*STROKE_WIDTH;
+        strokeWidth = size * STROKE_WIDTH;
         //计算大圆半径
-        largeCircleRadiu=size*CRICLE_LARGER_RADIU;
+        largeCircleRadiu = size * CRICLE_LARGER_RADIU;
+        //计算小圆半径
+        smallCirclRadiu=size*CRICLE_SMALL_RADIU;
+
+        space=size*SPACE;
+
+        //计算线段长度
+        lineLength = size * LINE_LENGTH;
 
         //计算中心圆坐标
-        ccx=size/2;
-        ccy=size/2+CRICLE_LARGER_RADIU*size;
+        ccx = size / 2;
+        ccy = size / 2 + CRICLE_LARGER_RADIU * size;
         //设置参数
         setPara();
     }
@@ -123,8 +137,74 @@ public class MultiCricleView extends View {
         //绘制背景
         canvas.drawColor(0xFFF29B76);
 
-        //绘制中心愿
-        canvas.drawCircle(ccx,ccy,largeCircleRadiu,strokePaint);
+        //绘制中心圆
+        canvas.drawCircle(ccx, ccy, largeCircleRadiu, strokePaint);
+
+        //绘制左上方图形
+        drawTopLeft(canvas);
+
+        //绘制右上方图形
+        drawTopRight(canvas);
+
+
+        //绘制正下方图形
+        drawBottom(canvas);
+
+    }
+
+    /**
+     * 绘制右上方图形
+     *
+     * @param canvas
+     */
+    private void drawBottom(Canvas canvas) {
+        canvas.save();
+
+        canvas.translate(ccx, ccy);
+
+
+        canvas.restore();
+    }
+
+    /**
+     * 绘制右上方图形
+     *
+     * @param canvas
+     */
+    private void drawTopRight(Canvas canvas) {
+        canvas.save();
+
+        canvas.translate(ccx, ccy);
+        canvas.rotate(30);
+
+        canvas.drawLine(0, -lineLength, 0, -2 * lineLength, strokePaint);
+        canvas.drawCircle(0, -3 * lineLength, largeCircleRadiu, strokePaint);
+
+        canvas.restore();
+    }
+
+
+    /**
+     * 绘制左上方的图形
+     *
+     * @param canvas
+     */
+    private void drawTopLeft(Canvas canvas) {
+        //保存当前画布
+        canvas.save();
+
+        //平移和旋转
+        canvas.translate(ccx, ccy);
+        canvas.rotate(-30);//逆时针旋转30度
+
+        // 依次画：线-圈-线-圈
+        canvas.drawLine(0, -largeCircleRadiu, 0, -lineLength * 2, strokePaint);
+        canvas.drawCircle(0, -lineLength * 3, largeCircleRadiu, strokePaint);//线段长度和大圆半径是一样的
+        canvas.drawLine(0, -largeCircleRadiu * 4, 0, -lineLength * 5, strokePaint);
+        canvas.drawCircle(0, -lineLength * 6, largeCircleRadiu, strokePaint);//线段长度和大圆半径是一样的
+
+        //还原画布
+        canvas.restore();
     }
 }
 
