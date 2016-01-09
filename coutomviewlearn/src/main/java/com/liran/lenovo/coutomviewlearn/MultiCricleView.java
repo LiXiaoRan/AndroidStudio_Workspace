@@ -150,6 +150,39 @@ public class MultiCricleView extends View {
         //绘制正下方图形
         drawBottom(canvas);
 
+        //绘制左下方图形
+        drawLeftBottom(canvas);
+
+        //绘制右下方图形
+        drawRightBottom(canvas);
+
+    }
+
+    private void drawRightBottom(Canvas canvas) {
+
+        canvas.save();
+
+        canvas.translate(ccx, ccy);
+        canvas.rotate(-60);
+
+        canvas.drawLine(0,largeCircleRadiu+space,0,largeCircleRadiu+space+lineLength,strokePaint);
+        canvas.drawCircle(0,largeCircleRadiu+space*2+lineLength+smallCirclRadiu,smallCirclRadiu,strokePaint);
+
+        canvas.restore();
+    }
+
+    private void drawLeftBottom(Canvas canvas) {
+
+        canvas.save();
+
+        canvas.translate(ccx, ccy);
+        canvas.rotate(60);
+
+        canvas.drawLine(0,largeCircleRadiu+space,0,largeCircleRadiu+space+lineLength,strokePaint);
+        canvas.drawCircle(0,largeCircleRadiu+space*2+lineLength+smallCirclRadiu,smallCirclRadiu,strokePaint);
+
+        canvas.restore();
+
     }
 
     /**
@@ -162,6 +195,8 @@ public class MultiCricleView extends View {
 
         canvas.translate(ccx, ccy);
 
+        canvas.drawLine(0,largeCircleRadiu+space,0,largeCircleRadiu+space+lineLength,strokePaint);
+        canvas.drawCircle(0,largeCircleRadiu+space*2+lineLength+smallCirclRadiu,smallCirclRadiu,strokePaint);
 
         canvas.restore();
     }
