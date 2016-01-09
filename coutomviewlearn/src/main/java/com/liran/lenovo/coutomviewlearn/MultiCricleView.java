@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RectF;
+import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -44,16 +46,27 @@ public class MultiCricleView extends View {
     private static final String TAG = "MultiCricleView";
 
 
+    /**
+     * 描边画笔
+     */
     private Paint strokePaint;
 
-    private int size;//控件边长
+    /**
+     * 文字画笔
+     */
+    private Paint textPaint;
 
+
+    private Paint arcPaint;
+
+    private int size;//控件边长
     private float strokeWidth;// 描边宽度
     private float ccx, ccy;//中心园圆心坐标
     private float largeCircleRadiu;//大圆半径
     private float lineLength;//线段长度
     private float smallCirclRadiu;//小圆半径
     private float space;// 大圆小圆线段两端间隔
+    private float textOffsetY;
 
     public MultiCricleView(Context context) {
         super(context);
@@ -82,6 +95,21 @@ public class MultiCricleView extends View {
         strokePaint.setColor(Color.WHITE);
         strokePaint.setStrokeCap(Paint.Cap.ROUND);
 
+
+        /*
+         * 初始化文字画笔
+         */
+        textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG | Paint.SUBPIXEL_TEXT_FLAG);
+        textPaint.setColor(Color.WHITE);
+        textPaint.setTextSize(30);
+        textPaint.setTextAlign(Paint.Align.CENTER);
+
+
+        arcPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
+
+
+        textOffsetY = (textPaint.descent() + textPaint.ascent()) / 2;
+
     }
 
     @Override
@@ -108,9 +136,9 @@ public class MultiCricleView extends View {
         //计算大圆半径
         largeCircleRadiu = size * CRICLE_LARGER_RADIU;
         //计算小圆半径
-        smallCirclRadiu=size*CRICLE_SMALL_RADIU;
+        smallCirclRadiu = size * CRICLE_SMALL_RADIU;
 
-        space=size*SPACE;
+        space = size * SPACE;
 
         //计算线段长度
         lineLength = size * LINE_LENGTH;
@@ -139,7 +167,8 @@ public class MultiCricleView extends View {
 
         //绘制中心圆
         canvas.drawCircle(ccx, ccy, largeCircleRadiu, strokePaint);
-
+        canvas.drawText("冉哥", ccx, ccy - textOffsetY, textPaint);
+//        Log.d(TAG, "onDraw: textOffsetY is "+textOffsetY);
         //绘制左上方图形
         drawTopLeft(canvas);
 
@@ -165,8 +194,8 @@ public class MultiCricleView extends View {
         canvas.translate(ccx, ccy);
         canvas.rotate(-60);
 
-        canvas.drawLine(0,largeCircleRadiu+space,0,largeCircleRadiu+space+lineLength,strokePaint);
-        canvas.drawCircle(0,largeCircleRadiu+space*2+lineLength+smallCirclRadiu,smallCirclRadiu,strokePaint);
+        canvas.drawLine(0, largeCircleRadiu + space, 0, largeCircleRadiu + space + lineLength, strokePaint);
+        canvas.drawCircle(0, largeCircleRadiu + space * 2 + lineLength + smallCirclRadiu, smallCirclRadiu, strokePaint);
 
         canvas.restore();
     }
@@ -178,8 +207,8 @@ public class MultiCricleView extends View {
         canvas.translate(ccx, ccy);
         canvas.rotate(60);
 
-        canvas.drawLine(0,largeCircleRadiu+space,0,largeCircleRadiu+space+lineLength,strokePaint);
-        canvas.drawCircle(0,largeCircleRadiu+space*2+lineLength+smallCirclRadiu,smallCirclRadiu,strokePaint);
+        canvas.drawLine(0, largeCircleRadiu + space, 0, largeCircleRadiu + space + lineLength, strokePaint);
+        canvas.drawCircle(0, largeCircleRadiu + space * 2 + lineLength + smallCirclRadiu, smallCirclRadiu, strokePaint);
 
         canvas.restore();
 
@@ -195,8 +224,8 @@ public class MultiCricleView extends View {
 
         canvas.translate(ccx, ccy);
 
-        canvas.drawLine(0,largeCircleRadiu+space,0,largeCircleRadiu+space+lineLength,strokePaint);
-        canvas.drawCircle(0,largeCircleRadiu+space*2+lineLength+smallCirclRadiu,smallCirclRadiu,strokePaint);
+        canvas.drawLine(0, largeCircleRadiu + space, 0, largeCircleRadiu + space + lineLength, strokePaint);
+        canvas.drawCircle(0, largeCircleRadiu + space * 2 + lineLength + smallCirclRadiu, smallCirclRadiu, strokePaint);
 
         canvas.restore();
     }
@@ -207,15 +236,68 @@ public class MultiCricleView extends View {
      * @param canvas
      */
     private void drawTopRight(Canvas canvas) {
+        float circleY = -3 * lineLength;
+
         canvas.save();
 
         canvas.translate(ccx, ccy);
         canvas.rotate(30);
 
         canvas.drawLine(0, -lineLength, 0, -2 * lineLength, strokePaint);
-        canvas.drawCircle(0, -3 * lineLength, largeCircleRadiu, strokePaint);
+        canvas.drawCircle(0, circleY, largeCircleRadiu, strokePaint);
+
+        //画弧形
+        drawTopRightArc(canvas, circleY);
 
         canvas.restore();
+    }
+
+    /**
+     * 画弧形
+     *
+     * @param canvas
+     * @param circleY
+     */
+    private void drawTopRightArc(Canvas canvas, float circleY) {
+        canvas.save();
+
+        canvas.translate(0, circleY);
+        canvas.rotate(-30);
+
+        float arcRadiu = size * ARC_RADIU;
+
+        RectF oval = new RectF(-arcRadiu, -arcRadiu, arcRadiu, arcRadiu);
+
+        arcPaint.setStyle(Paint.Style.FILL);
+        arcPaint.setColor(0x55EC6941);
+        canvas.drawArc(oval, -22.5F, -135, true, arcPaint);
+
+        arcPaint.setStyle(Paint.Style.STROKE);
+        arcPaint.setColor(Color.WHITE);
+        canvas.drawArc(oval, -22.5F, -135, false, arcPaint);
+
+
+        float arcTextRadiu = size * ARC_TEXT_RADIU;
+
+        canvas.save();
+        // 把画布旋转到扇形左端的方向
+        canvas.rotate(-135F / 2F);
+
+        /**
+         * 每隔33.75度角画一次文本
+         */
+        for (float i = 0; i < 5 * 33.75F; i += 33.75F) {
+            canvas.save();
+            canvas.rotate(i);
+
+            canvas.drawText("冉", 0, -arcTextRadiu, textPaint);
+
+            canvas.restore();
+        }
+
+        canvas.restore();
+        canvas.restore();
+
     }
 
 
