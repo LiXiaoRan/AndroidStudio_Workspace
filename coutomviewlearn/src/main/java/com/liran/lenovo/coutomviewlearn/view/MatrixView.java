@@ -1,4 +1,4 @@
-package com.liran.lenovo.coutomviewlearn;
+package com.liran.lenovo.coutomviewlearn.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -12,6 +12,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
+import com.liran.lenovo.coutomviewlearn.R;
 import com.liran.lenovo.coutomviewlearn.Utils.MeasureUtil;
 
 import java.util.Arrays;

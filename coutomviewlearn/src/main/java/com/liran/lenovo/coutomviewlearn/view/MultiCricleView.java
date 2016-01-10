@@ -1,4 +1,4 @@
-package com.liran.lenovo.coutomviewlearn;
+package com.liran.lenovo.coutomviewlearn.view;
 
 import android.content.Context;
 import android.graphics.Canvas;

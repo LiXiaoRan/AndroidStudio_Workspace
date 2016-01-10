@@ -1,4 +1,4 @@
-package com.liran.lenovo.coutomviewlearn;
+package com.liran.lenovo.coutomviewlearn.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -8,6 +8,8 @@ import android.graphics.PointF;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.ImageView;
+
+import com.liran.lenovo.coutomviewlearn.R;
 
 /**
  * Created by LiRan on 2015-12-29.
