@@ -9,7 +9,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.liran.lenovo.coutomviewlearn.MainActivity">
 
-    <com.liran.lenovo.coutomviewlearn.view.MultiCricleView
+    <com.liran.lenovo.coutomviewlearn.view.BitmapMeshView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
          />
