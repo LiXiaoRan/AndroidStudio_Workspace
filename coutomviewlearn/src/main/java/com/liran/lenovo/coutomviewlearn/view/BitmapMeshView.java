@@ -42,7 +42,7 @@ public class BitmapMeshView extends View {
      */
     private void init() {
 
-        mBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.bg);
+        mBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.gir2l);
 
 
         verts = new float[COUNT * 2];
@@ -53,18 +53,29 @@ public class BitmapMeshView extends View {
          */
 
         int index = 0;
-        float multiple=mBitmap.getWidth();
-        for(int y=0;y<HEIGHT;y++){
-                float fy=mBitmap.getHeight()*y/HEIGHT;
+        float multiple = mBitmap.getWidth();
+        for (int y = 0; y <= HEIGHT; y++) {
+            float fy = mBitmap.getHeight() * y / HEIGHT;
             for (int x = 0; x <= WIDTH; x++) {
+//                float fx =mBitmap.getWidth()*x/WIDTH;
                 float fx = mBitmap.getWidth() * x / WIDTH + ((HEIGHT - y) * 1.0F / HEIGHT * multiple);
                 setXY(fx, fy, index);
                 index += 1;
             }
 
-    }
 
-}
+       /* int index = 0;
+        float multipleY = mBitmap.getHeight() / HEIGHT;
+        float multipleX = mBitmap.getWidth() / WIDTH;
+        for (int y = 0; y <= HEIGHT; y++) {
+
+            float fy=multipleY=mBitmap.getHeight()/HEIGHT;
+
+        }*/
+
+
+        }
+    }
 
     private void setXY(float fx, float fy, int index) {
         verts[index * 2 + 0] = fx;
