@@ -52,7 +52,7 @@ public class BitmapMeshView extends View {
          * 生成各个交点的坐标
          */
 
-        int index = 0;
+  /*      int index = 0;
         float multiple = mBitmap.getWidth();
         for (int y = 0; y <= HEIGHT; y++) {
             float fy = mBitmap.getHeight() * y / HEIGHT;
@@ -61,20 +61,45 @@ public class BitmapMeshView extends View {
                 float fx = mBitmap.getWidth() * x / WIDTH + ((HEIGHT - y) * 1.0F / HEIGHT * multiple);
                 setXY(fx, fy, index);
                 index += 1;
-            }
+            }*/
 
 
-       /* int index = 0;
+        int index = 0;
         float multipleY = mBitmap.getHeight() / HEIGHT;
         float multipleX = mBitmap.getWidth() / WIDTH;
         for (int y = 0; y <= HEIGHT; y++) {
+            float fy = multipleY * y;
+            for (int x = 0; x <= WIDTH; x++) {
+                float fx = multipleX * x;
 
-            float fy=multipleY=mBitmap.getHeight()/HEIGHT;
+                setXY(fx, fy, index);
 
-        }*/
+                if (5 == y) {
+                    if (8 == x) {
+                        setXY(fx - multipleX, fy - multipleY, index);
+                    }
+                    if (9 == x) {
+                        setXY(fx + multipleX, fy - multipleY, index);
+                    }
+                }
+                if (6 == y) {
+                    if (8 == x) {
+                        setXY(fx - multipleX, fy + multipleY, index);
+                    }
+                    if (9 == x) {
+                        setXY(fx + multipleX, fy + multipleY, index);
+                    }
+                }
+
+                index += 1;
+
+
+            }
 
 
         }
+
+
     }
 
     private void setXY(float fx, float fy, int index) {
