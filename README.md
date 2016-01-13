@@ -101,6 +101,6 @@ public static void main(String args[]) //java
 #include<studio> //c
 ```
 
-```cpp
+```cpp 
 int main();  //c++
 ```
