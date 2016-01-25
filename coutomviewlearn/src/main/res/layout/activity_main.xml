@@ -6,7 +6,8 @@
     android:gravity="center"
     tools:context="com.liran.lenovo.coutomviewlearn.MainActivity">
 
-    <com.liran.lenovo.coutomviewlearn.view.WaveView
+    <com.liran.lenovo.coutomviewlearn.view.PolylineView
+        android:id="@+id/polyline"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
