@@ -21,7 +21,7 @@ public class ImageMainActivity extends AppCompatActivity {
         setContentView(R.layout.imagelayout);
 
         myImageView= (MyImageView) findViewById(R.id.myimage);
-        Bitmap bitmap= BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher);
+        Bitmap bitmap= BitmapFactory.decodeResource(getResources(),R.mipmap.android_1);
         myImageView.setmBitmap(bitmap);
     }
 }

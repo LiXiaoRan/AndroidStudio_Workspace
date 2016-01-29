@@ -8,7 +8,8 @@
 <com.liran.lenovo.coutomviewlearn.view.MyImageView
     android:id="@+id/myimage"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content" />
+    android:layout_height="wrap_content"
+    android:padding="20dp"/>
 
     <Button
         android:layout_width="wrap_content"
