@@ -4,17 +4,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
-<com.liran.lenovo.coutomviewlearn.view.MyImageView
-    android:id="@+id/myimage"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:padding="20dp"/>
+    <com.liran.lenovo.coutomviewlearn.view.IconView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="30dp"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="哈哈哈哈"/>
-
+        android:text="测试"/>
 
 </LinearLayout>

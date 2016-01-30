@@ -11,12 +11,16 @@
         <activity android:name=".MainActivity">
         </activity>
 
-        <activity android:name=".view.ImageMainActivity">
+        <activity android:name=".view.activity.ImageMainActivity">
+
+
+        </activity>
+
+        <activity android:name=".view.activity.IconViewActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
 
     </application>
