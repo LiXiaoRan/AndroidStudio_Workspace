@@ -16,6 +16,7 @@ import com.liran.lenovo.coutomviewlearn.R;
 import com.liran.lenovo.coutomviewlearn.Utils.MeasureUtil;
 
 /**
+ * 一个完整的自定义view的案例
  * Created by LiRan on 2016-01-30.
  */
 public class IconView extends View {
