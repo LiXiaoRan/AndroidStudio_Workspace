@@ -28,7 +28,7 @@ public class SquareLayout extends ViewGroup {
     /**
      * 排列方向
      */
-    private int mOrientation = ORIENTATION_HORIZONTAL;
+    private int mOrientation = ORIENTATION_VERTICAL;
 
     public SquareLayout(Context context) {
         super(context);
@@ -50,7 +50,7 @@ public class SquareLayout extends ViewGroup {
      */
     private void init() {
         //初始化最大行列数
-        maxRow=maxColumn=2;
+        maxRow =2; maxColumn = 3;
 
     }
 
@@ -73,8 +73,8 @@ public class SquareLayout extends ViewGroup {
         if (getChildCount() > 0) {
 
             //声明两个一位数组存储子元素宽高数据
-            int [] childWidths=new int[getChildCount()];
-            int [] childHeihts=new int[getChildCount()];
+            int[] childWidths = new int[getChildCount()];
+            int[] childHeihts = new int[getChildCount()];
 
             //遍历子元素
             for (int i = 0; i < getChildCount(); i++) {
@@ -98,33 +98,134 @@ public class SquareLayout extends ViewGroup {
                     //获取子元素的布局参数
                     MarginLayoutParams mlp = (MarginLayoutParams) child.getLayoutParams();
 
-                    //考虑外边距计算子元素的实际宽高
-                    int childActualWidth = child.getMeasuredWidth() + mlp.leftMargin + mlp.rightMargin;
-                    int childActualHeight = child.getMeasuredHeight() + mlp.topMargin + mlp.bottomMargin;
-
-
-
-                    //如果为横向排列
-                    if (mOrientation == ORIENTATION_HORIZONTAL) {
-                        //累加子元素的实际宽度
-                        parentDesirWidth += childActualWidth;
-                        //获取子元素中高度的最大值
-                        parentDesirHeight = Math.max(childActualHeight, parentDesirHeight);
-
-                    }
-
-                    //如果为纵向排列
-                    if (mOrientation == ORIENTATION_VERTICAL) {
-                        //累加子元素的实际高度
-                        parentDesirHeight += childActualHeight;
-                        //获取子元素中宽度的最大值
-                        parentDesirWidth = Math.max(childActualWidth, parentDesirWidth);
-                    }
-
+                    //考虑外边距计算子元素的实际宽高,并且将数据存入数组
+                    childWidths[i] = child.getMeasuredWidth() + mlp.leftMargin + mlp.rightMargin;
+                    childHeihts[i] = child.getMeasuredHeight() + mlp.topMargin + mlp.bottomMargin;
 
                     //合并子元素的测量状态
                     childMeasurState = combineMeasuredStates(childMeasurState, child.getMeasuredState());
+
                 }
+
+            }
+
+
+            // 声明临时变量存储行/列宽高
+            int indexMultiWidth = 0, indexMultiHeight = 0;
+
+
+            //如果为横向排列
+            if (mOrientation == ORIENTATION_HORIZONTAL) {
+
+                /* //累加子元素的实际宽度
+                parentDesirWidth += childActualWidth;
+                //获取子元素中高度的最大值
+                parentDesirHeight = Math.max(childActualHeight, parentDesirHeight);*/
+
+
+
+                /*
+                 * 如果子元素数量大于限定值则进行折行计算
+                 */
+                if (getChildCount() > maxColumn) {
+
+                    // 计算产生的行数
+                    int row = getChildCount() / maxColumn;
+
+                    // 计算余数
+                    int remainder = getChildCount() % maxColumn;
+
+                    // 声明临时变量存储子元素宽高数组下标值
+                    int index = 0;
+
+                    /*
+                     * 遍历数组计算父容器期望宽高值
+                     */
+                    for (int x = 0; x < row; x++) {
+                        for (int y = 0; y < maxColumn; y++) {
+                            // 单行宽度累加
+                            indexMultiWidth += childWidths[index];
+
+                            // 单行高度取最大值
+                            indexMultiHeight = Math.max(indexMultiHeight, childHeihts[index++]);
+                        }
+                        // 每一行遍历完后将该行宽度与上一行宽度比较取最大值,从而得到父控件宽度的期望值
+                        parentDesirWidth = Math.max(parentDesirWidth, indexMultiWidth);
+
+                        // 每一行遍历完后累加各行高度
+                        parentDesirHeight += indexMultiHeight;
+
+                        // 重置参数
+                        indexMultiWidth = indexMultiHeight = 0;
+                    }
+
+                    //如果有余数表示有子元素未能占据一行
+                    if (remainder != 0) {
+                         /*
+                         * 遍历剩下的这些子元素将其宽高计算到父容器期望值
+                         */
+                        for (int i = getChildCount() - remainder; i < getChildCount(); i++) {
+                            indexMultiWidth += childWidths[i];
+                            indexMultiHeight = Math.max(indexMultiHeight, childHeihts[i]);
+                        }
+                        parentDesirWidth = Math.max(parentDesirWidth, indexMultiWidth);
+                        parentDesirHeight += indexMultiHeight;
+                        indexMultiWidth = indexMultiHeight = 0;
+                    }
+                }
+                //如果子元素数量还没有限制值大那么直接计算即可不须折行
+                else {
+                    for (int i = 0; i < getChildCount(); i++) {
+                        // 累加子元素的实际高度
+                        parentDesirHeight += childHeihts[i];
+                        // 获取子元素中宽度最大值
+                        parentDesirWidth = Math.max(parentDesirWidth, childWidths[i]);
+                    }
+                }
+            }
+
+
+            //如果为纵向排列
+            else if (mOrientation == ORIENTATION_VERTICAL) {
+
+                if (getChildCount() > maxRow) {
+                    int column = getChildCount() / maxRow;
+                    int remainder = getChildCount() % maxRow;
+                    int index = 0;
+
+                    for (int x = 0; x < column; x++) {
+                        for (int y = 0; y < maxRow; y++) {
+                            indexMultiHeight += childHeihts[index];
+                            indexMultiWidth = Math.max(indexMultiWidth, childWidths[index++]);
+                        }
+                        //通过比较上一列的累加高度，求出所有的最大高度，座位父控件的期望高度
+                        parentDesirHeight = Math.max(parentDesirHeight, indexMultiHeight);
+                        //累加每一列的最大宽度，就可以得到父控件的期望宽度
+                        parentDesirWidth += indexMultiWidth;
+                        indexMultiWidth = indexMultiHeight = 0;
+                    }
+
+
+                    if (remainder != 0) {
+                        for (int i = getChildCount() - remainder; i < getChildCount(); i++) {
+                            indexMultiHeight += childHeihts[i];
+                            indexMultiWidth = Math.max(indexMultiHeight, childWidths[i]);
+                        }
+                        parentDesirHeight = Math.max(parentDesirHeight, indexMultiHeight);
+                        parentDesirWidth += indexMultiWidth;
+                        indexMultiWidth = indexMultiHeight = 0;
+                    }
+                } else {
+                    for (int i = 0; i < getChildCount(); i++) {
+                        // 累加子元素的实际宽度
+                        parentDesirWidth += childWidths[i];
+
+                        // 获取子元素中高度最大值
+                        parentDesirHeight = Math.max(parentDesirHeight, childHeihts[i]);
+                    }
+                }
+
+
             }
 
             //考虑父容器的内将其累加到期望值
@@ -143,12 +244,23 @@ public class SquareLayout extends ViewGroup {
 
     }
 
+
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
 
         if (getChildCount() > 0) {
             //声明临时变量存储宽高倍增值
             int multi = 0;
+
+            //指数倍增值
+            int indexMulti = 1;
+
+            // 声明临时变量存储行/列宽高
+            int indexMultiWidth = 0, indexMultiHeight = 0;
+
+            // 声明临时变量存储行/列临时宽高
+            int tempHeight = 0, tempWidth = 0;
+
 
             //遍历子元素
             for (int i = 0; i < getChildCount(); i++) {
@@ -166,22 +278,86 @@ public class SquareLayout extends ViewGroup {
 
                     //如果为横向排列
                     if (mOrientation == ORIENTATION_HORIZONTAL) {
-                        //确定子元素的左上右下坐标
+
+                         /*
+                         * 如果子元素数量比限定值大
+                         */
+                        if (getChildCount() > maxColumn) {
+                            /*
+                             * 根据当前子元素进行布局
+                             */
+                            if (i < maxColumn * indexMulti) {
+                                child.layout(getPaddingLeft() + mlp.leftMargin + indexMultiWidth, getPaddingTop() + mlp.topMargin + indexMultiHeight,
+                                        childActulSize + getPaddingLeft() + mlp.leftMargin + indexMultiWidth, childActulSize + getPaddingTop()
+                                                + mlp.topMargin + indexMultiHeight);
+                                indexMultiWidth += childActulSize + mlp.leftMargin + mlp.rightMargin;
+                                tempHeight = Math.max(tempHeight, childActulSize) + mlp.topMargin + mlp.bottomMargin;
+
+                                /*
+                                 * 如果下一次遍历到的子元素下标值大于限定值
+                                 */
+                                if (i + 1 >= maxColumn * indexMulti) {
+                                    // 那么累加高度到高度倍增值
+                                    indexMultiHeight += tempHeight;
+
+                                    // 重置宽度倍增值
+                                    indexMultiWidth = 0;
+
+                                    // 增加指数倍增值
+                                    indexMulti++;
+                                }
+                            }
+                        } else {
+                            // 确定子元素左上、右下坐标
+                            child.layout(getPaddingLeft() + mlp.leftMargin + multi, getPaddingTop() + mlp.topMargin, childActulSize
+                                    + getPaddingLeft() + mlp.leftMargin + multi, childActulSize + getPaddingTop() + mlp.topMargin);
+
+                            // 累加倍增值
+                            multi += childActulSize + mlp.leftMargin + mlp.rightMargin;
+                        }
+
+
+                        /*   //确定子元素的左上右下坐标
                         child.layout(getPaddingLeft() + mlp.leftMargin + multi, getPaddingTop() + mlp.topMargin,
                                 childActulSize + getPaddingLeft() + mlp.leftMargin + multi, childActulSize + getPaddingTop()
                                         + mlp.topMargin);
                         //累加倍增值
-                        multi += childActulSize + mlp.leftMargin + mlp.rightMargin;
+                        multi += childActulSize + mlp.leftMargin + mlp.rightMargin;*/
                     }
 
                     //如果为纵向排列
                     if (mOrientation == ORIENTATION_VERTICAL) {
-                        //确定子元素的左上右下坐标
+
+
+                        if (getChildCount() > maxRow) {
+                            if (i < maxRow * indexMulti) {
+                                child.layout(getPaddingLeft() + mlp.leftMargin + indexMultiWidth, getPaddingTop() + mlp.topMargin + indexMultiHeight,
+                                        childActulSize + getPaddingLeft() + mlp.leftMargin + indexMultiWidth, childActulSize + getPaddingTop()
+                                                + mlp.topMargin + indexMultiHeight);
+                                indexMultiHeight += childActulSize + mlp.topMargin + mlp.bottomMargin;
+                                tempWidth = Math.max(tempWidth, childActulSize) + mlp.leftMargin + mlp.rightMargin;
+                                if (i + 1 >= maxRow * indexMulti) {
+                                    indexMultiWidth += tempWidth;
+                                    indexMultiHeight = 0;
+                                    indexMulti++;
+                                }
+                            }
+                        } else {
+                            // 确定子元素左上、右下坐标  
+                            child.layout(getPaddingLeft() + mlp.leftMargin, getPaddingTop() + mlp.topMargin + multi, childActulSize
+                                    + getPaddingLeft() + mlp.leftMargin, childActulSize + getPaddingTop() + mlp.topMargin + multi);
+
+                            // 累加倍增值  
+                            multi += childActulSize + mlp.topMargin + mlp.bottomMargin;
+                        }  
+                      
+                      
+                       /* //确定子元素的左上右下坐标
                         child.layout(getPaddingLeft() + mlp.leftMargin, getPaddingTop() + mlp.topMargin + multi, childActulSize +
                                 +mlp.leftMargin + getPaddingLeft(), getPaddingTop() + mlp.topMargin + childActulSize + multi);
 
                         //累加倍增值
-                        multi += childActulSize + mlp.topMargin + mlp.bottomMargin;
+                        multi += childActulSize + mlp.topMargin + mlp.bottomMargin;*/
                     }
                 }
 
