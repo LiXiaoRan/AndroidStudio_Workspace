@@ -32,14 +32,26 @@ public class SquareLayout extends ViewGroup {
 
     public SquareLayout(Context context) {
         super(context);
+        init();
     }
 
     public SquareLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init();
     }
 
     public SquareLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init();
+    }
+
+    /**
+     * 初始化
+     */
+    private void init() {
+        //初始化最大行列数
+        maxRow=maxColumn=2;
+
     }
 
 
@@ -59,6 +71,10 @@ public class SquareLayout extends ViewGroup {
 
         //如果父容器中有子元素
         if (getChildCount() > 0) {
+
+            //声明两个一位数组存储子元素宽高数据
+            int [] childWidths=new int[getChildCount()];
+            int [] childHeihts=new int[getChildCount()];
 
             //遍历子元素
             for (int i = 0; i < getChildCount(); i++) {
@@ -85,6 +101,8 @@ public class SquareLayout extends ViewGroup {
                     //考虑外边距计算子元素的实际宽高
                     int childActualWidth = child.getMeasuredWidth() + mlp.leftMargin + mlp.rightMargin;
                     int childActualHeight = child.getMeasuredHeight() + mlp.topMargin + mlp.bottomMargin;
+
+
 
                     //如果为横向排列
                     if (mOrientation == ORIENTATION_HORIZONTAL) {
@@ -127,6 +145,51 @@ public class SquareLayout extends ViewGroup {
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
+
+        if (getChildCount() > 0) {
+            //声明临时变量存储宽高倍增值
+            int multi = 0;
+
+            //遍历子元素
+            for (int i = 0; i < getChildCount(); i++) {
+
+                View child = getChildAt(i);
+
+                //如果该子元素没有以“不占用空间”的方式隐藏则表示其需要被测量计算
+                if (child.getVisibility() != GONE) {
+
+                    //获取子元素的布局参数
+                    MarginLayoutParams mlp = (MarginLayoutParams) getLayoutParams();
+
+                    //获取控件尺寸
+                    int childActulSize = child.getMeasuredWidth();
+
+                    //如果为横向排列
+                    if (mOrientation == ORIENTATION_HORIZONTAL) {
+                        //确定子元素的左上右下坐标
+                        child.layout(getPaddingLeft() + mlp.leftMargin + multi, getPaddingTop() + mlp.topMargin,
+                                childActulSize + getPaddingLeft() + mlp.leftMargin + multi, childActulSize + getPaddingTop()
+                                        + mlp.topMargin);
+                        //累加倍增值
+                        multi += childActulSize + mlp.leftMargin + mlp.rightMargin;
+                    }
+
+                    //如果为纵向排列
+                    if (mOrientation == ORIENTATION_VERTICAL) {
+                        //确定子元素的左上右下坐标
+                        child.layout(getPaddingLeft() + mlp.leftMargin, getPaddingTop() + mlp.topMargin + multi, childActulSize +
+                                +mlp.leftMargin + getPaddingLeft(), getPaddingTop() + mlp.topMargin + childActulSize + multi);
+
+                        //累加倍增值
+                        multi += childActulSize + mlp.topMargin + mlp.bottomMargin;
+                    }
+                }
+
+            }
+
+
+        }
+
 
     }
 
