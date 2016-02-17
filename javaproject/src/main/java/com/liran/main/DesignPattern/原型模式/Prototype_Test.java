@@ -1,4 +1,4 @@
-package com.liran.main.DesignPattern;
+package com.liran.main.DesignPattern.原型模式;
 
 /**
  * 原型模式
