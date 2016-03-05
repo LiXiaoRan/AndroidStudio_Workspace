@@ -23,11 +23,13 @@
       <module fileurl="file://$PROJECT_DIR$/calculator/calculator.iml" filepath="$PROJECT_DIR$/calculator/calculator.iml" />
       <module fileurl="file://$PROJECT_DIR$/coutomviewlearn/coutomviewlearn.iml" filepath="$PROJECT_DIR$/coutomviewlearn/coutomviewlearn.iml" />
       <module fileurl="file://$PROJECT_DIR$/diskcachelrutest/diskcachelrutest.iml" filepath="$PROJECT_DIR$/diskcachelrutest/diskcachelrutest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/firstokhttptest/firstokhttptest.iml" filepath="$PROJECT_DIR$/firstokhttptest/firstokhttptest.iml" />
       <module fileurl="file://$PROJECT_DIR$/handlertest/handlertest.iml" filepath="$PROJECT_DIR$/handlertest/handlertest.iml" />
       <module fileurl="file://$PROJECT_DIR$/haoba/haoba.iml" filepath="$PROJECT_DIR$/haoba/haoba.iml" />
       <module fileurl="file://$PROJECT_DIR$/java_learninnerclass/java_learninnerclass.iml" filepath="$PROJECT_DIR$/java_learninnerclass/java_learninnerclass.iml" />
       <module fileurl="file://$PROJECT_DIR$/javaproject/javaproject.iml" filepath="$PROJECT_DIR$/javaproject/javaproject.iml" />
       <module fileurl="file://$PROJECT_DIR$/messagertest/messagertest.iml" filepath="$PROJECT_DIR$/messagertest/messagertest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/okhttptest/okhttptest.iml" filepath="$PROJECT_DIR$/okhttptest/okhttptest.iml" />
       <module fileurl="file://$PROJECT_DIR$/recycleView/recycleView.iml" filepath="$PROJECT_DIR$/recycleView/recycleView.iml" />
     </modules>
   </component>
