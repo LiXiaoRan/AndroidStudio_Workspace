@@ -81,11 +81,14 @@ class FlyweightFactory {
     public FlyweightFactory() {
         flyweights.put("X", new ConcreteFlyweight());
         flyweights.put("y", new ConcreteFlyweight());
-        flyweights.put("z", new ConcreteFlyweight());
 
     }
 
     public Flyweight getFlyweight(String key) {
+
+        if(!flyweights.containsKey(key)){
+            flyweights.put(key,new ConcreteFlyweight());
+        }
 
         return flyweights.get(key);
     }
