@@ -2,6 +2,7 @@ package com.liran.lenovo.firstokhttptest;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -13,6 +14,7 @@ import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, OkHttpHandler.OKinterface {
 
+    private static final String TAG = "MainActivity";
     @Bind(R.id.text)
     TextView text;
     @Bind(R.id.button)
@@ -32,7 +34,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.button:
-                OkHttpHandler.getInstance().asyncGet("https://github.com/LiXiaoRan");
+                Log.d(TAG, "onClick: ");
+
+
+                OkHttpHandler.getInstance().asyncGet("http://www.baidu.com");
                 break;
 
         }
@@ -41,8 +46,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void dealResponse(Response response, Call call) {
-
-        System.out.println("response is " + response);
+        Log.d(TAG, "dealResponse: ");
+        System.out.println("response is " + response.toString());
         System.out.println("call is " + call.toString());
         
     }

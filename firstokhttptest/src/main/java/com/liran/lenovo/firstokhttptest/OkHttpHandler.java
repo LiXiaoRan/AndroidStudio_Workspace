@@ -1,5 +1,7 @@
 package com.liran.lenovo.firstokhttptest;
 
+import android.util.Log;
+
 import java.io.IOException;
 
 import okhttp3.Call;
@@ -17,6 +19,7 @@ public class OkHttpHandler {
     private OkHttpClient okHttpClient;
     private Request request;
     private Call call;
+    public static final String TAG = "OK";
 
     private OKinterface oKinterface;
 
@@ -39,15 +42,17 @@ public class OkHttpHandler {
 
 
     public void asyncGet(String url) {
-
+        Log.d(TAG, "asyncGet: ");
         request = new Request.Builder().url(url).build();
         call = okHttpClient.newCall(request);
 
         call.enqueue(new Callback() {
+
             @Override
             public void onFailure(Call call, IOException e) {
                 if (oKinterface != null) {
                     oKinterface.dealResponse(null, call);
+                    Log.d(TAG, "onFailure: ");
                 }
 
             }
@@ -56,6 +61,7 @@ public class OkHttpHandler {
             public void onResponse(Call call, Response response) throws IOException {
                 if (oKinterface != null) {
                     oKinterface.dealResponse(response, call);
+                    Log.d(TAG, "onResponse: ");
                 }
 
             }
