@@ -5,7 +5,7 @@
       <GradleProjectSettings>
         <option name="distributionType" value="LOCAL" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleHome" value="D:\AndroidStudio\androidStudioSoft\gradle\gradle-2.4" />
+        <option name="gradleHome" value="D:\AndroidStudio\AndroidStudio2.1\gradle\gradle-2.14.1" />
         <option name="gradleJvm" value="1.8" />
         <option name="modules">
           <set>
@@ -40,39 +40,7 @@
             <option value="$PROJECT_DIR$/recycleView" />
           </set>
         </option>
-        <option name="myModules">
-          <set>
-            <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/BinderConnPool" />
-            <option value="$PROJECT_DIR$/ContentProviderIPC" />
-            <option value="$PROJECT_DIR$/CustomView" />
-            <option value="$PROJECT_DIR$/FlabbyBird" />
-            <option value="$PROJECT_DIR$/FlppyBird" />
-            <option value="$PROJECT_DIR$/ImageSwitch" />
-            <option value="$PROJECT_DIR$/MessageTest" />
-            <option value="$PROJECT_DIR$/RemoteViews" />
-            <option value="$PROJECT_DIR$/RubbitCustomView" />
-            <option value="$PROJECT_DIR$/TouchScrollEvent" />
-            <option value="$PROJECT_DIR$/Volloy" />
-            <option value="$PROJECT_DIR$/aide_test_anotherapp" />
-            <option value="$PROJECT_DIR$/aidl_test" />
-            <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/baidumapDemp2" />
-            <option value="$PROJECT_DIR$/baidumapdemo" />
-            <option value="$PROJECT_DIR$/bindertest" />
-            <option value="$PROJECT_DIR$/calculator" />
-            <option value="$PROJECT_DIR$/coutomviewlearn" />
-            <option value="$PROJECT_DIR$/diskcachelrutest" />
-            <option value="$PROJECT_DIR$/firstokhttptest" />
-            <option value="$PROJECT_DIR$/handlertest" />
-            <option value="$PROJECT_DIR$/haoba" />
-            <option value="$PROJECT_DIR$/java_learninnerclass" />
-            <option value="$PROJECT_DIR$/javaproject" />
-            <option value="$PROJECT_DIR$/messagertest" />
-            <option value="$PROJECT_DIR$/okhttptest" />
-            <option value="$PROJECT_DIR$/recycleView" />
-          </set>
-        </option>
+        <option name="resolveModulePerSourceSet" value="false" />
       </GradleProjectSettings>
     </option>
   </component>
