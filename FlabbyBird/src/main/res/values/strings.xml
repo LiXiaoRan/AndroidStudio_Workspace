@@ -6,6 +6,7 @@
     <string name="prompt_email">请输入用户名(邮箱)</string>
     <string name="prompt_password">请输入密码</string>
     <string name="action_sign_in">登陆</string>
+    <string name="action_register">注册</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">邮箱地址无效</string>
     <string name="error_invalid_password">密码太短了</string>

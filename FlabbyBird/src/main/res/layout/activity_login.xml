@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    
+
     tools:context="com.liran.flabbybird.activity.LoginActivity">
 
     <!-- Login 进度条 -->
@@ -82,16 +82,42 @@
 
             </android.support.design.widget.TextInputLayout>
 
-            <Button
-                android:id="@+id/email_sign_in_button"
-                style="?android:textAppearanceSmall"
-                android:layout_gravity="center_horizontal"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="26dp"
-                android:text="@string/action_sign_in"
-                android:background="@mipmap/btn_confirm"
-                android:textStyle="bold" />
+<!--
+android:paddingLeft="45dp"
+-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:orientation="horizontal"
+                android:gravity="center"
+
+                >
+
+                <Button
+                    android:id="@+id/email_sign_in_button"
+                    style="?android:textAppearanceSmall"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="26dp"
+                    android:text="@string/action_sign_in"
+                    android:background="@mipmap/btn_confirm"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/email_register_button"
+                    style="?android:textAppearanceSmall"
+                    android:layout_marginLeft="50dp"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="26dp"
+                    android:text="@string/action_register"
+                    android:background="@mipmap/btn_confirm"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+
 
         </LinearLayout>
     </ScrollView>
