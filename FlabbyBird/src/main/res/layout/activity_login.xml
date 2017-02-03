@@ -11,14 +11,7 @@
 
     tools:context="com.liran.flabbybird.activity.LoginActivity">
 
-    <!-- Login 进度条 -->
-    <ProgressBar
-        android:id="@+id/login_progress"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:visibility="gone" />
+
 
     <!--
      android:textColor="@android:color/black"
@@ -52,7 +45,7 @@
                 android:focusableInTouchMode="true"
                 >
 
-                <AutoCompleteTextView
+                <EditText
                     android:id="@+id/email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -95,7 +88,7 @@ android:paddingLeft="45dp"
                 >
 
                 <Button
-                    android:id="@+id/email_sign_in_button"
+                    android:id="@+id/login_button"
                     style="?android:textAppearanceSmall"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
@@ -105,7 +98,7 @@ android:paddingLeft="45dp"
                     android:textStyle="bold" />
 
                 <Button
-                    android:id="@+id/email_register_button"
+                    android:id="@+id/register_button"
                     style="?android:textAppearanceSmall"
                     android:layout_marginLeft="50dp"
                     android:layout_width="100dp"
