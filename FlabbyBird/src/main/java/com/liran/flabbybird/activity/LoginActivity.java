@@ -1,5 +1,6 @@
 package com.liran.flabbybird.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -55,8 +56,8 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
             //点击了登陆按钮后的处理
             case R.id.login_button:
 
-            String name=mAccunt_edit.getText().toString();
-            String passwd=mPassword_edit.getText().toString();
+            String name=mAccunt_edit.getText().toString().trim();
+            String passwd=mPassword_edit.getText().toString().trim();
 
                 Toast.makeText(LoginActivity.this,"name: "+name+" passwd:"+passwd,Toast.LENGTH_LONG).show();
 
@@ -64,6 +65,11 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
 
             //点击了登陆注册后的处理
             case R.id.register_button:
+
+                Intent regisIntent=new Intent();
+                regisIntent.setClass(this,RegisterActivity.class);
+                startActivity(regisIntent);
+
             break;
 
 

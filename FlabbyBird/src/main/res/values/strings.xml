@@ -5,6 +5,7 @@
     <!-- Strings related to login -->
     <string name="prompt_email">请输入用户名</string>
     <string name="prompt_password">请输入密码</string>
+    <string name="prompt_password_sec">请再次输入密码</string>
     <string name="action_sign_in">登陆</string>
     <string name="action_register">注册</string>
     <string name="action_sign_in_short">Sign in</string>
