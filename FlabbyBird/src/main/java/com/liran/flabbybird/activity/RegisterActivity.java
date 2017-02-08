@@ -11,9 +11,10 @@ import android.widget.Toast;
 
 import com.liran.flabbybird.R;
 import com.liran.flabbybird.bean.User;
+import com.liran.flabbybird.utils.ConastClassUtil;
 import com.liran.flabbybird.utils.MyApplication;
 
-import java.util.List;
+import static com.liran.flabbybird.utils.ConastClassUtil.userList;
 
 /**
  * 注册页面
@@ -30,7 +31,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private Button mRegister_btn;
     private CheckBox angree_cb;
 
-    private static List<User> userList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,7 +47,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         userList = MyApplication.getDB().findAll(User.class);
 
-        Log.d(TAG, "onCreate: userlist size is :" + MyApplication.getDB().findAll(User.class).size());
+        Log.d(TAG, "onCreate: userlist size is :" + userList.size());
 
     }
 
@@ -60,14 +60,16 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private void onRegisterAccunt(String username_str, String passwd_str) {
 
 
+        userList = MyApplication.getDB().findAll(User.class);
+
         boolean isExist = false;
 
-        Toast.makeText(this, "userlist: " + userList, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "userlist: " + ConastClassUtil.userList, Toast.LENGTH_SHORT).show();
 
 
         //遍历数据 查找是否与已经注册的用户用户名相同
-        if (userList != null && !userList.isEmpty()) {
-            for (User userinfo : userList) {
+        if (ConastClassUtil.userList != null && !ConastClassUtil.userList.isEmpty()) {
+            for (User userinfo : ConastClassUtil.userList) {
                 if (username_str.equals(userinfo.getUsername().toString().trim())) {
                     isExist = true;
                     Toast.makeText(this, "注册失败，该用户名已经被注册", Toast.LENGTH_SHORT).show();
