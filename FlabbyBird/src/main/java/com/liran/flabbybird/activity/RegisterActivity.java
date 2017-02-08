@@ -2,6 +2,7 @@ package com.liran.flabbybird.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -9,6 +10,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.liran.flabbybird.R;
+import com.liran.flabbybird.bean.User;
+import com.liran.flabbybird.utils.MyApplication;
+
+import java.util.List;
 
 /**
  * 注册页面
@@ -18,11 +23,14 @@ import com.liran.flabbybird.R;
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
 
-    EditText userName_ed;
-    EditText passwd_ed;
-    EditText passwd_sec_ed;
-    Button mRegister_btn;
-    CheckBox angree_cb;
+    private static final String TAG = "RegisterActivity";
+    private EditText userName_ed;
+    private EditText passwd_ed;
+    private EditText passwd_sec_ed;
+    private Button mRegister_btn;
+    private CheckBox angree_cb;
+
+    private static List<User> userList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,16 +45,46 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         mRegister_btn.setOnClickListener(this);
 
+        userList = MyApplication.getDB().findAll(User.class);
+
+        Log.d(TAG, "onCreate: userlist size is :" + MyApplication.getDB().findAll(User.class).size());
+
     }
 
     /**
-     *开始注册的逻辑
+     * 开始注册的逻辑
+     *
      * @param username_str
      * @param passwd_str
      */
     private void onRegisterAccunt(String username_str, String passwd_str) {
 
-        Toast.makeText(this, "后续功能正在开发中。。。", Toast.LENGTH_SHORT).show();
+
+        boolean isExist = false;
+
+        Toast.makeText(this, "userlist: " + userList, Toast.LENGTH_SHORT).show();
+
+
+        //遍历数据 查找是否与已经注册的用户用户名相同
+        if (userList != null && !userList.isEmpty()) {
+            for (User userinfo : userList) {
+                if (username_str.equals(userinfo.getUsername().toString().trim())) {
+                    isExist = true;
+                    Toast.makeText(this, "注册失败，该用户名已经被注册", Toast.LENGTH_SHORT).show();
+                    break;
+                }
+
+            }
+        }
+
+        if (!isExist) {
+            User user = new User(username_str, passwd_str, 0);
+            MyApplication.getDB().save(user);
+            Toast.makeText(this, "注册成功", Toast.LENGTH_SHORT).show();
+
+        }
+
+
 
     }
 
@@ -74,7 +112,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
                         if (passwd_str.equals(passwd_sec_str)) {
                             //填写的一切信息合格，开始注册逻辑
-                                    onRegisterAccunt(username_str,passwd_str);
+                            onRegisterAccunt(username_str, passwd_str);
 
                         } else {
 
