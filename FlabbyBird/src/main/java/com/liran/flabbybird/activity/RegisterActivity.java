@@ -1,5 +1,6 @@
 package com.liran.flabbybird.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -79,6 +80,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             User user = new User(username_str, passwd_str, 0);
             MyApplication.getDB().save(user);
             Toast.makeText(this, "注册成功", Toast.LENGTH_SHORT).show();
+            Intent loginIntent=new Intent(this,LoginActivity.class);
+            startActivity(loginIntent);
+            finish();
 
         }
 

@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.liran.flabbybird.MainActivity;
 import com.liran.flabbybird.R;
 import com.liran.flabbybird.bean.User;
 import com.liran.flabbybird.utils.ConastClassUtil;
@@ -108,6 +109,9 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
                 //登陆成功
 
                 Toast.makeText(this, "登陆成功", Toast.LENGTH_SHORT).show();
+                Intent gameIntent=new Intent(this, MainActivity.class);
+                startActivity(gameIntent);
+
 
             } else {
                 Toast.makeText(this, "用户名或密码错误", Toast.LENGTH_SHORT).show();
