@@ -102,7 +102,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
                     if ("".equals(username_str) || "".equals(passwd_str) || "".equals(passwd_sec_str)) {
 
-                        Toast.makeText(this, "没有任何一项可以为空", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "用户名和密码都不能为空", Toast.LENGTH_SHORT).show();
 
                     } else {
 
