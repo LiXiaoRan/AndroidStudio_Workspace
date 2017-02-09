@@ -88,7 +88,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         //从数据库中读数据
         ConastClassUtil.userList = MyApplication.getDB().findAll(User.class);
 
-        boolean isLogin = false;
+         boolean isLogin = false;
 
         if ("".equals(name) || "".equals(passwd)) {
 
@@ -108,6 +108,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
             if (isLogin) {
                 //登陆成功
 
+                ConastClassUtil.logingUsername=name;
                 Toast.makeText(this, "登陆成功", Toast.LENGTH_SHORT).show();
                 Intent gameIntent=new Intent(this, MainActivity.class);
                 startActivity(gameIntent);
