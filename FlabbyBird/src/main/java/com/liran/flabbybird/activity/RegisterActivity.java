@@ -61,11 +61,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
 
         userList = MyApplication.getDB().findAll(User.class);
-
         boolean isExist = false;
-
-        Toast.makeText(this, "userlist: " + ConastClassUtil.userList, Toast.LENGTH_SHORT).show();
-
 
         //遍历数据 查找是否与已经注册的用户用户名相同
         if (ConastClassUtil.userList != null && !ConastClassUtil.userList.isEmpty()) {
@@ -85,7 +81,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             Toast.makeText(this, "注册成功", Toast.LENGTH_SHORT).show();
 
         }
-
 
 
     }
