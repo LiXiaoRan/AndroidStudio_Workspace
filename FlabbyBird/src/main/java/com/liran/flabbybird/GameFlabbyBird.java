@@ -125,7 +125,7 @@ public class GameFlabbyBird extends SurfaceView implements SurfaceHolder.Callbac
     private List<Pipe> mPipes = new ArrayList<>();
 
     /**
-     * 两个管道之间的距离300dp
+     * 两个管道之间的距离300dp 通过修改这个和mspeed这两个变量来控制游戏的难度系数
      */
     private final int PIPE_DIS_BETWEEN_TWO = DensityUtils.dp2px(getContext(), 200);
 
