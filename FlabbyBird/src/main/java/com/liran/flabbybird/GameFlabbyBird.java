@@ -1,5 +1,6 @@
 package com.liran.flabbybird;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,6 +14,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.liran.flabbybird.utils.DensityUtils;
+import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -168,12 +170,32 @@ public class GameFlabbyBird extends SurfaceView implements SurfaceHolder.Callbac
     private List<Pipe> mNeedRemovePipe = new ArrayList<>();
     private int mRemovedPipe;
 
+    /**
+     * 当前activity的context
+     */
+    private Context mContext;
+
+    /**
+     * 当前的activity
+     */
+    private Activity mActivity;
+
+    /**
+     * 标记 true意味着鸟正在下落的过程中
+     */
+    private boolean isdowning;
+
     public GameFlabbyBird(Context context) {
         this(context, null);
+        initContext(context);
     }
+
 
     public GameFlabbyBird(Context context, AttributeSet attrs) {
         super(context, attrs);
+
+        initContext(context);
+
         mPipeWidth = DensityUtils.dp2px(context, PIPE_WIDTH);
 
         mhHolder = getHolder();
@@ -187,16 +209,32 @@ public class GameFlabbyBird extends SurfaceView implements SurfaceHolder.Callbac
         //初始化速度
         mSpeed = DensityUtils.dp2px(context, 4);
 
+
     }
 
     public GameFlabbyBird(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        initContext(context);
+
     }
 
     public GameFlabbyBird(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
+        initContext(context);
+
     }
 
+    /**
+     * 初始化和context相关的东西
+     *
+     * @param context
+     */
+    private void initContext(Context context) {
+        mContext = context;
+        if (context instanceof Activity) {
+            mActivity = (Activity) context;
+        }
+    }
 
     /**
      * 初始化图片
@@ -336,44 +374,98 @@ public class GameFlabbyBird extends SurfaceView implements SurfaceHolder.Callbac
      */
     private void logic() {
 
-        switch (mStatus) {
+            switch (mStatus) {
 
-            case RUNNING:
+                case RUNNING:
 
-                mGrade=0;
-                //更新地板绘制的X坐标
-                mFloor.setX(mFloor.getX() - mSpeed);
+                    mGrade = 0;
+                    //更新地板绘制的X坐标
+                    mFloor.setX(mFloor.getX() - mSpeed);
 
-                logicPipe();
-                logicBird();
+                    logicPipe();
+                    logicBird();
 
-                mGrade+=mRemovedPipe;
-                for (Pipe pipe:mPipes){
+                    mGrade += mRemovedPipe;
+                    for (Pipe pipe : mPipes) {
 
-                    if(pipe.getX()+mPipeWidth<mBird.getX()){
-                        mGrade++;
+                        if (pipe.getX() + mPipeWidth < mBird.getX()) {
+                            mGrade++;
+                        }
                     }
-                }
 
-                CheckGameOver();
+                    CheckGameOver();
 
 
-                break;
+                    break;
 
-            case OVER://游戏结束
+                case OVER://游戏结束
 
-                //如果鸟还在空中，先让它掉下来
-                if (mBird.getY() < mFloor.getY() - mBird.getWidth()) {
-                    mTmpBirdDis += mAutoDownSpeed;
-                    mBird.setY(mBird.getY() + mTmpBirdDis);
-                } else {
+                    //如果鸟还在空中，先让它掉下来
+                    if (mBird.getY() < mFloor.getY() - mBird.getWidth()) {
+                        mTmpBirdDis += mAutoDownSpeed;
+                        mBird.setY(mBird.getY() + mTmpBirdDis);
+                        isdowning = true;
+                    } else {
+                        isdowning = false;
+                        mStatus = GameStatus.WAITING;
+                        initPos();
+                        Logger.d("游戏结束了");
+                        creatFinalDialog();  //只能在这里调用 可以用mActivity的onUIthread
+                    }
 
-                    mStatus = GameStatus.WAITING;
-                    initPos();
-                }
+                    break;
+            }
 
-                break;
-        }
+    }
+
+
+    /**
+     * 显示一个dialog来让用户选择下一步的操作
+     */
+    private void creatFinalDialog() {
+
+
+/*
+//        Logger.d("就是测试一下");
+
+        Looper.prepare();
+        final AlertDialog.Builder aBuilder = new AlertDialog.Builder(getContext());
+        aBuilder.setTitle("对话框！！!");
+        aBuilder.setMessage("少年,接下来你要做什么?");
+        aBuilder.setCancelable(false);
+
+        aBuilder.setPositiveButton("继续", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.d(TAG, "onClick: 你点击了 继续");
+                dialog.dismiss();
+//                Looper.myLooper().quit();
+
+            }
+        });
+
+        aBuilder.setNegativeButton("退出", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.d(TAG, "onClick: 你点击了 退出");
+                dialog.dismiss();
+                Looper.myLooper().quit();
+            }
+        });
+
+        aBuilder.setNeutralButton("排行", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.d(TAG, "onClick: 你点击了 排行榜");
+                dialog.dismiss();
+                Looper.myLooper().quit();
+
+            }
+        });
+
+        aBuilder.show();
+
+        Looper.loop();*/
     }
 
     /**
@@ -385,13 +477,13 @@ public class GameFlabbyBird extends SurfaceView implements SurfaceHolder.Callbac
         mNeedRemovePipe.clear();
 
         //重置鸟的位置
-        mBird.setY(mHeigh*2/3);
+        mBird.setY(mHeigh * 2 / 3);
         //重置下落速度
-        mTmpBirdDis=0;
+        mTmpBirdDis = 0;
         //重置管道移动距离
-        mTempMoveDistance=0;
-        mGrade=0;
-        mRemovedPipe=0;
+        mTempMoveDistance = 0;
+        mGrade = 0;
+        mRemovedPipe = 0;
     }
 
     /**
@@ -405,7 +497,7 @@ public class GameFlabbyBird extends SurfaceView implements SurfaceHolder.Callbac
         mBird.setY(mBird.getY() + mTmpBirdDis);
 
 
-        if(mBird.getY()<=0){
+        if (mBird.getY() <= 0) {
             mBird.setY(0);
         }
     }
