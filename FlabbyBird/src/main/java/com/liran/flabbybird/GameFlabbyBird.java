@@ -2,11 +2,13 @@ package com.liran.flabbybird;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.support.v7.app.AlertDialog;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -374,47 +376,47 @@ public class GameFlabbyBird extends SurfaceView implements SurfaceHolder.Callbac
      */
     private void logic() {
 
-            switch (mStatus) {
+        switch (mStatus) {
 
-                case RUNNING:
+            case RUNNING:
 
-                    mGrade = 0;
-                    //更新地板绘制的X坐标
-                    mFloor.setX(mFloor.getX() - mSpeed);
+                mGrade = 0;
+                //更新地板绘制的X坐标
+                mFloor.setX(mFloor.getX() - mSpeed);
 
-                    logicPipe();
-                    logicBird();
+                logicPipe();
+                logicBird();
 
-                    mGrade += mRemovedPipe;
-                    for (Pipe pipe : mPipes) {
+                mGrade += mRemovedPipe;
+                for (Pipe pipe : mPipes) {
 
-                        if (pipe.getX() + mPipeWidth < mBird.getX()) {
-                            mGrade++;
-                        }
+                    if (pipe.getX() + mPipeWidth < mBird.getX()) {
+                        mGrade++;
                     }
+                }
 
-                    CheckGameOver();
+                CheckGameOver();
 
 
-                    break;
+                break;
 
-                case OVER://游戏结束
+            case OVER://游戏结束
 
-                    //如果鸟还在空中，先让它掉下来
-                    if (mBird.getY() < mFloor.getY() - mBird.getWidth()) {
-                        mTmpBirdDis += mAutoDownSpeed;
-                        mBird.setY(mBird.getY() + mTmpBirdDis);
-                        isdowning = true;
-                    } else {
-                        isdowning = false;
-                        mStatus = GameStatus.WAITING;
-                        initPos();
-                        Logger.d("游戏结束了");
-                        creatFinalDialog();  //只能在这里调用 可以用mActivity的onUIthread
-                    }
+                //如果鸟还在空中，先让它掉下来
+                if (mBird.getY() < mFloor.getY() - mBird.getWidth()) {
+                    mTmpBirdDis += mAutoDownSpeed;
+                    mBird.setY(mBird.getY() + mTmpBirdDis);
+                    isdowning = true;
+                } else {
+                    isdowning = false;
+                    mStatus = GameStatus.WAITING;
+                    initPos();
+                    Logger.d("游戏结束了");
+                    creatFinalDialog();  //只能在这里调用 可以用mActivity的onUIthread
+                }
 
-                    break;
-            }
+                break;
+        }
 
     }
 
@@ -425,48 +427,59 @@ public class GameFlabbyBird extends SurfaceView implements SurfaceHolder.Callbac
     private void creatFinalDialog() {
 
 
-/*
-//        Logger.d("就是测试一下");
+        mActivity.runOnUiThread(dialogRunnable);
 
-        Looper.prepare();
-        final AlertDialog.Builder aBuilder = new AlertDialog.Builder(getContext());
-        aBuilder.setTitle("对话框！！!");
-        aBuilder.setMessage("少年,接下来你要做什么?");
-        aBuilder.setCancelable(false);
 
-        aBuilder.setPositiveButton("继续", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Log.d(TAG, "onClick: 你点击了 继续");
-                dialog.dismiss();
-//                Looper.myLooper().quit();
-
-            }
-        });
-
-        aBuilder.setNegativeButton("退出", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Log.d(TAG, "onClick: 你点击了 退出");
-                dialog.dismiss();
-                Looper.myLooper().quit();
-            }
-        });
-
-        aBuilder.setNeutralButton("排行", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Log.d(TAG, "onClick: 你点击了 排行榜");
-                dialog.dismiss();
-                Looper.myLooper().quit();
-
-            }
-        });
-
-        aBuilder.show();
-
-        Looper.loop();*/
     }
+
+
+    private Runnable dialogRunnable = new Runnable() {
+        @Override
+        public void run() {
+
+            final AlertDialog.Builder aBuilder = new AlertDialog.Builder(getContext());
+            aBuilder.setTitle("对话框！！!");
+            aBuilder.setMessage("少年,接下来你要做什么?");
+            aBuilder.setCancelable(false);
+
+
+            aBuilder.setPositiveButton("继续", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Log.d(TAG, "onClick: 你点击了 继续");
+
+                }
+            });
+
+            aBuilder.setNegativeButton("退出", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Log.d(TAG, "onClick: 你点击了 退出");
+
+                   /* android.os.Process.killProcess(android.os.Process.myPid());
+                    System.exit(0);
+
+                    ActivityManager manager = (ActivityManager) mActivity.getSystemService(ACTIVITY_SERVICE);
+                    manager.killBackgroundProcesses(mActivity.getPackageName());*/
+
+
+                }
+            });
+
+            aBuilder.setNeutralButton("排行", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Log.d(TAG, "onClick: 你点击了 排行榜");
+
+
+                }
+            });
+
+            aBuilder.show();
+
+        }
+    };
+
 
     /**
      * 重置鸟的位置等数据
