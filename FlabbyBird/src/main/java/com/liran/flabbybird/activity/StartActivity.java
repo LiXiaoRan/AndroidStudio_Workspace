@@ -2,7 +2,6 @@ package com.liran.flabbybird.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
 import com.liran.flabbybird.R;
 
@@ -13,7 +12,7 @@ import java.util.TimerTask;
  * Created by LiRan on 2017-02-05.
  */
 
-public class StartActivity extends AppCompatActivity {
+public class StartActivity extends BaseActivity {
 
 
     private Intent localIntent;

@@ -16,6 +16,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.liran.flabbybird.utils.DensityUtils;
+import com.liran.flabbybird.utils.MyApplication;
 import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
@@ -461,7 +462,7 @@ public class GameFlabbyBird extends SurfaceView implements SurfaceHolder.Callbac
 
                     ActivityManager manager = (ActivityManager) mActivity.getSystemService(ACTIVITY_SERVICE);
                     manager.killBackgroundProcesses(mActivity.getPackageName());*/
-
+                    MyApplication.getMyApplication().exit();
 
                 }
             });

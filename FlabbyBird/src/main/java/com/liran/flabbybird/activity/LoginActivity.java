@@ -2,7 +2,6 @@ package com.liran.flabbybird.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -18,7 +17,7 @@ import com.liran.flabbybird.utils.MyApplication;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity implements OnClickListener {
+public class LoginActivity extends BaseActivity implements OnClickListener {
 
 
     // UI references.
@@ -76,6 +75,9 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
 
 
     }
+
+
+
 
     /**
      * 登录逻辑处理
