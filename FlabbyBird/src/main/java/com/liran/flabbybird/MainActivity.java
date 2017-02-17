@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         gameFlabbyBird=new GameFlabbyBird(this);
         setContentView(gameFlabbyBird);
-        Logger.init("线程测试");
+        Logger.init("TAG");
         Logger.d("就是测试一下 main");
 
 

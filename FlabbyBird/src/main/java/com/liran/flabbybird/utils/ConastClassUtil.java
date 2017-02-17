@@ -21,4 +21,11 @@ public class ConastClassUtil {
      */
     public static String logingUsername;
 
+
+    /**
+     * 鸟死亡时的分数
+     */
+    public static int conastGrade;
+
+
 }

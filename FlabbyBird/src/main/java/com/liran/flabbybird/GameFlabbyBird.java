@@ -3,6 +3,7 @@ package com.liran.flabbybird;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -14,10 +15,13 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.widget.Toast;
 
+import com.liran.flabbybird.activity.ChartsActivity;
+import com.liran.flabbybird.utils.ConastClassUtil;
+import com.liran.flabbybird.utils.DateUtil;
 import com.liran.flabbybird.utils.DensityUtils;
 import com.liran.flabbybird.utils.MyApplication;
-import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -411,8 +415,8 @@ public class GameFlabbyBird extends SurfaceView implements SurfaceHolder.Callbac
                 } else {
                     isdowning = false;
                     mStatus = GameStatus.WAITING;
+                    ConastClassUtil.conastGrade=mGrade;
                     initPos();
-                    Logger.d("游戏结束了");
                     creatFinalDialog();  //只能在这里调用 可以用mActivity的onUIthread
                 }
 
@@ -447,7 +451,6 @@ public class GameFlabbyBird extends SurfaceView implements SurfaceHolder.Callbac
             aBuilder.setPositiveButton("继续", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    Log.d(TAG, "onClick: 你点击了 继续");
 
                 }
             });
@@ -455,13 +458,8 @@ public class GameFlabbyBird extends SurfaceView implements SurfaceHolder.Callbac
             aBuilder.setNegativeButton("退出", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    Log.d(TAG, "onClick: 你点击了 退出");
 
-                   /* android.os.Process.killProcess(android.os.Process.myPid());
-                    System.exit(0);
 
-                    ActivityManager manager = (ActivityManager) mActivity.getSystemService(ACTIVITY_SERVICE);
-                    manager.killBackgroundProcesses(mActivity.getPackageName());*/
                     MyApplication.getMyApplication().exit();
 
                 }
@@ -470,8 +468,12 @@ public class GameFlabbyBird extends SurfaceView implements SurfaceHolder.Callbac
             aBuilder.setNeutralButton("排行", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    Log.d(TAG, "onClick: 你点击了 排行榜");
 
+                    Toast.makeText(mContext, "登录中的用户名：" + ConastClassUtil.logingUsername
+                            + "当前时间：" + DateUtil.getCurDateStr(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "分数：" + ConastClassUtil.conastGrade, Toast.LENGTH_SHORT).show();
+                    Intent intentCharts = new Intent(mActivity, ChartsActivity.class);
+                    mActivity.startActivity(intentCharts);
 
                 }
             });
@@ -496,6 +498,7 @@ public class GameFlabbyBird extends SurfaceView implements SurfaceHolder.Callbac
         mTmpBirdDis = 0;
         //重置管道移动距离
         mTempMoveDistance = 0;
+        //重置分数
         mGrade = 0;
         mRemovedPipe = 0;
     }
