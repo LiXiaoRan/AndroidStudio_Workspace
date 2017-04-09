@@ -149,6 +149,10 @@ public class DateUtil {
     }
 
 
+    /**
+     * 获得当前日期的字符串格式
+     * @return 当前日期
+     */
     public static String getCurDateStr() {
         Calendar c = Calendar.getInstance();
         c.setTime(new Date());
@@ -160,10 +164,10 @@ public class DateUtil {
 
 
     /**
-     * 获得当前日期的字符串格式
+     * 获得格式化的当前日期的字符串格式
      *
      * @param format 格式化的类型
-     * @return 返回格式化之后的事件
+     * @return 返回格式化之后的日期
      */
     public static String getCurDateStr(String format) {
         Calendar c = Calendar.getInstance();

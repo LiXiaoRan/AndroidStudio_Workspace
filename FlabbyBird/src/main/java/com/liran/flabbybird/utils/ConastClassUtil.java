@@ -28,4 +28,6 @@ public class ConastClassUtil {
     public static int conastGrade;
 
 
+    public static String deadTime;
+
 }

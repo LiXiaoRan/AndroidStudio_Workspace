@@ -29,10 +29,13 @@ public class ChartsActivity extends BaseActivity {
         setContentView(R.layout.activity_charts);
 
 
+        //添加的假数据
         for (int i = 0; i < 10; i++) {
             Info_score info_score = new Info_score();
             infoScoreList.add(info_score);
         }
+
+
 
 
         listView = (ListView) findViewById(R.id.cast_listview);

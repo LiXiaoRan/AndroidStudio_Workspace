@@ -416,6 +416,7 @@ public class GameFlabbyBird extends SurfaceView implements SurfaceHolder.Callbac
                     isdowning = false;
                     mStatus = GameStatus.WAITING;
                     ConastClassUtil.conastGrade=mGrade;
+                    ConastClassUtil.deadTime=DateUtil.getCurDateStr();
                     initPos();
                     creatFinalDialog();  //只能在这里调用 可以用mActivity的onUIthread
                 }
