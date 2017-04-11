@@ -1,13 +1,15 @@
-package com.liran.flabbybird.bean;
+package com.liran.main.test;
 
-import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * 存储排行榜信息的bean
  * Created by LiRan on 2017-02-16.
  */
 
-public class Info_score implements Comparable<Info_score> ,Serializable{
+public class Info_score implements Comparable<Info_score> {
 
     private int id;
     private String username;
@@ -66,4 +68,23 @@ public class Info_score implements Comparable<Info_score> ,Serializable{
 
         return this.score - another.getScore();
     }
+
+    public static List<Info_score> list=new ArrayList<>();
+
+    public static void main(String[] args) {
+
+        list.add(new Info_score("aaa","333",100));
+        list.add(new Info_score("aab","333",30));
+        list.add(new Info_score("aac","333",120));
+
+        Collections.sort(list);
+
+        for (Info_score score:list){
+            System.out.println("分数："+score.getScore());
+        }
+
+
+    }
+
+
 }

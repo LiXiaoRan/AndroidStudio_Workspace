@@ -424,4 +424,20 @@ public class DateUtil {
         return (int) (t / 1000 - t1 / 1000) / 3600 / 24;
 
     }
+
+    /**
+     *暂时废弃 对比两个时间的先后，time1晚于time2则返回true
+     * @param time1
+     * @param time2
+     * @return
+     */
+    public static  boolean compareTimes(String time1,String time2){
+
+
+
+
+        return false;
+    }
+
+
 }

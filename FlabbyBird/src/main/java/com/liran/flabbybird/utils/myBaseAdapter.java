@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import com.orhanobut.logger.Logger;
+
 import java.util.List;
 
 /**
@@ -45,6 +47,7 @@ public abstract class myBaseAdapter<T> extends BaseAdapter{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder=getViewHolder(position,parent,convertView);
+        Logger.d("getView执行了");
         convert(viewHolder,getItem(position));
         return viewHolder.getmConvertView();
     }

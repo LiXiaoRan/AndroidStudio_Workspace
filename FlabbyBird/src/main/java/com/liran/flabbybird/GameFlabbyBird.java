@@ -18,10 +18,13 @@ import android.view.SurfaceView;
 import android.widget.Toast;
 
 import com.liran.flabbybird.activity.ChartsActivity;
+import com.liran.flabbybird.bean.Info_score;
 import com.liran.flabbybird.utils.ConastClassUtil;
 import com.liran.flabbybird.utils.DateUtil;
 import com.liran.flabbybird.utils.DensityUtils;
 import com.liran.flabbybird.utils.MyApplication;
+import com.liran.flabbybird.utils.StringUtil;
+import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -415,14 +418,80 @@ public class GameFlabbyBird extends SurfaceView implements SurfaceHolder.Callbac
                 } else {
                     isdowning = false;
                     mStatus = GameStatus.WAITING;
-                    ConastClassUtil.conastGrade=mGrade;
-                    ConastClassUtil.deadTime=DateUtil.getCurDateStr();
+                    ConastClassUtil.conastGrade = mGrade;
+                    ConastClassUtil.deadTime = DateUtil.getCurDateStr();
                     initPos();
+                    updateDataBase(); //更新排行榜数据库
                     creatFinalDialog();  //只能在这里调用 可以用mActivity的onUIthread
                 }
 
                 break;
         }
+
+    }
+
+    /**
+     * 更新排行榜数据库
+     */
+    private void updateDataBase() {
+
+        boolean isfound=false;
+        //目前获得的分数
+        Info_score info_score = new Info_score(ConastClassUtil.logingUsername, ConastClassUtil.deadTime, ConastClassUtil.conastGrade);
+
+        ConastClassUtil.infoScoreList = MyApplication.getDB().findAll(Info_score.class);
+
+
+        Logger.d("目前数据库中的数据数量为："+ConastClassUtil.infoScoreList.size());
+        Logger.d("目前数据库中的数据为："+ StringUtil.infoListToString(ConastClassUtil.infoScoreList));
+
+        //检测数据库为空
+        if (ConastClassUtil.infoScoreList.size() == 0 || ConastClassUtil.infoScoreList == null) {
+
+            MyApplication.getDB().save(info_score);//存储一条排行榜记录数据
+            Logger.d("数据库为空，直接存储 " + " username is " + info_score.getUsername() + " score: " +
+                    info_score.getScore());
+
+        } else { //当数据库不为空时
+
+            for (Info_score infoScore : ConastClassUtil.infoScoreList) {
+
+
+                if (info_score.getUsername().equals(infoScore.getUsername())) {//当找到时
+
+                    isfound=true;//标记为已经找到数据
+
+                    //新的记录的分数比老记录高，应该删除老记录，存入新纪录
+                    if (info_score.getScore() > infoScore.getScore()) {
+                        //删除原数据
+                        MyApplication.getDB().deleteById(Info_score.class, infoScore.getId());
+//                        ConastClassUtil.infoScoreList.remove(infoScore);
+                        //存入新数据
+                        MyApplication.getDB().save(info_score);
+
+                        Logger.d("找到合适的数据: "+"username is " + info_score.getUsername() + " score: " +
+                        info_score.getScore());
+
+
+                    }
+
+                    break;//发现数据库中已有词条用户的记录则跳出循环
+
+                }
+
+            }
+
+
+            if (!isfound) {
+                //没找到此条数据 直接存入数据库
+                MyApplication.getDB().save(info_score);//存储一条排行榜记录数据
+                Logger.d("没有找到此条数据，直接存入数据库" + " username is " + info_score.getUsername() + " score: " +
+                        info_score.getScore());
+            }
+
+
+        }
+
 
     }
 
@@ -471,7 +540,7 @@ public class GameFlabbyBird extends SurfaceView implements SurfaceHolder.Callbac
                 public void onClick(DialogInterface dialog, int which) {
 
                     Toast.makeText(mContext, "登录中的用户名：" + ConastClassUtil.logingUsername
-                            + "当前时间：" + DateUtil.getCurDateStr(), Toast.LENGTH_SHORT).show();
+                            + "当前时间：" + ConastClassUtil.deadTime, Toast.LENGTH_SHORT).show();
                     Toast.makeText(mContext, "分数：" + ConastClassUtil.conastGrade, Toast.LENGTH_SHORT).show();
                     Intent intentCharts = new Intent(mActivity, ChartsActivity.class);
                     mActivity.startActivity(intentCharts);
