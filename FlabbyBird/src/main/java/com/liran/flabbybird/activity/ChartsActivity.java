@@ -37,7 +37,6 @@ public class ChartsActivity extends BaseActivity implements View.OnClickListener
         btnfresh = (Button) findViewById(R.id.btn_refresh);
         btnfresh.setOnClickListener(this);
 
-        listView = (ListView) findViewById(R.id.cast_listview);
 
 
         addListData();//数据检索和填充
@@ -45,6 +44,7 @@ public class ChartsActivity extends BaseActivity implements View.OnClickListener
         Logger.d("排行榜页面从数据库中的数据数量为：" + ConastClassUtil.infoScoreList.size());
         Logger.d("排行榜页面从数据库中读取的数据是：" + StringUtil.infoListToString(ConastClassUtil.infoScoreList));
 
+        listView = (ListView) findViewById(R.id.cast_listview);
         listView.setAdapter(myBaseAdapter);
 
 
@@ -63,7 +63,7 @@ public class ChartsActivity extends BaseActivity implements View.OnClickListener
     /**
      * 万能的适配器
      */
-    private myBaseAdapter myBaseAdapter = new myBaseAdapter<Info_score>(MyApplication.mContext, ConastClassUtil.infoScoreList, R.layout.item_liatview_charts) {
+    private myBaseAdapter myBaseAdapter = new myBaseAdapter(MyApplication.mContext, R.layout.item_liatview_charts) {
 
         @Override
         public void convert(ViewHolder holder, Info_score item) {

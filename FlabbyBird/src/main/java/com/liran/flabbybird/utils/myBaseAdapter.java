@@ -6,35 +6,36 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import com.liran.flabbybird.bean.Info_score;
 import com.orhanobut.logger.Logger;
-
-import java.util.List;
 
 /**
  * Created by lr on 2015-08-20.
  */
-public abstract class myBaseAdapter<T> extends BaseAdapter{
+public abstract class myBaseAdapter extends BaseAdapter{
 
     protected LayoutInflater inflater;
     protected Context mcontext;
-    protected List<T> mDatas;  //封装的数据
+//    protected static List<Info_score> mDatas;  //封装的数据
     protected final int itemLayoutId;  //listview的每个Item布局的Id 就是viewholder中的layoutId 要使用LayoutInflater加载
 
-    public myBaseAdapter( Context mcontext, List<T> mDatas, int itemLayoutId) {
+    public myBaseAdapter( Context mcontext,  int itemLayoutId) {
 //        this.inflater = inflater;
         this.mcontext = mcontext;
-        this.mDatas = mDatas;
+//        this.mDatas = mDatas;
         this.itemLayoutId = itemLayoutId;
+
+        Logger.d("在适配器构造函数中得到的数据是："+StringUtil.infoListToString(ConastClassUtil.infoScoreList));
     }
 
     @Override
     public int getCount() {
-        return mDatas.size();
+        return ConastClassUtil.infoScoreList.size();
     }
 
     @Override
-    public T getItem(int position) {
-        return mDatas.get(position);
+    public Info_score getItem(int position) {
+        return ConastClassUtil.infoScoreList.get(position);
     }
 
     @Override
@@ -42,7 +43,7 @@ public abstract class myBaseAdapter<T> extends BaseAdapter{
         return position;
     }
 
-    public abstract void convert(ViewHolder holder,T item);
+    public abstract void convert(ViewHolder holder,Info_score item);
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
