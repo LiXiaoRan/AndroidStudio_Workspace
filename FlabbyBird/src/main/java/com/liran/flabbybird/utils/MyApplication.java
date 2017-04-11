@@ -3,7 +3,6 @@ package com.liran.flabbybird.utils;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
-import android.util.Log;
 
 import net.tsz.afinal.FinalDb;
 
@@ -26,16 +25,11 @@ public class MyApplication extends Application {
     private List<Activity> activityList = new LinkedList<Activity>();
 
 
-
-
     @Override
     public void onCreate() {
         super.onCreate();
 
         mContext = this.getApplicationContext();
-
-        Log.d(TAG, "onCreate: 哈哈哈");
-
 
     }
 

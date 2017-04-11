@@ -17,7 +17,6 @@ public class MainActivity extends AppCompatActivity {
         gameFlabbyBird=new GameFlabbyBird(this);
         setContentView(gameFlabbyBird);
         Logger.init("TAG");
-        Logger.d("就是测试一下 main");
 
 
     }

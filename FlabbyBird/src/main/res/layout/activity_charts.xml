@@ -24,12 +24,6 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btn_refresh"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="200dp"
-        android:layout_marginTop="300dp"
-        android:text="点击刷新" />
+
 
 </RelativeLayout>

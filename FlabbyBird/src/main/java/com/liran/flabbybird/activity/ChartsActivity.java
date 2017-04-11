@@ -1,10 +1,7 @@
 package com.liran.flabbybird.activity;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.liran.flabbybird.R;
 import com.liran.flabbybird.bean.Info_score;
@@ -22,21 +19,15 @@ import java.util.Collections;
  * Created by LiRan on 2017-02-16.
  */
 
-public class ChartsActivity extends BaseActivity implements View.OnClickListener {
+public class ChartsActivity extends BaseActivity {
 
 
-    private Button btnfresh;
-//    public  List<Info_score> infoScoreList;
     private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charts);
-
-        btnfresh = (Button) findViewById(R.id.btn_refresh);
-        btnfresh.setOnClickListener(this);
-
 
 
         addListData();//数据检索和填充
@@ -57,7 +48,7 @@ public class ChartsActivity extends BaseActivity implements View.OnClickListener
 
         ConastClassUtil.infoScoreList = MyApplication.getDB().findAll(Info_score.class);
         Collections.sort(ConastClassUtil.infoScoreList);//排序
-
+        Collections.reverse(ConastClassUtil.infoScoreList);
     }
 
     /**
@@ -73,20 +64,6 @@ public class ChartsActivity extends BaseActivity implements View.OnClickListener
             Logger.d("适配器中的数据为：" + "name is " + item.getUsername() + " score is " + item.getScore());
         }
     };
-
-
-    @Override
-    public void onClick(View v) {
-
-        switch (v.getId()) {
-            case R.id.btn_refresh:
-                Toast.makeText(this, "点击了刷新按钮", Toast.LENGTH_SHORT).show();
-                addListData();
-                listView.setAdapter(myBaseAdapter);
-                break;
-        }
-
-    }
 
 
 }

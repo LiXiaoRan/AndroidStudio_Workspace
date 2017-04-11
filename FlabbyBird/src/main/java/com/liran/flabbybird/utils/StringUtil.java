@@ -12,6 +12,11 @@ import java.util.List;
 public class StringUtil {
 
 
+    /**
+     * 将Info_score类型的list转换成字符串
+     * @param info_scoreList
+     * @return
+     */
     public static String infoListToString(List<Info_score> info_scoreList){
 
         String strinfo=" ";

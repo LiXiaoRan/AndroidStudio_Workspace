@@ -78,6 +78,7 @@ public class Info_score implements Comparable<Info_score> {
         list.add(new Info_score("aac","333",120));
 
         Collections.sort(list);
+        Collections.reverse(list);
 
         for (Info_score score:list){
             System.out.println("分数："+score.getScore());
