@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
 
-    <com.liran.lenovo.coutomviewlearn.view.SquareLayout
+    <com.inititute.lenovo.coutomviewlearn.view.SquareLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
@@ -61,7 +61,7 @@
             android:background="#961315"
             android:text="RangeStudio" />
 
-    </com.liran.lenovo.coutomviewlearn.view.SquareLayout>
+    </com.inititute.lenovo.coutomviewlearn.view.SquareLayout>
 
 
 

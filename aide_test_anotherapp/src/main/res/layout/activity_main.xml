@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.liran.aide_test_anotherapp.MainActivity">
+    tools:context="com.inititute.aide_test_anotherapp.MainActivity">
 
     <TextView
         android:id="@+id/textView"

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.liran.baidumap.demo">
+    package="com.inititute.baidumap.demo">
 
 
     <!-- 这个权限用于进行网络定位-->
@@ -29,13 +29,13 @@
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
 
     <application
-        android:name=".MyApplication"
+        android:name="com.inititute.baidumap.demo.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name="com.inititute.baidumap.demo.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

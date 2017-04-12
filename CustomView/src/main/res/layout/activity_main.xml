@@ -15,7 +15,7 @@
 
 
 
-    <com.liran.custom_view.MyView.MatriView
+    <com.inititute.custom_view.MyView.MatriView
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

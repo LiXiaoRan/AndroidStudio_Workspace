@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.liran.touchscrollevent.MainActivity">
+    tools:context="com.inititute.touchscrollevent.MainActivity">
 
 
     <Button
@@ -17,7 +17,7 @@
         android:layout_centerInParent="true"
         android:text="弹性滑动"/>
 
-    <com.liran.touchscrollevent.MyView
+    <com.inititute.touchscrollevent.MyView
         android:id="@+id/myview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

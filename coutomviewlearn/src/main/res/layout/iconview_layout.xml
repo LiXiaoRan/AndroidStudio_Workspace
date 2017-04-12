@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.liran.lenovo.coutomviewlearn.view.CustomLayout
+    <com.inititute.lenovo.coutomviewlearn.view.CustomLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="30dp"
@@ -12,7 +12,7 @@
         >
 
 
-        <com.liran.lenovo.coutomviewlearn.view.IconView
+        <com.inititute.lenovo.coutomviewlearn.view.IconView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="30dp"
@@ -25,7 +25,7 @@
             android:layout_margin="10dp"/>
 
 
-    </com.liran.lenovo.coutomviewlearn.view.CustomLayout>
+    </com.inititute.lenovo.coutomviewlearn.view.CustomLayout>
 
 
 </LinearLayout>

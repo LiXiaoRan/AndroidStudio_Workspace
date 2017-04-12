@@ -10,7 +10,7 @@ import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
-import com.liran.remoteviews.R;
+import com.inititute.remoteviews.R;
 
 /**
  * Implementation of App Widget functionality.

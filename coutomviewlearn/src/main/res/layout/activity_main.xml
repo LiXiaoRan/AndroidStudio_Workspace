@@ -4,9 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    tools:context="com.liran.lenovo.coutomviewlearn.MainActivity">
+    tools:context="com.inititute.lenovo.coutomviewlearn.MainActivity">
 
-    <com.liran.lenovo.coutomviewlearn.view.PolylineView
+    <com.inititute.lenovo.coutomviewlearn.view.PolylineView
         android:id="@+id/polyline"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

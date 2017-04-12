@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.liran.contentprovideripc">
+    package="com.inititute.contentprovideripc">
 
     <application
         android:allowBackup="true"
-        android:name=".MyApp"
+        android:name="com.inititute.contentprovideripc.MyApp"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <uses-permission android:name="com.liran.readProvider"></uses-permission>
+        <uses-permission android:name="com.inititute.readProvider"></uses-permission>
 
 
-        <activity android:name=".MainActivity">
+        <activity android:name="com.inititute.contentprovideripc.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,8 +26,8 @@
         如果不在同一个进程，也就是说跨应用访问 需要指定权限
         -->
         <provider
-            android:authorities="com.liran.contentprovideripc.BookProvider"
-            android:name=".BookProvider"
+            android:authorities="com.inititute.contentprovideripc.BookProvider"
+            android:name="com.inititute.contentprovideripc.BookProvider"
             android:permission="com.liran.readProvider"
             android:process=":remote">
 
