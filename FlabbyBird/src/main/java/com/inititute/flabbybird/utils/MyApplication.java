@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.Context;
 
 import net.tsz.afinal.FinalDb;
+import net.youmi.android.normal.spot.SpotManager;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -75,6 +76,7 @@ public class MyApplication extends Application {
         for (Activity activity : activityList) {
             activity.finish();
         }
+        SpotManager.getInstance(this).onAppExit();
         System.exit(0);
     }
 

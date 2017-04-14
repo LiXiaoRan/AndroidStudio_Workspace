@@ -30,7 +30,7 @@
     <application
         android:name="com.inititute.flabbybird.utils.MyApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/b1"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -66,7 +66,33 @@
                 <data android:scheme="package" />
             </intent-filter>
         </receiver>
+
+
+        <!-- 有米SDK为了兼容Android N应用间共享文件行为变更而需要配置的FileProvider-->
+        <!-- 这里主要为授予有米SDK拥有打开apk安装界面的功能-->
+        <!-- 请务必修改 android:authorities 为贵应用的标识，一般为 包名.fileProvider -->
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.inititute.flabbybird.fileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true" >
+
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_provider"
+                />
+        </provider >
+
+
+
+
+
         <!--以上全是广告sdk需要添加的内容-->
+
+
+
+
 
         <meta-data
             android:name="com.google.android.gms.version"
