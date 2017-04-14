@@ -11,6 +11,18 @@ import java.util.List;
 
 public class ConastClassUtil {
 
+
+    /**
+     * 有米广告appid
+     */
+    public static final String appId="f4a63522ed52c370";
+
+    /**
+     * 有米广告秘钥
+     */
+    public static final String appSecret="eddea07c9e61070f";
+
+
     /**
      * 存储用户数据的list
      */
