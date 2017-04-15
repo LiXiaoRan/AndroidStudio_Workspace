@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 游戏朱类
+ * 游戏主类
  * Created by LiRan on 2015-12-05.
  */
 public class GameFlabbyBird extends SurfaceView implements SurfaceHolder.Callback, Runnable {
@@ -154,7 +154,7 @@ public class GameFlabbyBird extends SurfaceView implements SurfaceHolder.Callbac
 
 
     /**
-     * 上升的距离
+     * 上升的距离  通过这个也可以调整游戏难度
      */
     public static final int TOUCH_UP_SIZE = -16;
 

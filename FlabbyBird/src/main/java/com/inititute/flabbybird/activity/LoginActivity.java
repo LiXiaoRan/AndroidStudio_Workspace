@@ -1,7 +1,10 @@
 package com.inititute.flabbybird.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -25,7 +28,10 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
     private EditText mPassword_edit;
     private Button mlogin_btn;//登录按钮
     private Button mRegister_btn;//注册按钮
-
+    private Button mLevel_btn;//调整游戏难度按钮
+    private LayoutInflater layoutInflater;
+    private View dialogView;
+    private String[] items = new String[]{"简单", "一般", "困难"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +43,15 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         mAccunt_edit = (EditText) findViewById(R.id.email);
         mlogin_btn = (Button) findViewById(R.id.login_button);
         mRegister_btn = (Button) findViewById(R.id.register_button);
+        mLevel_btn = (Button) findViewById(R.id.level_button);
+
+        layoutInflater = LayoutInflater.from(this);
+        dialogView = layoutInflater.inflate(R.layout.level_dialog, null);
 
 
         mlogin_btn.setOnClickListener(this);
         mRegister_btn.setOnClickListener(this);
+        mLevel_btn.setOnClickListener(this);
 
 
     }
@@ -70,6 +81,13 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
                 break;
 
+            //点击了选择难度按钮后
+            case R.id.level_button:
+
+                selectLevel();
+
+                break;
+
 
         }
 
@@ -77,6 +95,44 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
     }
 
 
+    /**
+     * 选择游戏难度
+     */
+    private void selectLevel() {
+
+        int originLevel;
+
+        final AlertDialog.Builder aBuilder = new AlertDialog.Builder(this);
+
+        aBuilder.setSingleChoiceItems(items, 0, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                Toast.makeText(LoginActivity.this, "选择了：" + items[which], Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+
+        aBuilder.setPositiveButton("确定选择", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(LoginActivity.this, "点击了确定按钮", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        aBuilder.setNegativeButton("算了吧", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(LoginActivity.this, "点击了取消按钮", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+
+        aBuilder.show();
+
+    }
 
 
     /**
@@ -90,7 +146,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         //从数据库中读数据
         ConastClassUtil.userList = MyApplication.getDB().findAll(User.class);
 
-         boolean isLogin = false;
+        boolean isLogin = false;
 
         if ("".equals(name) || "".equals(passwd)) {
 
@@ -110,9 +166,9 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
             if (isLogin) {
                 //登陆成功
 
-                ConastClassUtil.logingUsername=name;
+                ConastClassUtil.logingUsername = name;
                 Toast.makeText(this, "登陆成功", Toast.LENGTH_SHORT).show();
-                Intent gameIntent=new Intent(this, MainActivity.class);
+                Intent gameIntent = new Intent(this, MainActivity.class);
                 startActivity(gameIntent);
 
 
