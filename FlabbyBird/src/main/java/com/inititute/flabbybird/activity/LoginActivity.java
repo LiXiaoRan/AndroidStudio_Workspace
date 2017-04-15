@@ -16,6 +16,7 @@ import com.inititute.flabbybird.R;
 import com.inititute.flabbybird.bean.User;
 import com.inititute.flabbybird.utils.ConastClassUtil;
 import com.inititute.flabbybird.utils.MyApplication;
+import com.orhanobut.logger.Logger;
 
 /**
  * A login screen that offers login via email/password.
@@ -94,22 +95,27 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
     }
 
+    /**
+     * 实时记录当前的难度等级
+     */
+    private int currWhich = 0;
 
     /**
      * 选择游戏难度
      */
     private void selectLevel() {
 
-        int originLevel;
+        currWhich = 0;
 
-        final AlertDialog.Builder aBuilder = new AlertDialog.Builder(this);
+        AlertDialog.Builder aBuilder = new AlertDialog.Builder(this);
+        aBuilder.setTitle("请选择难度(～￣▽￣)～");
+        aBuilder.setCancelable(false);
 
         aBuilder.setSingleChoiceItems(items, 0, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
                 Toast.makeText(LoginActivity.this, "选择了：" + items[which], Toast.LENGTH_SHORT).show();
-
+                currWhich = which;
             }
         });
 
@@ -118,13 +124,29 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Toast.makeText(LoginActivity.this, "点击了确定按钮", Toast.LENGTH_SHORT).show();
+                Logger.d("此时的确定的是第几个选项: " + currWhich);
+
+                ConastClassUtil.GAME_LEVEL = currWhich;
+
+                switch (ConastClassUtil.GAME_LEVEL) {
+                    case 0://简单难度
+                        updateGameLevel(250, 4, -16);
+                        break;
+                    case 1://一般难度
+                        updateGameLevel(220, 6, -18);
+                        break;
+                    case 2://地狱难度
+                        updateGameLevel(180, 8, -20);
+                        break;
+                }
+
             }
         });
 
         aBuilder.setNegativeButton("算了吧", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(LoginActivity.this, "点击了取消按钮", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, "什么也没有选择(+﹏+)~", Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -132,6 +154,19 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
         aBuilder.show();
 
+    }
+
+    /**
+     * 更改游戏难度
+     *
+     * @param pope_distence 管道间距
+     * @param speed         游戏速度
+     * @param up_distence   小鸟上升距离
+     */
+    private void updateGameLevel(int pope_distence, int speed, int up_distence) {
+        ConastClassUtil.POPE_DISTENCE = pope_distence;
+        ConastClassUtil.Game_Speed = speed;
+        ConastClassUtil.TOUCH_UP_DISTENCE = up_distence;
     }
 
 
@@ -183,5 +218,32 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
     }
 
 
+    @Override
+    public void onBackPressed() {
+
+        AlertDialog.Builder ebuilder = new AlertDialog.Builder(this);
+        ebuilder.setTitle("少侠你按下了回退键");
+        ebuilder.setMessage("您真的准备退出游戏吗？");
+        ebuilder.setCancelable(false);
+        ebuilder.setIcon(R.mipmap.b1);
+
+        ebuilder.setPositiveButton("=_=嗯 退了吧", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                MyApplication.getMyApplication().exit();
+            }
+        });
+
+        ebuilder.setNegativeButton("┌(。Д。)┐ 算了吧", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(LoginActivity.this, "如果觉得自己很厉害可以试试地狱难度哦", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        ebuilder.show();
+
+        Toast.makeText(this, "按下了回退键", Toast.LENGTH_SHORT).show();
+    }
 }
 

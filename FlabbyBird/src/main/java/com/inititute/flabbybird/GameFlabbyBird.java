@@ -15,7 +15,6 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.widget.Toast;
 
 import com.inititute.flabbybird.activity.ChartsActivity;
 import com.inititute.flabbybird.bean.Info_score;
@@ -23,8 +22,6 @@ import com.inititute.flabbybird.utils.ConastClassUtil;
 import com.inititute.flabbybird.utils.DateUtil;
 import com.inititute.flabbybird.utils.DensityUtils;
 import com.inititute.flabbybird.utils.MyApplication;
-import com.inititute.flabbybird.utils.StringUtil;
-import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -139,7 +136,7 @@ public class GameFlabbyBird extends SurfaceView implements SurfaceHolder.Callbac
     /**
      * 两个管道之间的距离300dp 通过修改这个和mspeed这两个变量来控制游戏的难度系数
      */
-    private final int PIPE_DIS_BETWEEN_TWO = DensityUtils.dp2px(getContext(), 200);
+    private int PIPE_DIS_BETWEEN_TWO = DensityUtils.dp2px(getContext(), ConastClassUtil.POPE_DISTENCE);
 
     /**
      * 记录移动距离，达到PRPE_DIS_BETWEEN_TWO生成一个管道
@@ -156,7 +153,7 @@ public class GameFlabbyBird extends SurfaceView implements SurfaceHolder.Callbac
     /**
      * 上升的距离  通过这个也可以调整游戏难度
      */
-    public static final int TOUCH_UP_SIZE = -16;
+    public static int TOUCH_UP_SIZE = ConastClassUtil.TOUCH_UP_DISTENCE;
 
     /**
      * 将上升的距离转化为PX
@@ -217,7 +214,7 @@ public class GameFlabbyBird extends SurfaceView implements SurfaceHolder.Callbac
 
         initBitmaps();
         //初始化速度
-        mSpeed = DensityUtils.dp2px(context, 4);
+        mSpeed = DensityUtils.dp2px(context, ConastClassUtil.Game_Speed);
 
 
     }
@@ -418,7 +415,7 @@ public class GameFlabbyBird extends SurfaceView implements SurfaceHolder.Callbac
                 } else {
                     isdowning = false;
                     mStatus = GameStatus.WAITING;
-                    ConastClassUtil.conastGrade = mGrade;
+                    ConastClassUtil.conastGrade = mGrade * (ConastClassUtil.GAME_LEVEL + 1);//根据游戏难度的不同，获得的最终分数也不同
                     ConastClassUtil.deadTime = DateUtil.getCurDateStr();
                     initPos();
                     updateDataBase(); //更新排行榜数据库
@@ -435,22 +432,19 @@ public class GameFlabbyBird extends SurfaceView implements SurfaceHolder.Callbac
      */
     private void updateDataBase() {
 
-        boolean isfound=false;
+        boolean isfound = false;
         //目前获得的分数
         Info_score info_score = new Info_score(ConastClassUtil.logingUsername, ConastClassUtil.deadTime, ConastClassUtil.conastGrade);
 
         ConastClassUtil.infoScoreList = MyApplication.getDB().findAll(Info_score.class);
 
 
-        Logger.d("目前数据库中的数据数量为："+ConastClassUtil.infoScoreList.size());
-        Logger.d("目前数据库中的数据为："+ StringUtil.infoListToString(ConastClassUtil.infoScoreList));
 
         //检测数据库为空
         if (ConastClassUtil.infoScoreList.size() == 0 || ConastClassUtil.infoScoreList == null) {
 
             MyApplication.getDB().save(info_score);//存储一条排行榜记录数据
-            Logger.d("数据库为空，直接存储 " + " username is " + info_score.getUsername() + " score: " +
-                    info_score.getScore());
+
 
         } else { //当数据库不为空时
 
@@ -459,7 +453,7 @@ public class GameFlabbyBird extends SurfaceView implements SurfaceHolder.Callbac
 
                 if (info_score.getUsername().equals(infoScore.getUsername())) {//当找到时
 
-                    isfound=true;//标记为已经找到数据
+                    isfound = true;//标记为已经找到数据
 
                     //新的记录的分数比老记录高，应该删除老记录，存入新纪录
                     if (info_score.getScore() > infoScore.getScore()) {
@@ -469,8 +463,7 @@ public class GameFlabbyBird extends SurfaceView implements SurfaceHolder.Callbac
                         //存入新数据
                         MyApplication.getDB().save(info_score);
 
-                        Logger.d("找到合适的数据: "+"username is " + info_score.getUsername() + " score: " +
-                        info_score.getScore());
+
 
 
                     }
@@ -485,8 +478,7 @@ public class GameFlabbyBird extends SurfaceView implements SurfaceHolder.Callbac
             if (!isfound) {
                 //没找到此条数据 直接存入数据库
                 MyApplication.getDB().save(info_score);//存储一条排行榜记录数据
-                Logger.d("没有找到此条数据，直接存入数据库" + " username is " + info_score.getUsername() + " score: " +
-                        info_score.getScore());
+
             }
 
 
@@ -539,9 +531,6 @@ public class GameFlabbyBird extends SurfaceView implements SurfaceHolder.Callbac
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
 
-                    Toast.makeText(mContext, "登录中的用户名：" + ConastClassUtil.logingUsername
-                            + "当前时间：" + ConastClassUtil.deadTime, Toast.LENGTH_SHORT).show();
-                    Toast.makeText(mContext, "分数：" + ConastClassUtil.conastGrade, Toast.LENGTH_SHORT).show();
                     Intent intentCharts = new Intent(mActivity, ChartsActivity.class);
                     mActivity.startActivity(intentCharts);
 

@@ -46,6 +46,30 @@ public class ConastClassUtil {
     public static int conastGrade;
 
 
+    /**
+     * 两个管道之间的距离 用来调整游戏难度的一个因素 简单250 一般 220 地狱 180
+     */
+    public static  int POPE_DISTENCE=250;
+
+    /**
+     *游戏的速度 用来调整游戏难度的一个因素 简单4 一般 6  地狱  8
+     */
+    public static  int Game_Speed=4;
+
+
+    /**
+     *点击屏幕后小鸟上升的高度 用来调整游戏难度的一个因素 简单-16 一般 -18  地狱  -20
+     */
+    public static  int TOUCH_UP_DISTENCE=-16;
+
+    /**
+     *游戏难度等级
+     */
+    public static  int GAME_LEVEL=0;
+
+    /**
+     * 记录小鸟死亡时间
+     */
     public static String deadTime;
 
 }
