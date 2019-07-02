@@ -1,7 +1,6 @@
 
-my androidstudio1.3 workspace  <br>
 
->这是我这个项目中包含的东西
+
 
  include {<br>
 	**Vollov**---> Volley  自己谢了一个volley库，做其他项目的时候可以拿来用<br>
@@ -27,7 +26,7 @@ my androidstudio1.3 workspace  <br>
 	**ContentProviderIPC**-------->通过contentprovider实现IPC
 	**TouchScrollEvent**---------->控制跟着手指位置移动的案例
 	**RemoteViews**---------------->桌面小组件的示例程序
-	**FlabbyBird**----------------->用surfaceView写的一个像素鸟
+	**FlabbyBird**----------------->用surfaceView写的一个像素鸟游戏
 	**RubbitCustomView**----------->类似于刮刮卡的效果
 }<br>  
 
